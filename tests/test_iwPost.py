@@ -3,7 +3,7 @@
 
 import unittest
 
-from ronkyuu import iwPost
+from ronkyuu import findMentions, findEndpoint, discoverWebmention
 
 
 post = """<!DOCTYPE html>
@@ -65,18 +65,14 @@ tantek_html = "<!DOCTYPE html><html><head><meta charset=\"utf-8\" />\n<title>The
 class TestParsing(unittest.TestCase):
     # test the core mention and replies link finding
     def runTest(self):
-        iw = iwPost(['bear.im'])
+        mentions = findMentions(post, ['bear.im'])
 
-        iw.parse(post)
-
-        assert len(iw.mentions) > 0
-        assert 'http://indiewebify.me/' in iw.mentions.keys()
-        assert 'http://tantek.com/2013/322/b1/homebrew-computer-club-reunion-inspiration' in iw.mentions.keys()
+        assert len(mentions) > 0
+        assert 'http://indiewebify.me/' in mentions.keys()
+        assert 'http://tantek.com/2013/322/b1/homebrew-computer-club-reunion-inspiration' in mentions.keys()
 
 class TestEndpoint(unittest.TestCase):
     # run the html parsing for a discoverWebmentions result using a stored
     # GET from one of Tantek's posts
     def runTest(self):
-        iw = iwPost(['bear.im'])
-
-        assert iw.findEndpoint(tantek_html) == 'http://webmention.io/tantek.com/webmention'
+        assert findEndpoint(tantek_html) == 'http://webmention.io/tantek.com/webmention'

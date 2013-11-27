@@ -8,4 +8,4 @@ __copyright__ = 'Copyright (c) by Mike Taylor'
 __license__   = 'MIT'
 __version__   = '.'.join(map(str, VERSION[0:3])) + ''.join(VERSION[3:])
 
-from webmention import iwPost
+from webmention import findMentions, findEndpoint, discoverWebmention
