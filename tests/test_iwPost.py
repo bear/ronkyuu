@@ -2,6 +2,7 @@
 
 
 import unittest
+from httmock import urlmatch, HTTMock
 
 from ronkyuu import findMentions, findEndpoint, discoverWebmention
 
@@ -76,3 +77,15 @@ class TestEndpoint(unittest.TestCase):
     # GET from one of Tantek's posts
     def runTest(self):
         assert findEndpoint(tantek_html) == 'http://webmention.io/tantek.com/webmention'
+
+@urlmatch(netloc=r'(.*\.)?tantek\.com$')
+def requests_mock(url, request):
+    return tantek_html
+
+class TestDiscovery(unittest.TestCase):
+    def runTest(self):
+        with HTTMock(requests_mock):
+            result = discoverWebmention('http://tantek.com/2013/322/b1/homebrew-computer-club-reunion-inspiration')
+
+            assert result[1] == 'http://webmention.io/tantek.com/webmention'
+

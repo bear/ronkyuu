@@ -72,15 +72,10 @@ def discoverWebmention(link):
        If the status code is ok, return any Webmention callback
     """
     # status, webmention
-    result = (0, None)
-    try:
-        r = requests.get(link)
+    href = None
+    r    = requests.get(link)
 
-        if r.status_code == requests.codes.ok:
-            href = self.findEndpoint(r.text)
-            if href is not None:
-                result = (r.status_code, href)
-    except:
-        result = (0, None)
+    if r.status_code == requests.codes.ok:
+        href = findEndpoint(r.text)
 
-    return result
+    return (r.status_code, href)
