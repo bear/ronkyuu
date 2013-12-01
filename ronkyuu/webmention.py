@@ -27,8 +27,14 @@ from bs4 import BeautifulSoup
 
 def findMentions(html, domains=[]):
     """Find all <a /> elements in the given html for a post.
-       If any have an href attribute that is not from the
-       domains listed in ourHosts, append it to our lists.
+       
+    If any have an href attribute that is not from the
+    one of the items in domains, append it to our lists.
+
+    :param html: html text from a GET request
+    :param domains: a list of domains to exclude from the search
+    :type domains: list
+    :rtype: dictionary of Mentions
     """
     dom    = BeautifulSoup(html)
     result = {}
@@ -53,10 +59,13 @@ def findMentions(html, domains=[]):
                     result[href]['reply'] = True
     return result
 
-def findEndpoint(content):
+def findEndpoint(html):
     """Find all <link /> elements in the html content returned
-       from a reply or mention and return the href if it's 
-       webmention rel.
+       from a GET request from a URL listed as a reply or mention
+       and return the discovered webmention href.
+
+    :param html: html text from a GET request
+    :rtype: URL string
     """
     result = None
     dom    = BeautifulSoup(content)
@@ -68,8 +77,12 @@ def findEndpoint(content):
     return result
 
 def discoverWebmention(link):
-    """Make a GET request for the given link 
-       If the status code is ok, return any Webmention callback
+    """Make a GET request for the given link.
+
+    If the status code is ok, return any Webmention callback
+
+    :param link: URL to discover Webmention data for
+    :rtype: URL string
     """
     # status, webmention
     href = None
