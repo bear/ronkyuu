@@ -28,3 +28,5 @@ Requires
 Python v2.7+ but see requirements.txt for a full list
 
 For testing I use [httmock](https://pypi.python.org/pypi/httmock/) to stub the web calls
+
+The Webmention daemon requires [Flask](http://flask.pocoo.org/docs/)

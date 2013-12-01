@@ -25,38 +25,41 @@ from bs4 import BeautifulSoup
 # Aaron's server verifies that target (after following redirects) in the webmention is a valid permalink on Aaron's blog (if not, processing stops)
 # Aaron's server verifies that the source (when retrieved, after following redirects) in the webmention contains a hyperlink to the target (if not, processing stops) 
 
-def findMentions(html, domains=[]):
+def findMentions(sourceURL, domains=[]):
     """Find all <a /> elements in the given html for a post.
        
     If any have an href attribute that is not from the
     one of the items in domains, append it to our lists.
 
-    :param html: html text from a GET request
+    :param sourceURL: the URL for the post we are scanning
     :param domains: a list of domains to exclude from the search
     :type domains: list
     :rtype: dictionary of Mentions
     """
-    dom    = BeautifulSoup(html)
-    result = {}
+    r = requests.get(sourceURL)
+    if r.status_code == requests.codes.ok:
+        dom    = BeautifulSoup(r.text)
+        result = {}
 
-    for link in dom.body.find_all('a'):
-        href = link.get('href')
-        url  = urlparse(href)
+        for link in dom.body.find_all('a'):
+            href = link.get('href')
+            url  = urlparse(href)
 
-        if url.scheme in ('http', 'https'):
-            if len(url.hostname) > 0 and url.hostname not in domains:
-                result[href] = { 'reply':      False,
-                                 'status':      0,
-                                 'headers':    {},
-                                 'content':    '',
-                                 'webmention': ''
-                               }
-                item = link.get('class')
-                if item is not None and 'u-in-reply-to' in item:
-                    result[href]['reply'] = True
-                item = link.get('rel')
-                if item is not None and 'in-reply-to' in item:
-                    result[href]['reply'] = True
+            if url.scheme in ('http', 'https'):
+                if len(url.hostname) > 0 and url.hostname not in domains:
+                    result[href] = { 'reply':      False,
+                                     'status':      0,
+                                     'headers':    {},
+                                     'content':    '',
+                                     'webmention': '',
+                                     'post-url':   sourceURL
+                                   }
+                    item = link.get('class')
+                    if item is not None and 'u-in-reply-to' in item:
+                        result[href]['reply'] = True
+                    item = link.get('rel')
+                    if item is not None and 'in-reply-to' in item:
+                        result[href]['reply'] = True
     return result
 
 def findEndpoint(html):
@@ -68,18 +71,16 @@ def findEndpoint(html):
     :rtype: URL string
     """
     result = None
-    dom    = BeautifulSoup(content)
+    dom    = BeautifulSoup(html)
     for link in dom.find_all('link'):
         rel = link.get('rel')
-        if 'webmention' in rel or 'http://webmention.org/' in rel:
+        if rel is not None and ('webmention' in rel or 'http://webmention.org/' in rel):
             result = link.get('href')
             break
     return result
 
 def discoverWebmention(link):
-    """Make a GET request for the given link.
-
-    If the status code is ok, return any Webmention callback
+    """Discover any Webmention links for a given URL.
 
     :param link: URL to discover Webmention data for
     :rtype: URL string
@@ -92,3 +93,19 @@ def discoverWebmention(link):
         href = findEndpoint(r.text)
 
     return (r.status_code, href)
+
+def webMention(sourceURL, targetURL, webmention=None):
+    result = None
+    if webmention is None:
+        wStatus, wUrl = discoverWebmention(targetURL)
+    else:
+        wStatus = 200
+        wUrl    = webmention
+
+    if wStatus == requests.codes.ok and wUrl is not None:
+        payload = { 'source': sourceURL, 
+                    'target': targetURL  }
+        r       = requests.post(wUrl, data=payload)
+        result  = r.status_code
+
+    return result
