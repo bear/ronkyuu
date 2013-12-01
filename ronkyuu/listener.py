@@ -40,7 +40,7 @@ def handleWebmention():
 	else:
 		return 'error', 404
 
-def run(host='0.0.0.0', port=8080, debug=False, route='/webmention', validation=None, mention=None):
+def run(host, port, route='/webmention', validation=None, mention=None, debug=False):
 	global cbValidation, cbMention
 
 	cbValidation = validation
@@ -48,12 +48,3 @@ def run(host='0.0.0.0', port=8080, debug=False, route='/webmention', validation=
 
 	app.url_map.add(Rule(route, endpoint='handleWebmention'))
 	app.run(host=host, port=port, debug=debug)
-
-def testValidate(target):
-	return True
-
-def testMention(source, target):
-	print 'webmention called for %s from %s' % (target, source)
-
-if __name__ == '__main__':
-	run(debug=True, validation=testValidate, mention=testMention)
