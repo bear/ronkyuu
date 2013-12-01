@@ -17,34 +17,34 @@ cbMention    = None
 
 @app.endpoint('handleWebmention')
 def handleWebmention():
-	if request.method == 'POST':
-		valid  = False
-		source = None
-		target = None
+    if request.method == 'POST':
+        valid  = False
+        source = None
+        target = None
 
-		if 'source' in request.form:
-			source = request.form['source']
-		if 'target' in request.form:
-			target = request.form['target']
+        if 'source' in request.form:
+            source = request.form['source']
+        if 'target' in request.form:
+            target = request.form['target']
 
-		if cbValidation is not None:
-			valid = cbValidation(target)
+        if cbValidation is not None:
+            valid = cbValidation(target)
 
-		if valid and cbMention is not None:
-			cbMention(source, target)
+        if valid and cbMention is not None:
+            cbMention(source, target)
 
-		if valid:
-			return 'done'
-		else:
-			return 'invalid post', 404
-	else:
-		return 'error', 404
+        if valid:
+            return 'done'
+        else:
+            return 'invalid post', 404
+    else:
+        return 'error', 404
 
 def run(host, port, route='/webmention', validation=None, mention=None, debug=False):
-	global cbValidation, cbMention
+    global cbValidation, cbMention
 
-	cbValidation = validation
-	cbMention    = mention
+    cbValidation = validation
+    cbMention    = mention
 
-	app.url_map.add(Rule(route, endpoint='handleWebmention'))
-	app.run(host=host, port=port, debug=debug)
+    app.url_map.add(Rule(route, endpoint='handleWebmention'))
+    app.run(host=host, port=port, debug=debug)
