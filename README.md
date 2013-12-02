@@ -23,6 +23,24 @@ Pending
 
 See the examples/ directory for sample command line tools.
 
+Events
+======
+During the processing each task, be it an incoming webmention, reply or even a new
+post - a new event will be generated and any event handlers listed will be given a
+chance to process the event.
+
+This is done to allow for external scripts or calls to be made to update the static
+site and/or data files.
+
+Events consist of the event type and a payload - not much else is really needed.
+
+* webmention inbound
+** source url, target url
+* webmention outbound
+** source url, target url
+* post
+** source url or file
+
 Requires
 ========
 Python v2.7+ but see requirements.txt for a full list
