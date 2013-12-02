@@ -1,5 +1,12 @@
 #!/usr/bin/env python
 
+"""
+:copyright: (c) 2013 by Mike Taylor
+:license: MIT, see LICENSE for more details.
+
+IndieWeb Webmention Tools
+"""
+
 import argparse
 import requests
 import ronkyuu
@@ -22,8 +29,6 @@ def mention(sourceURL, targetURL):
     we just point findMentions() at it and scan the resulting href list.
     """
     mentions = ronkyuu.findMentions(sourceURL)
-    found    = False
-
     for href in mentions:
         if href <> sourceURL and href == targetURL:
             update(sourceURL, targetURL)
@@ -32,7 +37,6 @@ def update(sourceURL, targetURL):
     """Do something with the Webmention
     """
     print "Our post at %s was referenced by %s" % (targetURL, sourceURL)
-
 
 @app.route('/webmention')
 def handleWebmention():
@@ -61,7 +65,7 @@ def handleWebmention():
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
-    parser.add_argument('--host',  default='0.0.0.0')
+    parser.add_argument('--host',  default='127.0.0.1')
     parser.add_argument('--port',  default=5000, type=int)
 
     args = parser.parse_args()

@@ -15,13 +15,13 @@ Roadmap
 Working
 * Mention discovery in a post
 * Discovery of Webmention callback for a link
-
-Pending
 * POST of Webmention to discovered callback
 * Receipt of a Webmention POST
+
+Pending
 * daemon to scan article collections for new and/or changed articles
 
-Usage
+See the examples/ directory for sample command line tools.
 
 Requires
 ========
