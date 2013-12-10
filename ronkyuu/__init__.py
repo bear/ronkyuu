@@ -11,4 +11,4 @@ __version__   = '.'.join(map(str, VERSION[0:3])) + ''.join(VERSION[3:])
 __all__ = ['findMentions', 'findEndpoint', 'discoverWebmention', 'webMention', 'run']
 
 from webmention import findMentions, findEndpoint, discoverWebmention, webMention
-from listener import run
+from events import Events

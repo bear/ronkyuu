@@ -8,49 +8,75 @@ IndieWeb Webmention Tools
 """
 
 import sys, os
+import imp
 import json
 
 
 class Events(object):
-    def __init__(self, cfgFile=None):
-        self.config   = {}
-        self.handlers = None
+    def __init__(self, config=None, cfgFilename=None):
+        self.handlers = {}
+        if config is None:
+            self.config = self.discoverConfig(cfgFilename)
+        else:
+            self.config = config
 
-        if cfgFile is None:
+        self.loadHandlers()
+
+    def discoverConfig(self, cfgFilename=None):
+        result = {}
+        if cfgFilename is None:
             cwd = os.getcwd()
             f   = os.path.join(cwd, 'ronkyuu.cfg')
 
             if os.exists(f):
-                cfgFile = f
+                cfgFilename = f
             else:
                 f = os.path.expanduser('~/.ronkyuu.cfg')
                 if os.exists(f):
-                    cfgFile = f
+                    cfgFilename = f
 
-        if cfgFile is not None:
-            cfgFile = os.path.abspath(cfgFile)
-            if os.exists(cfgFile):
-                self.config = json.loads(' '.join(open(cfgFile, 'r').readlines())
+        if cfgFilename is not None:
+            cfgFilename = os.path.abspath(cfgFilename)
+            if os.exists(cfgFilename):
+                result = json.loads(' '.join(open(cfgFilename, 'r').readlines()))
+
+        return result
 
     def loadHandlers(self):
-        if self.handlers is None:
-             for (dirpath, dirnames, filenames) in os.walk(self.config['handler_path']):
-                for filename in filenames:
-                    moduleName = os.path.basename(filename)[:-3]
-                    try:
-                        module = imp.load_source(moduleName, filename)
+        if 'handler_path' in self.config:
+            handlerPath = os.path.abspath(os.path.expanduser(self.config['handler_path']))
 
-                        if hasattr(module, 'handlerSetup'):
+            for (dirpath, dirnames, filenames) in os.walk(handlerPath):
+                for filename in filenames:
+                    moduleName, moduleExt = os.path.splitext(os.path.basename(filename))
+                    if moduleExt == '.py':
+                        module = imp.load_source(moduleName, os.path.join(handlerPath, filename))
+                        if hasattr(module, 'setup'):
                             self.handlers[moduleName] = module
-                    except:
-                        module = None
 
     def inboundWebmention(self, sourceURL, targetURL):
-        pass
+        for moduleName in self.handlers:
+            module = self.handlers[moduleName]
+            try:
+                if hasattr(module, 'inboundWebmention'):
+                    module.inboundWebmention(sourceURL, targetURL)
+            except Exception, e:
+                raise Exception('error during module event call inboundWebmention(%s, %s)' % (sourceURL, targetURL))
 
     def outboundWebmention(self, sourceURL, targetURL):
-        pass
+        for moduleName in self.handlers:
+            module = self.handlers[moduleName]
+            try:
+                if hasattr(module, 'outboundWebmention'):
+                    module.outboundWebmention(sourceURL, targetURL)
+            except:
+                raise Exception('error during module event call outboundWebmention(%s, %s)' % (sourceURL, targetURL))
 
-    def Post(self, sourceURL):
-        pass
-
+    def postArticle(self, postURL):
+        for moduleName in self.handlers:
+            module = self.handlers[moduleName]
+            try:
+                if hasattr(module, 'postArticle'):
+                    module.postArticle(postURL)
+            except:
+                raise Exception('error during module event call: postArticle(%s)' % (postURL))

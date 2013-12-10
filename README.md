@@ -38,7 +38,7 @@ Events consist of the event type and a payload - not much else is really needed.
 ** source url, target url
 * webmention outbound
 ** source url, target url
-* post
+* article post
 ** source url or file
 
 Requires
