@@ -28,16 +28,16 @@ class Events(object):
             cwd = os.getcwd()
             f   = os.path.join(cwd, 'ronkyuu.cfg')
 
-            if os.exists(f):
+            if os.path.exists(f):
                 cfgFilename = f
             else:
                 f = os.path.expanduser('~/.ronkyuu.cfg')
-                if os.exists(f):
+                if os.path.exists(f):
                     cfgFilename = f
 
         if cfgFilename is not None:
             cfgFilename = os.path.abspath(cfgFilename)
-            if os.exists(cfgFilename):
+            if os.path.exists(cfgFilename):
                 result = json.loads(' '.join(open(cfgFilename, 'r').readlines()))
 
         return result

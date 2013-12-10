@@ -19,6 +19,8 @@ Working
 * Receipt of a Webmention POST
 
 Pending
+* command line tool to trigger an event
+* WebHook listener to trigger events
 * daemon to scan article collections for new and/or changed articles
 
 See the examples/ directory for sample command line tools.
@@ -31,6 +33,11 @@ chance to process the event.
 
 This is done to allow for external scripts or calls to be made to update the static
 site and/or data files.
+
+Right now I'm going to use a very simple "plugin" style for inbound, outbound and posts
+where any .py file found in a directory is imported as a module. This will, I think, let
+me use the event plugins via the command line, but also via things like WebHooks because
+I can create a Flask listener for WebHook urls and then call the event plugins.
 
 Events consist of the event type and a payload - not much else is really needed.
 
