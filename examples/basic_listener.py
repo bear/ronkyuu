@@ -7,6 +7,9 @@
 IndieWeb Webmention Tools
 """
 
+import logging
+from logging.handlers import RotatingFileHandler
+
 import argparse
 import requests
 import ronkyuu
@@ -15,9 +18,18 @@ from flask import Flask, request
 
 app = Flask(__name__)
 
-def validator(targetURL):
-    """Validate the target URL exists just by making
-    a HEAD request for it
+
+def initLogging(logger, logfilename='/var/log/webmentions/webmentions.log'):
+    _log_formatter = logging.Formatter("%(asctime)s %(levelname)-9s %(message)s", "%Y-%m-%d %H:%M:%S")
+    _log_handler   = logging.handlers.RotatingFileHandler(logfilename, maxBytes=1024 * 1024 * 100, backupCount=7)
+    _log_handler.setFormatter(_log_formatter)
+
+    logger.addHandler(_log_handler)
+    logger.setLevel(logging.INFO)
+    logger.info('starting Webmention App')
+
+def validURL(targetURL):
+    """Validate the target URL exists by making a HEAD request for it
     """
     r = requests.head(targetURL)
     return r.status_code == requests.codes.ok
@@ -26,9 +38,14 @@ def mention(sourceURL, targetURL):
     """Process the Webmention of the targetURL from the sourceURL.
 
     To verify that the sourceURL has indeed referenced our targetURL
-    we just point findMentions() at it and scan the resulting href list.
+    we run findMentions() at it and scan the resulting href list.
     """
+
+    app.logger.info('discovering Webmention endpoint for %s' % sourceURL)
+
     mentions = ronkyuu.findMentions(sourceURL)
+    found    = False
+
     for href in mentions:
         if href <> sourceURL and href == targetURL:
             update(sourceURL, targetURL)
@@ -36,10 +53,13 @@ def mention(sourceURL, targetURL):
 def update(sourceURL, targetURL):
     """Do something with the Webmention
     """
-    print "Our post at %s was referenced by %s" % (targetURL, sourceURL)
+    open('/tmp/webmentions.txt', 'w+').write('%s %s\n' % (targetURL, sourceURL))
+    app.logger.info('post at %s was referenced by %s' % (targetURL, sourceURL))
+
 
 @app.route('/webmention')
 def handleWebmention():
+    app.logger.info('handleWebmention [%s]' % request.method)
     if request.method == 'POST':
         valid  = False
         source = None
@@ -50,7 +70,9 @@ def handleWebmention():
         if 'target' in request.form:
             target = request.form['target']
 
-        valid = validator(target)
+        valid = validURL(target)
+
+        app.logger.info('source: %s target: %s valid? %s' % (source, target, valid))
 
         if valid:
             mention(source, target)
@@ -60,14 +82,25 @@ def handleWebmention():
         else:
             return 'invalid post', 404
     else:
-        return 'webmention', 200
+        return 'GET invalid', 404
 
 
+#
+# Note - I run this app using uwsgi under nginx so it skips the entire
+#        if __name__ section below, this means I have to setup logging
+#        manually and have hard-coded the host and ports
+initLogging(app.logger)
+
+#
+# None of the below will be run for nginx + uwsgi
+#
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
-    parser.add_argument('--host',  default='127.0.0.1')
-    parser.add_argument('--port',  default=5000, type=int)
+    parser.add_argument('--host',    default='0.0.0.0')
+    parser.add_argument('--port',    default=5000, type=int)
 
     args = parser.parse_args()
+
+    initLogging(app.logger, './webmentions.log')
 
     app.run(host=args.host, port=args.port)
