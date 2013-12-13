@@ -17,8 +17,9 @@ valid_events = ('inbound', 'outbound', 'post')
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('event')
-    parser.add_argument('--sourceURL')
-    parser.add_argument('--targetURL')
+    parser.add_argument('--sourceURL', default=None)
+    parser.add_argument('--targetURL', default=None)
+    parser.add_argument('--eventConfigFile', default=None)
 
     args = parser.parse_args()
 
@@ -27,6 +28,15 @@ if __name__ == '__main__':
     if eventType not in valid_events:
         print('event must be one of the following %s' % ','.join(valid_events))
     else:
+        if eventType in ('inbound', 'outbound'):
+            if args.sourceURL is None or args.targetURL is None:
+                print('an %s event requires both sourceURL and targetURL' % eventType)
+                sys.exit(2)
+        else:
+            if args.sourceURL is None:
+                print('a post event requires the sourceURL')
+                sys.exit(2)
+
         events = ronkyuu.Events()
 
         if eventType == 'inbound':

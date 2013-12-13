@@ -38,7 +38,7 @@ class Events(object):
         if cfgFilename is not None:
             cfgFilename = os.path.abspath(cfgFilename)
             if os.path.exists(cfgFilename):
-                result = json.loads(' '.join(open(cfgFilename, 'r').readlines()))
+                result = json.load(open(cfgFilename, 'r'))
 
         return result
 
