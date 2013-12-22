@@ -19,7 +19,7 @@ class TestEventConfig(unittest.TestCase):
         assert len(events.handlers) > 0
         assert 'event_test_handler' in events.handlers
 
-class TestEvents(unittest.TestCase):
+class TestEventHandlerCalls(unittest.TestCase):
     def runTest(self):
         events = Events(config=event_config)
 
