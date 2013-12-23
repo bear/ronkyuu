@@ -3,7 +3,7 @@
 import unittest
 from httmock import urlmatch, HTTMock
 
-from ronkyuu import findMentions, findEndpoint, discoverWebmention
+from ronkyuu import findMentions, findEndpoint, discoverEndpoint
 
 
 post_url  = "https://bear.im/bearlog/2013/325/indiewebify-and-the-new-site.html"
@@ -95,6 +95,6 @@ def tantek_mock(url, request):
 class TestDiscovery(unittest.TestCase):
     def runTest(self):
         with HTTMock(tantek_mock):
-            result = discoverWebmention(tantek_url)
+            result = discoverEndpoint(tantek_url)
 
             assert result[1] == 'http://webmention.io/tantek.com/webmention'

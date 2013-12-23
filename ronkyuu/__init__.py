@@ -8,7 +8,9 @@ __copyright__ = 'Copyright (c) by Mike Taylor'
 __license__   = 'MIT'
 __version__   = '.'.join(map(str, VERSION[0:3])) + ''.join(VERSION[3:])
 
-__all__ = ['findMentions', 'findEndpoint', 'discoverWebmention', 'webMention', 'run']
 
-from webmention import findMentions, findEndpoint, discoverWebmention, webMention
+from tools import discoverConfig
+from webmention import findMentions, findEndpoint, discoverEndpoint, sendWebmention
 from events import Events
+
+

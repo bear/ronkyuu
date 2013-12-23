@@ -7,40 +7,23 @@
 IndieWeb Webmention Tools
 """
 
-import sys, os
+import os, sys
 import imp
 import json
+
+from . import discoverConfig
+
 
 
 class Events(object):
     def __init__(self, config=None, cfgFilename=None):
         self.handlers = {}
         if config is None:
-            self.config = self.discoverConfig(cfgFilename)
+            self.config = discoverConfig(cfgFilename)
         else:
             self.config = config
 
         self.loadHandlers()
-
-    def discoverConfig(self, cfgFilename=None):
-        result = {}
-        if cfgFilename is None:
-            cwd = os.getcwd()
-            f   = os.path.join(cwd, 'ronkyuu.cfg')
-
-            if os.path.exists(f):
-                cfgFilename = f
-            else:
-                f = os.path.expanduser('~/.ronkyuu.cfg')
-                if os.path.exists(f):
-                    cfgFilename = f
-
-        if cfgFilename is not None:
-            cfgFilename = os.path.abspath(cfgFilename)
-            if os.path.exists(cfgFilename):
-                result = json.load(open(cfgFilename, 'r'))
-
-        return result
 
     def loadHandlers(self):
         if 'handler_path' in self.config:

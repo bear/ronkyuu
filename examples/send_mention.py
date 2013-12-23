@@ -14,20 +14,25 @@ import ronkyuu
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('sourceURL')
+    parser.add_argument('--eventConfigFile', default=None)
 
     args = parser.parse_args()
+    cfg  = ronkyuu.discoverConfig(args.eventConfigFile)
 
-    print('Scanning %s for mentions' % args.sourceURL)
+    domains   = cfg.get('domains', [])
+    sourceURL = args.sourceURL
 
-    mentions = ronkyuu.findMentions(args.sourceURL)
+    print('Scanning %s for mentions' % sourceURL)
+
+    mentions = ronkyuu.findMentions(sourceURL, domains)
     for href in mentions:
         if sourceURL <> href:
-            wmStatus, wmUrl = ronkyuu.discoverWebmention(href)
+            wmStatus, wmUrl = ronkyuu.discoverEndpoint(href)
             if wmUrl is not None and wmStatus == 200:
-                print('    mention found with webmention endpoint: %s' % href)
-                r = ronkyuu.webMention(sourceURL, href, wmUrl)
+                print('\tfound webmention endpoint %s for %s' % (wmUrl, href))
+                status_code = ronkyuu.sendWebmention(sourceURL, href, wmUrl)
 
-                if r.status_code == requests.codes.ok:
-                    print('   webmention sent successfully')
+                if status_code == requests.codes.ok:
+                    print('\twebmention sent successfully')
                 else:
-                    print('   webmention send returned a status code of %s' % r.status_code)
+                    print('\twebmention send returned a status code of %s' % status_code)

@@ -7,7 +7,7 @@
 IndieWeb Webmention Tools
 """
 
-import sys, os
+import os, sys
 
 import requests
 from urlparse import urlparse
@@ -79,8 +79,8 @@ def findEndpoint(html):
             break
     return result
 
-def discoverWebmention(link):
-    """Discover any Webmention links for a given URL.
+def discoverEndpoint(link):
+    """Discover and return any Webmention Endpoint for a given URL.
 
     :param link: URL to discover Webmention data for
     :rtype: URL string
@@ -94,7 +94,7 @@ def discoverWebmention(link):
 
     return (r.status_code, href)
 
-def webMention(sourceURL, targetURL, webmention=None):
+def sendWebmention(sourceURL, targetURL, webmention=None):
     result = None
     if webmention is None:
         wStatus, wUrl = discoverWebmention(targetURL)

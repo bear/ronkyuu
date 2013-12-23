@@ -7,6 +7,7 @@
 IndieWeb Webmention Tools
 """
 
+import os, sys
 import argparse
 import ronkyuu
 
@@ -45,5 +46,3 @@ if __name__ == '__main__':
             events.outboundWebmention(args.sourceURL, args.targetURL)
         else:
             events.postArticle(args.sourceURL)
-
-        print('%s event triggered' % eventType)

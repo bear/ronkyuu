@@ -17,9 +17,10 @@ Working
 * Discovery of Webmention callback for a link
 * POST of Webmention to discovered callback
 * Receipt of a Webmention POST
+* command line tool to trigger an event
 
 Pending
-* command line tool to trigger an event
+* Flask app to allow test sending of webmentions
 * WebHook listener to trigger events
 * daemon to scan article collections for new and/or changed articles
 
