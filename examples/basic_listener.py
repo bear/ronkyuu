@@ -18,6 +18,8 @@ from flask import Flask, request
 
 app = Flask(__name__)
 
+events = ronkyuu.Events(config={ "handler_path": "/srv/webmention/handlers" })
+
 
 def initLogging(logger, logfilename='/var/log/webmentions/webmentions.log'):
     _log_formatter = logging.Formatter("%(asctime)s %(levelname)-9s %(message)s", "%Y-%m-%d %H:%M:%S")
@@ -48,14 +50,8 @@ def mention(sourceURL, targetURL):
 
     for href in mentions:
         if href <> sourceURL and href == targetURL:
-            update(sourceURL, targetURL)
-
-def update(sourceURL, targetURL):
-    """Do something with the Webmention
-    """
-    open('/tmp/webmentions.txt', 'w+').write('%s %s\n' % (targetURL, sourceURL))
-    app.logger.info('post at %s was referenced by %s' % (targetURL, sourceURL))
-
+            app.logger.info('post at %s was referenced by %s' % (targetURL, sourceURL))
+            events.inboundMention(sourceURL, targetURL)
 
 @app.route('/webmention')
 def handleWebmention():
