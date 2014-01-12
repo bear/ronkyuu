@@ -48,19 +48,20 @@ def findMentions(sourceURL, domains=[]):
 
         for link in dom.body.find_all('a'):
             href = link.get('href')
-            url  = urlparse(href)
+            if href is not None:
+                url = urlparse(href)
 
-            if url.scheme in ('http', 'https'):
-                if len(url.hostname) > 0 and url.hostname not in domains:
-                    result['refs'][href] = { 'reply':      False,
-                                             'webmention': '',
-                                           }
-                    item = link.get('class')
-                    if item is not None and 'u-in-reply-to' in item:
-                        result['refs'][href]['reply'] = True
-                    item = link.get('rel')
-                    if item is not None and 'in-reply-to' in item:
-                        result['refs'][href]['reply'] = True
+                if url.scheme in ('http', 'https'):
+                    if len(url.hostname) > 0 and url.hostname not in domains:
+                        result['refs'][href] = { 'reply':      False,
+                                                 'webmention': '',
+                                               }
+                        item = link.get('class')
+                        if item is not None and 'u-in-reply-to' in item:
+                            result['refs'][href]['reply'] = True
+                        item = link.get('rel')
+                        if item is not None and 'in-reply-to' in item:
+                            result['refs'][href]['reply'] = True
     return result
 
 def findEndpoint(html):
