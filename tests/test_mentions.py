@@ -78,9 +78,9 @@ class TestParsing(unittest.TestCase):
         with HTTMock(bear_im_mock):
             mentions = findMentions(post_url, ['bear.im'])
 
-            assert len(mentions) > 0
-            assert 'http://indiewebify.me/' in mentions.keys()
-            assert tantek_url in mentions.keys()
+            assert len(mentions['refs']) > 0
+            assert 'http://indiewebify.me/' in mentions['refs'].keys()
+            assert tantek_url in mentions['refs'].keys()
 
 class TestEndpoint(unittest.TestCase):
     # run the html parsing for a discoverWebmentions result using a stored

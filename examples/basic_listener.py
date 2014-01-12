@@ -46,14 +46,13 @@ def mention(sourceURL, targetURL):
     app.logger.info('discovering Webmention endpoint for %s' % sourceURL)
 
     mentions = ronkyuu.findMentions(sourceURL)
-    found    = False
 
-    for href in mentions:
+    for href in mentions['refs']:
         if href <> sourceURL and href == targetURL:
             app.logger.info('post at %s was referenced by %s' % (targetURL, sourceURL))
-            events.inboundMention(sourceURL, targetURL)
+            events.inboundWebmention(sourceURL, targetURL, mentions=mentions)
 
-@app.route('/webmention')
+@app.route('/webmention', methods=['GET', 'POST'])
 def handleWebmention():
     app.logger.info('handleWebmention [%s]' % request.method)
     if request.method == 'POST':

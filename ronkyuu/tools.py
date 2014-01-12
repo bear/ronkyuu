@@ -28,6 +28,7 @@ def discoverConfig(cfgFilename=None):
             possibleFile = os.path.expanduser(possibleFile)
             if os.path.exists(possibleFile):
                 result = json.load(open(possibleFile, 'r'))
+                break
     else:
         possibleFile = os.path.expanduser(cfgFilename)
         if os.path.exists(possibleFile):

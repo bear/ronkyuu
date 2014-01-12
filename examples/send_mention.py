@@ -19,7 +19,7 @@ if __name__ == '__main__':
     args = parser.parse_args()
     cfg  = ronkyuu.discoverConfig(args.eventConfigFile)
 
-    domains   = cfg.get('domains', [])
+    domains   = [] #cfg.get('domains', [])
     sourceURL = args.sourceURL
 
     print('Scanning %s for mentions' % sourceURL)
