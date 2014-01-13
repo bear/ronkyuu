@@ -10,6 +10,8 @@ IndieWeb Webmention Tools
 import os, sys
 import json
 
+import requests
+
 
 cfgFilenames = ('ronkyuu.cfg', '.ronkyuu.cfg')
 cfgFilepaths = (os.getcwd(), '~/', '~/.ronkyuu/')
@@ -34,4 +36,27 @@ def discoverConfig(cfgFilename=None):
         if os.path.exists(possibleFile):
             result = json.load(open(possibleFile, 'r'))
 
+    return result
+
+def getURLChain(targetURL):
+    ok    = False
+    chain = []
+    try:
+        r  = requests.head(targetURL, allow_redirects=True)
+        ok = r.status_code == requests.codes.ok
+        if ok: 
+            for resp in r.history:
+                chain.append(r.url)
+    except:
+        ok = False
+    return (ok, chain)
+
+def normalizeURL(targetURL):
+    result    = None
+    ok, chain = getURLChain(targetURL)
+    if ok:
+        if len(chain) > 0:
+            result = chain[-1]
+        else:
+            result = targetURL
     return result

@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<title>Tantek &#xC7;elik</title>
+<link rel="webmention" href="http://webmention.io/tantek.com/webmention"/>
+<link rel="hub" href="http://pubsubhubbub.appspot.com/"/>
+<link rel="shortcut icon" href="logo.jpg"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<link rel="apple-touch-icon-precomposed" href="logo.jpg"/>
+<meta name="mobile-web-app-capable" content="yes"/>
+<link rel="openid.delegate" href="http://tantek.com/"/>
+<link rel="openid.server" href="https://indieauth.com/openid"/>
+<link rel="updates alternate" type="application/atom+xml" href="updates.atom"/>
+<style type="text/css">/**/ 
+/* ---------------------------------------------------------------- */
+/*                                                                  */
+/* My HTML5+CSS is a work in progress. Copy paste AT YOUR OWN RISK! */
+/*                                                                  */
+/* ---------------------------------------------------------------- */
+
+@import "2013/simple.css";
+h2{font-size:1em}
+
+body { 
+  margin:auto;
+  padding:1.5em;
+  max-width:940px;
+}
+
+iframe {
+  max-width:100%;
+}
+
+.header {
+ border-bottom:solid 1px #666;
+ margin-bottom:4em;
+}
+
+.header h1 { 
+  margin:0;
+  padding:5px 0 0;
+  font-size:3em;
+  line-height:1.3;
+  font-weight:bold;
+  white-space:nowrap;
+}
+.header h2 {
+  font-size:1.5em;
+  font-weight:normal;
+  line-height:1em;
+  min-width:20em;
+  min-height:3em;
+  margin:0;
+}
+
+.aside dt, .aside dd {margin:0;padding:0}
+.aside dt { margin-top:.77em; color:#666; }
+.aside dd { color:#000}
+
+form.search {
+  clear: both;
+  text-align: right;
+  margin-bottom: 1em;
+  white-space: nowrap; 
+  font-size: 1.3em;
+}
+
+.stream>ol {
+  margin:0; padding:0;
+}
+
+/*
+@media screen and (min-width:30em) and (min-height: 30em) { }
+*/
+@media screen and (min-width:40em) and (min-height: 30em) {
+/* progress enhancement for larger screens */
+
+body {
+  padding:2em;
+}
+
+.header {
+ height:90px;
+}
+
+form.search { 
+  margin-top: -3.9em; 
+  width: 34%;
+  float: right; 
+}
+
+.stream {
+  clear:left;
+  float:left;
+  width:62%;
+  margin-right:4%;
+}
+
+.stream>ol {
+  margin-right:3em;
+}
+
+.hentry ol, .hentry ul {
+  margin-left:30px;
+}
+
+.aside {
+  float:left;
+  width:33%;
+}
+
+.footer .section {
+  float:left;
+  width:30%;
+  margin-right:3%;
+}
+
+
+}
+/* end larger screen enhancements */
+
+
+.photo { 
+  width:73px; 
+  float:left;
+  margin:0 20px 0 0;
+}
+
+form.search input[type=search] { 
+  width:62%; 
+}
+
+form.search input, form.search button {
+  font-size:1em;
+  height:1.7em;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  margin:0;
+  vertical-align:bottom;
+}
+
+.stream>ol {
+  list-style:none;
+}
+
+.aside h2,.footer h2 {
+  font-size: 1.3em;
+  text-transform:uppercase;
+  line-height:1.25;  
+  margin:0 0 1em;
+}
+
+.aside .section {
+  margin-top:2em;
+}
+.aside .section.hello {
+  margin-top:0;
+}
+
+.aside .section h2 {
+  margin-bottom:0.5em;
+}
+
+.aside p,.aside li,.aside dl,.footer p,.footer li {
+  font-size:1.3em;
+  line-height:1.54;
+  margin:0;
+  color:#666;
+  list-style:none;
+}
+.hello p {
+  color:#000;
+}
+.elsewhere img {
+  vertical-align:bottom;
+  padding-bottom:.2em;
+}
+.aside h2 {
+  font-size:1.4em;
+  line-height:1.43;
+  font-weight:bold;
+}
+
+div.footer {
+  margin-left:1em;
+  clear:both;
+  margin-top:1em;
+  padding-top:5em;
+}
+.footer address {   white-space:nowrap; }
+
+.footer p {
+  margin-top:1em;
+}
+.footer .section li { list-style:disc inside; }
+
+address {
+  font-style:normal;
+  text-align:center;
+  clear:both;
+  margin:1em 5%;
+  padding:3em;
+}
+
+ul.nav,.nav li,ul.offsite{list-style:none}
+ul.nav{float:right; margin-right: 5%}
+ul.offsite,.offsite li,.nav li { list-style:inline; display:inline }
+a:link{color:#2240C0}
+a:link:hover{color:#22B040}
+a:visited:hover{color:#118020}
+
+/* events */
+li.vevent {list-style:none;margin-top:1em}
+abbr.location { display:block;text-align:center;text-transform:uppercase; font-weight:bold;font-size:2em;word-spacing:-.1em; font-size:1.5em}
+li.vevent a { display:block; width:167px; border:2px solid #000; padding:2px 1px 0 1px; text-align:center}
+a.fabw { background: url(http://www.stuffandnonsense.co.uk/build/fabw/img/body.jpg) maroon; color:#fff }
+li.vevent object,.vevent img { max-width:160px }
+li.vevent .with { display:block }
+.subhead { display:block }
+.fabw .location { white-space:normal }
+.supernova a { background:#522381;color:#fff }
+.html5 { color:#3C790A;font-family: Helvetica, sans-serif;font-size: 27px; font-weight: 900; display:block; line-height:.7em; padding-top:3px}
+.html5 span { display:block;font-size:66%;line-height:1em; text-transform:capitalize }
+.vevent a:visited:hover{color:#66F}
+.vevent a:link:hover{color:#33F}
+input,button { font-size:1em }
+button { margin: 0 0.5em 0 0; padding:0 0.5em }
+/**/</style>
+</head>
+<body class="h-feed">
+<header><div class="header">
+<img class="photo" src="photo.jpg" alt=""/>
+<div class="hgroup">
+<h1 class="p-name p-author">Tantek &#xC7;elik</h1>
+<h2>Independent technologist, writer, teacher</h2> 
+</div>
+<form class="search" action="http://www.google.com/search" method="get"><div>
+<input type="hidden" name="as_sitesearch" value="tantek.com"/>
+<input type="hidden" name="tbs" value="sbd:1,cdr:1,cd_min:1/1/1970"/>
+<input type="search" name="q"/>
+<button type="submit">Search</button>
+</div></form>
+</div></header>
+
+<div class="section stream"><ol>
+<li class="h-entry hentry h-as-note" id="d011t1"><article><p class="p-name entry-title e-content entry-content article">ran #RnRSF 5k fun run non-stop. feeling ready. signed up for my first 2 half marathons: #RnRSF, and Kaiser in 22 days.</p>
+<footer><span class="info footer"><a href="2014/011/t1/5k-non-stop-signed-up-half-marathons-rnrsf-kaiser" rel="bookmark" class="dt-published published dt-updated updated u-url u-uid"><time class="value">20:12</time> on <time class="value">2014-01-11</time></a> using <span class="using">BBEdit</span></span></footer></article></li>
+<li class="h-entry hentry h-as-note" id="d009t1"><article><p class="p-name entry-title e-content entry-content article">#RnRSF half marathon course announcement party &amp; 5k run Sat. 9am: <a class="auto-link" href="http://fb.com/events/744916795537796">fb.com/events/744916795537796</a>
+Who's in? cc: <a class="auto-link h-x-username" href="https://twitter.com/Nov_Project_SF">@Nov_Project_SF</a></p>
+<footer><span class="info footer"><a href="2014/009/t1/rock-roll-sf-half-marathon-course-party-5k" rel="bookmark" class="dt-published published dt-updated updated u-url u-uid"><time class="value">09:15</time> on <time class="value">2014-01-09</time></a> using <span class="using">BBEdit</span></span></footer></article></li>
+<li class="h-entry hentry h-as-note" id="d008t1"><article><p class="p-name entry-title e-content entry-content article">First Homebrew Website Club meetup this year is in one week
+2014-015 18:30 both <a class="auto-link h-x-username" href="https://twitter.com/MozSF">@MozSF</a> <a class="auto-link h-x-username" href="https://twitter.com/EsriPDX">@EsriPDX</a> <a class="auto-link" href="http://indiewebcamp.com/events/2014-01-15-homebrew-website-club">indiewebcamp.com/events/2014-01-15-homebrew-website-club</a></p>
+<footer><span class="info footer"><a href="2014/008/t1/first-homebrew-website-club-this-year-one-week" rel="bookmark" class="dt-published published dt-updated updated u-url u-uid"><time class="value">18:02</time> on <time class="value">2014-01-08</time></a> using <span class="using">BBEdit</span></span></footer></article></li>
+<li class="h-entry hentry h-as-note" id="d007t1"><article><p class="p-name entry-title e-content entry-content article">skipped my run yesterday, feeling it today. #running is the best way I've found to clear your head, heart, maximize the rest of the day.</p>
+<footer><span class="info footer"><a href="2014/007/t1/running-best-way-clear-head-heart" rel="bookmark" class="dt-published published dt-updated updated u-url u-uid"><time class="value">09:27</time> on <time class="value">2014-01-07</time></a> using <span class="using">BBEdit</span></span></footer></article></li>
+<li class="h-entry hentry h-as-note" id="d006t3"><article><p class="p-name entry-title e-content entry-content article"><a class="auto-link h-x-username" href="https://twitter.com/kidhack">@kidhack</a> iPod Touch 5 has good chip speed, front/back cams, mic, motion(eg Nike+). Crossed a threshold. Touch ID? Meh.</p>
+<footer><span class="info footer"><a href="2014/006/t3/ipod-touch-speed-cams-mic-motion" rel="bookmark" class="dt-published published dt-updated updated u-url u-uid"><time class="value">23:00</time> on <time class="value">2014-01-06</time></a> using <span class="using">BBEdit</span></span></footer></article></li>
+<li class="h-entry hentry h-as-note" id="d006t2"><article><p class="p-name entry-title e-content entry-content article">2014: left phone at home every day. iPod+wifi/mifi works. delete x-5278 #. #iamnotanumber #nophone #future 
+
+Exception: I may start bringing my #FirefoxOS test phone with me for dogfooding, but I'm still not going to share or use the number.
+
+How to go #nophone summary:
+
+Text Messages:
+* iMessage
+* Facebook Messenger
+* Google+ Hangouts
+* AIM
+* Twitter DM
+
+Audio/Video calls:
+* FaceTime
+* Skype
+
+Calling the old world (government or businesses like restaurants and doctors)
+* G+ Hangouts, phone icon, free outbound US phone calls, no Google Voice needed.
+
+Filling in dumb web forms that require a phone number:
+* +1.800.555.1212 (or pick a geo-specific area code)</p>
+<footer><span class="info footer"><a href="2014/006/t2/ipod-wifi-mifi-works-iamnotanumber-nophone-future" rel="bookmark" class="dt-published published dt-updated updated u-url u-uid"><time class="value">20:25</time> on <time class="value">2014-01-06</time></a> using <span class="using">BBEdit</span></span></footer></article></li>
+<li class="h-entry hentry h-as-note" id="d006t1"><article><p class="p-name entry-title e-content entry-content article"><a class="auto-link h-x-username" href="https://twitter.com/ericnakagawa">@ericnakagawa</a> more validators welcome!
+Check out: <a class="auto-link" href="http://microformats.org/wiki/validators">microformats.org/wiki/validators</a>
+Especially: <a class="auto-link" href="http://indiewebify.me/validate-h-entry">indiewebify.me/validate-h-entry</a> #indieweb</p>
+<footer><span class="info footer"><a href="2014/006/t1/validators-welcome-microformats-indiewebify" rel="bookmark" class="dt-published published dt-updated updated u-url u-uid"><time class="value">19:49</time> on <time class="value">2014-01-06</time></a> using <span class="using">BBEdit</span></span></footer></article></li>
+<li class="h-entry hentry h-as-note" id="d004t2"><article><p class="p-name entry-title e-content entry-content article">Nice potluck brunch. Warm park day. Random kindness of strangers at the grocery store. Today was a good day.</p>
+<footer><span class="info footer"><a href="2014/004/t2/brunch-warm-day-random-kindness-good-day" rel="bookmark" class="dt-published published dt-updated updated u-url u-uid"><time class="value">19:54</time> on <time class="value">2014-01-04</time></a> using <span class="using">BBEdit</span></span></footer></article></li>
+<li class="h-entry hentry h-as-note" id="d004t1"><article><p class="p-name entry-title e-content entry-content article">2013 #indieweb pieces: IndieAuth comments webmention events Bridgy; 2014 together invincible. &#9835; <a class="auto-link" href="http://vimeo.com/40111334">vimeo.com/40111334</a> <iframe class="vimeo-player auto-link figure" width="480" height="385" style="border:0" src="http://player.vimeo.com/video/40111334"></iframe></p>
+<footer><span class="info footer"><a href="2014/004/t1/indieweb-pieces-together-invincible" rel="bookmark" class="dt-published published dt-updated updated u-url u-uid"><time class="value">01:28</time> on <time class="value">2014-01-04</time></a> using <span class="using">BBEdit</span></span></footer></article></li>
+<li class="h-entry hentry h-as-note" id="d003t2"><article><p class="p-name entry-title e-content entry-content article"><a class="auto-link h-x-username" href="https://twitter.com/snarfed_org">@snarfed_org</a> thanks &amp; great post. Pruning+batching is good advice. Blogged re pruning ~10y ago: <a class="auto-link" href="http://tantek.com/log/2003/04.html#L20030421t1700">tantek.com/log/2003/04.html#L20030421t1700</a></p>
+<footer><span class="info footer"><a href="2014/003/t2/pruning-batching-good-advice" rel="bookmark" class="dt-published published dt-updated updated u-url u-uid"><time class="value">23:53</time> on <time class="value">2014-01-03</time></a> using <span class="using">BBEdit</span></span></footer></article></li>
+<li class="h-entry hentry h-as-note" id="d003t1"><article><p class="p-name entry-title e-content entry-content article">In the land of the distracted, the singularly focused person is king.</p>
+<footer><span class="info footer"><a href="2014/003/t1/land-distracted-singularly-focused-king" rel="bookmark" class="dt-published published dt-updated updated u-url u-uid"><time class="value">12:44</time> on <time class="value">2014-01-03</time></a> using <span class="using">BBEdit</span></span></footer></article></li>
+<li class="h-entry hentry h-as-note" id="d002t8"><article><p class="p-name entry-title e-content entry-content article">First Thursday = another month of classes start tonight <a class="auto-link h-x-username" href="https://twitter.com/920Special">@920Special</a>.
+Come #swingdance at 21:20 at 2460 Sutter &amp; Divis.</p>
+<footer><span class="info footer"><a href="2014/002/t8/classes-start-920special-swingdance" rel="bookmark" class="dt-published published dt-updated updated u-url u-uid"><time class="value">18:59</time> on <time class="value">2014-01-02</time></a> using <span class="using">BBEdit</span></span></footer></article></li>
+<li class="h-entry hentry h-as-note" id="d002t7"><article><p class="p-name entry-title e-content entry-content article">2014 work day 1: not even close to catching up on email backlog.
+Need to handle ever fewer emails ever more tersely.</p>
+<footer><span class="info footer"><a href="2014/002/t7/email-backlog-need-handle-fewer-tersely" rel="bookmark" class="dt-published published dt-updated updated u-url u-uid"><time class="value">18:56</time> on <time class="value">2014-01-02</time></a> using <span class="using">BBEdit</span></span></footer></article></li>
+<li class="h-entry hentry h-as-note" id="d002t6"><article><p class="p-name entry-title e-content entry-content article"><a class="auto-link h-x-username" href="https://twitter.com/chloeweil">@chloeweil</a> a-ha you do have replies! Awesome! 
+Next may I suggest reply-contexts and webmention
+<a class="auto-link" href="http://indiewebcamp.com/reply-context">indiewebcamp.com/reply-context</a></p>
+<footer><span class="info footer"><a href="2014/002/t6/next-suggest-reply-contexts-webmention" rel="bookmark" class="dt-published published dt-updated updated u-url u-uid"><time class="value">18:38</time> on <time class="value">2014-01-02</time></a> using <span class="using">BBEdit</span></span></footer></article></li>
+<li class="h-entry hentry h-as-note" id="d002t5"><article><p class="p-name entry-title e-content entry-content article"><a class="auto-link h-x-username" href="https://twitter.com/chloeweil">@chloeweil</a> well deserved! Long way since <a class="auto-link h-x-username" href="https://twitter.com/indiewebcamp">@indiewebcamp</a> 2011.
+For 2014 add @-replies to your site like this permalink to this post demonstrates. 
+See also: <a class="auto-link" href="http://indiewebcamp.com/reply">indiewebcamp.com/reply</a></p>
+<footer><span class="info footer"><a href="2014/002/t5/add-replies-your-site" rel="bookmark" class="dt-published published dt-updated updated u-url u-uid"><time class="value">17:39</time> on <time class="value">2014-01-02</time></a> using <span class="using">BBEdit</span></span></footer></article></li>
+<li class="h-entry hentry h-as-note" id="d002t4"><article><p class="p-name entry-title e-content entry-content article">&amp; #indiewebcamp veterans:
+Post notes on your site instead of or before Twitter. Like <a class="auto-link h-x-username" href="https://twitter.com/chloeweil">@chloeweil</a> <a class="auto-link" href="http://chloeweil.com/blog/hipster">chloeweil.com/blog/hipster</a></p>
+<footer><span class="info footer"><a href="2014/002/t4/indiewebcamp-veterans-post-notes-your-site" rel="bookmark" class="dt-published published dt-updated updated u-url u-uid"><time class="value">15:47</time> on <time class="value">2014-01-02</time></a> using <span class="using">BBEdit</span></span></footer></article></li>
+<li class="h-entry hentry h-as-note" id="d002t3"><article><p class="p-name entry-title e-content entry-content article">Easy #indieweb 2014 resolution:
+Post more on your site than Twitter, FB, etc. Like <a class="auto-link h-x-username" href="https://twitter.com/neilhimself">@neilhimself</a> <a class="auto-link" href="http://journal.neilgaiman.com/2013/12/where-did-i-go-out-what-did-i-do.html">journal.neilgaiman.com/2013/12/where-did-i-go-out-what-did-i-do.html</a></p>
+<footer><span class="info footer"><a href="2014/002/t3/own-site-post-more-indieweb" rel="bookmark" class="dt-published published dt-updated updated u-url u-uid"><time class="value">14:22</time> on <time class="value">2014-01-02</time></a> using <span class="using">BBEdit</span></span></footer></article></li>
+<li class="h-entry hentry h-as-note" id="d002t2"><article><p class="p-name entry-title e-content entry-content article">good 2014 start
+* #NPSF workout despite 13.1mi yesterday
+<a class="auto-link" href="http://fb.com/photo.php?fbid=385734438229722">fb.com/photo.php?fbid=385734438229722</a>
+<a class="auto-link figure" href="http://fbcdn-sphotos-e-a.akamaihd.net/hphotos-ak-prn1/1559303_385734438229722_800225253_o.jpg"><img src="http://fbcdn-sphotos-e-a.akamaihd.net/hphotos-ak-prn1/1559303_385734438229722_800225253_o.jpg"/></a>
+* brunches with awesome people
+* insightful dinner discussion</p>
+<footer><span class="info footer"><a href="2014/002/t2/good-start-npsf-brunches-insightful-dinner" rel="bookmark" class="dt-published published dt-updated updated u-url u-uid"><time class="value">00:58</time> on <time class="value">2014-01-02</time></a> using <span class="using">BBEdit</span></span></footer></article></li>
+<li class="h-entry hentry h-as-note" id="d002t1"><article><p class="p-name entry-title e-content entry-content article">...starting with a bug fix to a <a class="auto-link h-x-username" href="https://twitter.com/Falcon">@Falcon</a> storage edge case.
+First post of the year late POSSE. Back to normal.</p>
+<footer><span class="info footer"><a href="2014/002/t1/bug-fix-falcon-storage-posse" rel="bookmark" class="dt-published published dt-updated updated u-url u-uid"><time class="value">00:42</time> on <time class="value">2014-01-02</time></a> using <span class="using">BBEdit</span></span></footer></article></li>
+<li class="h-entry hentry h-as-note" id="d001t1"><article><p class="p-name entry-title e-content entry-content article">2014 This is the year we change things.
+#vulnerabilities #respect #indieweb
+Game on.</p>
+<footer><span class="info footer"><a href="2014/001/t1/change-things-respect-indieweb-game-on" rel="bookmark" class="dt-published published dt-updated updated u-url u-uid"><time class="value">23:59</time> on <time class="value">2014-01-01</time></a> using <span class="using">BBEdit</span></span></footer></article></li>
+</ol></div>
+
+<aside><div class="aside p-author h-card vcard" id="contact">
+
+<div class="section hello">
+<h2>Hello</h2>
+<p class="p-note note">My name is Tantek. I work on open web standards and the indie web. I code, design, bike, climb, run, and fight for the users.</p>
+</div>
+
+<div class="section recent-articles">
+<h2>Recent Articles</h2>
+<ul>
+<li><a href="2013/349/b1/xfn-10th-anniversary">XFN 10th Anniversary</a></li>
+<li><a href="2013/339/b1/why-not-sync-ios-icloud-ability-revert-updates">Why NOT to sync iOS apps to iCloud: Ability to revert updates</a></li>
+<li><a href="2013/338/b1/people-focused-mobile-communication-experience">Toward A People Focused Mobile Communication Experience</a></li>
+</ul>
+</div>
+
+<div class="section information">
+<h2>Information</h2>
+<dl>
+<dt>Networks:</dt>
+<dd>Stanford <abbr title="computer science">CS</abbr> Alum (<a href="http://web.archive.org/web/20080615140717/http://www-cs.stanford.edu/People/undergraduate_alumni"><abbr title="Bachelor of Science">B.S.</abbr></a>, <a href="http://web.archive.org/web/20090831131632/http://www-cs.stanford.edu/People/masters_alumni"><abbr title="Master of Science">M.S.</abbr></a>)</dd>
+<dd>microformats.org (<a href="http://microformats.org/wiki/admins"><abbr title="administrator">admin</abbr></a>, <a href="http://microformats.org/about/people">founder</a>)</dd>
+<dd>Mozilla (<a href="https://wiki.mozilla.org/Standards">web standards</a>)</dd>
+<dt>Current City:</dt>
+<dd class="h-adr adr">
+<span class="p-locality locality">San Francisco</span>, <abbr title="California" class="p-region region">CA</abbr>
+</dd>
+</dl>
+</div>
+
+<div class="section elsewhere">
+<h2>Elsewhere</h2>
+<p>tantek.com is my online identity. I share, syndicate, (sometimes host) my activities elsewhere as well.</p>
+<!--<form action=""><div><label>URL: <input size="18" type="url" class="u-url url" id="link" readonly="readonly" value="http://tantek.com" /></label></div></form>-->
+<ul class="comms">
+<li>
+<a href="https://twitter.com/t" class="twitter-follow-button" data-show-count="false"><img src="images/twitter-16x16.png" alt=""/> follow @t</a>
+</li>
+<li>
+<a class="u-url url" href="https://twitter.com/t" rel="me" title="notes on Twitter"><img src="images/twitter-16x16.png" alt=""/> Twitter notes</a> <!--, <a class="u-url url" href="http://identi.ca/t" rel="me" title="Follow me on identi.ca">identi.ca: t</a>-->
+</li>
+</ul>
+<ul class="facets">
+<li><a rel="me" class="u-url url" href="https://github.com/tantek" title="open source on Github"><img src="images/github-16x16.png" alt=""/> Github projects</a></li>
+<li><a rel="me" class="u-url url" href="http://dribbble.com/tantek/" title="design snippets on Dribbble"><img src="images/dribbble-16x16.png" alt=""/> Dribbble designs</a></li>
+<li><a rel="me" class="u-url url" href="http://instagram.com/tantek/" title="photos on Instagram"><img src="images/instagram-16x16.png" alt=""/> Instagram photos</a></li>
+<li><a rel="me" class="u-url url" href="http://flickr.com/tantek/" title="photos on Flickr"><img src="images/flickr-16x16.png" alt=""/> Flickr photos</a></li>
+<li><a rel="me" class="u-url url" href="http://last.fm/user/tantekc" title="music on last.fm"><img src="images/lastfm-16x16.png" alt=""/> last.fm music</a></li>
+<li><a rel="me" class="u-url url" href="http://plancast.com/t" title="events, talks, and conferences on Plancast"><img src="images/plancast-16x16.png" alt=""/> Plancast events</a></li>
+<li><s><a href="http://upcoming.yahoo.com/user/6623" title="events, talks, and conferences on Upcoming"><img src="images/upcoming-16x16.png" alt=""/> Upcoming events</a></s></li>
+<li><a rel="me" class="u-url url" href="http://lanyrd.com/people/t" title="conferences past, present, and future on Lanyrd"><img src="images/lanyrd-16x16.png" alt=""/> Lanyrd conferences</a></li>
+<li><a rel="me" class="u-url url" href="http://foursquare.com/t" title="geolocation checkins on Foursquare"><img src="images/foursquare-16x16.png" alt=""/> Foursquare checkins</a></li>
+<!--<li><a rel="me" class="u-url url" href="http://tantek.pbwiki.com/" title="projects, notes, and events on PBWiki">PBworks wiki</a></li>-->
+<li><a rel="me" class="u-url url" href="http://www.facebook.com/tantek.celik"><img src="images/facebook-16x16.png" alt=""/> Facebook Profile</a></li>
+<li><a rel="me" class="u-url url" href="http://google.com/profiles/tantek" title="named Google Profile (formerly Google Buzz syndications)"><img src="images/google-16x16.png" alt=""/> Google Profile</a></li>
+<li><a rel="me" class="u-url url" href="https://plus.google.com/109182513536739786206/posts" title="occasional Google Plus posts"><img src="images/google+-16x16.png" alt=""/> Google Plus posts</a></li>
+<li><a class="u-url url" type="text/directory" href="http://h2vx.com/vcf/tantek.com/%23contact" title="Download my vCard to add this contact information to your Address Book"><img src="images/vcard-16x16.png" alt=""/> download vCard</a></li>
+<li>
+<a href="http://tantek.com/w/CommunicationProtocols">Preferred contact</a>: <a class="u-url url u-impp" href="aim:goim?screenname=tantekc"><img src="images/aim-16x16.png" alt=""/> aim:<abbr class="p-name fn" title="Tantek &#xC7;elik">tantekc</abbr></a>
+</li>
+</ul>
+</div>
+
+<div class="section">
+<h2>Buy my book!</h2>
+<a href="http://tantek.com/html5now"><img src="images/html5nowdvd.jpg" alt="HTML5 Now!"/></a>
+<p>A step-by-step tutorial for getting started with HTML5 today. Includes reference guide and DVD with 2.5 hours of video plus 100 page searchable full-color PDF eBook.</p>
+<p><a href="http://tantek.com/html5now">Buy at Amazon.com</a></p>
+</div>
+
+
+
+<!--
+<div class="section">
+<h2>recommending</h2>
+<ol>
+
+</ol>
+</div>
+-->
+</div></aside>
+
+
+<footer><div class="footer">
+
+<div class="section">
+<h2>Launched &amp; Live</h2>
+<ul>
+<li>
+<a href="http://tantek.com/html5now">HTML5 Now! book &amp; DVD</a> (<a href="http://twitter.com/html5now">@html5now</a>) - quickly learn how to write HTML5, from simple documents to video and vector graphics.</li>
+<li>
+<a href="http://asin.cc" title="Amazon product link shortener">ASIN.cc</a> (<a href="http://twitter.com/asindotcc">@asindotcc</a>) - a handy URL shortener for books and Amazon products.</li>
+<li>
+<a href="http://h2vx.com/" title="hCard to vCard, hCalendar to iCalendar conversion services">H2VX</a> (<a href="http://twitter.com/h2vx">@h2vx</a>) - add hCard contacts and hCalendar events from web pages to your address book and calendar programs.</li>
+<li>
+<a href="http://microformats.org/wiki">microformats.org</a> (<a href="http://twitter.com/microformats">@microformats</a>) - the fastest way to turn your web pages into simple APIs and simultaneously look better in search engines.</li>
+</ul>
+</div>
+<div class="section">
+<h2>Currently Working On</h2>
+<ul>
+<li>
+<a href="https://wiki.mozilla.org/Tantek-Mozilla-projects">Mozilla projects</a> - open standards: HTML5, CSS3, <a href="http://microformats.org/wiki/microformats2">microformats2</a>, and growing the <a href="http://indiewebcamp.com/">IndieWebCamp</a> community.</li>
+<li>
+<a href="http://cassisproject.com" title="CASSIS language and library"><abbr title="Client And Server Scripting Implementation Subset for Javascript and PHP">CASSIS</abbr></a> 
+(<a href="http://github.com/tantek/cassis/">on github</a>, <a href="https://twitter.com/cassisjs">@cassisjs</a>) - a functional programming language and framework for  code that natively executes in PHP and Javascript.</li>
+<li>
+<a href="http://microformats.org/wiki/RelMeAuth" title="Simplified personal logins with rel-me and OAuth">RelMeAuth</a> - use a personal site and rel="me" hyperlinks to profiles on popular OAuth supporting services like <a href="http://twitter.com/t">Twitter</a>, <a href="http://identi.ca/t">Identica</a>, <a href="http://google.com/profiles/tantek">Google</a> etc. to sign-in with your own URL.
+</li>
+<li>
+<a href="http://tantek.com/w/Falcon">Falcon</a> (<a href="http://twitter.com/falcon">@falcon</a>) - server-based personal tweeting/blogging application.
+</li>
+<li>
+<a href="http://tantek.com/w/Whistle">Whistle</a> - personal algorithmically reversible URL shortener.</li>
+</ul>
+</div>
+
+<div class="section">
+<h2>Speaking &amp; Events</h2>
+<ol>
+
+<li class="h-event vevent">
+<span class="dt-start dtstart"><time>2013-09-06</time></span> <a class="u-url url" href="http://2013.dconstruct.org/"><span class="p-name summary">dConstruct</span> <abbr class="p-location location" title="Brighton, England">Brighton</abbr></a>
+</li>
+
+<li class="h-event vevent">
+<span class="dt-start dtstart"><time>2013-09-07</time></span>&#x2026;<abbr class="dt-end dtend" title="2013-09-08"><time datetime="2013-09-08">08</time></abbr> <a class="u-url url" href="http://indiewebcamp.com/2013/UK"><span class="p-name summary">IndieWebCamp UK</span> <abbr class="p-location location" title="Brighton, England">Brighton</abbr></a>
+</li>
+
+</ol>
+<p>See <a href="http://lanyrd.com/people/t">my Lanyrd</a> for more.</p>
+<p>
+<a href="webcal://h2vx.com/ics/tantek.com">Subscribe to events</a>
+</p>
+</div>
+
+<address class="copyright">&#xA9; <time>1996</time>-<time>2013</time> Tantek &#xC7;elik <span class="c">All Rights Reserved</span>
+</address>
+
+</div></footer>
+<script type="text/javascript" src="cassis.js"></script>
+<script type="text/javascript">/**/ 
+var es = document.getElementById("link");
+if (es) {
+  es.onclick = function() {
+   var e = targetelement();
+   e.focus();
+   e.select();
+  };
+}
+/**/</script>
+<script src="http://platform.twitter.com/widgets.js" type="text/javascript"></script>
+</body>
+</html>

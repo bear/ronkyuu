@@ -18,6 +18,8 @@ Working
 * POST of Webmention to discovered callback
 * Receipt of a Webmention POST
 * command line tool to trigger an event
+* examples for event handling
+* support for RelMe verification
 
 Pending
 * Flask app to allow test sending of webmentions
@@ -25,6 +27,39 @@ Pending
 * daemon to scan article collections for new and/or changed articles
 
 See the examples/ directory for sample command line tools.
+
+WebMentions
+===========
+findMentions(sourceURL, domains=[])
+-----------------------------------
+Find all <a /> elements in the html returned for a post.
+If any have an href attribute that is not from the one of the items in domains, append it to our lists.
+
+findEndpoint(html)
+------------------
+Search the given html content for all <link /> elements and return any discovered WebMention URL.
+
+discoverEndpoint(url)
+---------------------
+Discover any WebMention endpoint for a given URL.
+
+sendWebmention(sourceURL, targetURL, webmention=None)
+-----------------------------------------------------
+Send to the targetURL a WebMention for the sourceURL.
+The WebMention will be discovered if not given in the optional webmention parameter.
+
+RelMe
+=====
+findRelMe(sourceURL)
+--------------------
+Find all <a /> elements in the given html for a post.
+If any have an href attribute that is rel="me" then include it in the result.
+
+confirmRelMe(profileURL, resourceURL, profileRelMes=None, resourceRelMes=None)
+------------------------------------------------------------------------------
+Determine if a given resourceURL is authoritative for the profileURL.
+The list of rel="me" links will be discovered if not provided in the optional
+profileRelMes parameter or the resourceRelMes paramter.
 
 Events
 ======

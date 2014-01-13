@@ -65,12 +65,11 @@ def findMentions(sourceURL, domains=[]):
     return result
 
 def findEndpoint(html):
-    """Find all <link /> elements in the html content returned
-       from a GET request from a URL listed as a reply or mention
-       and return the discovered webmention href.
+    """Search the given html content for all <link /> elements
+    and return any discovered WebMention URL.
 
-    :param html: html text from a GET request
-    :rtype: URL string
+    :param html: html content
+    :rtype: WebMention URL
     """
     result = None
     dom    = BeautifulSoup(html)
@@ -81,22 +80,31 @@ def findEndpoint(html):
             break
     return result
 
-def discoverEndpoint(link):
-    """Discover and return any Webmention Endpoint for a given URL.
+def discoverEndpoint(url):
+    """Discover any WebMention endpoint for a given URL.
 
-    :param link: URL to discover Webmention data for
-    :rtype: URL string
+    :param link: URL to discover WebMention endpoint
+    :rtype: tuple (status_code, URL)
     """
     # status, webmention
     href = None
-    r    = requests.get(link)
-
+    r    = requests.get(url)
     if r.status_code == requests.codes.ok:
         href = findEndpoint(r.text)
 
     return (r.status_code, href)
 
 def sendWebmention(sourceURL, targetURL, webmention=None):
+    """Send to the :targetURL: a WebMention for the :sourceURL:
+
+    The WebMention will be discovered if not given in the :webmention:
+    parameter.
+
+    :param sourceURL: URL that is referencing :targetURL:
+    :param targetURL: URL of mentioned post
+    :param webmention: optional WebMention endpoint
+    :rtype: boolean True if WebMention endpoint accepted POST
+    """
     result = None
     if webmention is None:
         wStatus, wUrl = discoverWebmention(targetURL)
