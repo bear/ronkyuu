@@ -107,7 +107,7 @@ def sendWebmention(sourceURL, targetURL, webmention=None):
     """
     result = None
     if webmention is None:
-        wStatus, wUrl = discoverWebmention(targetURL)
+        wStatus, wUrl = discoverEndpoint(targetURL)
     else:
         wStatus = 200
         wUrl    = webmention
