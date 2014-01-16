@@ -42,10 +42,10 @@ def discoverConfig(cfgFilename=None):
 
 
 def getURLChain(targetURL):
-    ok    = False
+    ok = False
     chain = []
     try:
-        r  = requests.head(targetURL, allow_redirects=True)
+        r = requests.head(targetURL, allow_redirects=True)
         ok = r.status_code == requests.codes.ok
         if ok:
             for resp in r.history:
@@ -56,7 +56,7 @@ def getURLChain(targetURL):
 
 
 def normalizeURL(targetURL):
-    result    = None
+    result = None
     ok, chain = getURLChain(targetURL)
     if ok:
         if len(chain) > 0:

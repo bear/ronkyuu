@@ -76,7 +76,7 @@ def findEndpoint(html):
     :rtype: WebMention URL
     """
     result = None
-    dom    = BeautifulSoup(html)
+    dom = BeautifulSoup(html)
     for link in dom.find_all('link'):
         rel = link.get('rel')
         if rel is not None and ('webmention' in rel or 'http://webmention.org/' in rel):
@@ -116,7 +116,7 @@ def sendWebmention(sourceURL, targetURL, webmention=None):
         wStatus, wUrl = discoverEndpoint(targetURL)
     else:
         wStatus = 200
-        wUrl = webmention
+        wUrl    = webmention
 
     if wStatus == requests.codes.ok and wUrl is not None:
         payload = {'source': sourceURL,

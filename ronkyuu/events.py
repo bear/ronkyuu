@@ -48,8 +48,9 @@ class Events(object):
                 if hasattr(module, 'inboundWebmention'):
                     module.inboundWebmention(sourceURL, targetURL)
             except Exception, e:
-                raise Exception('error during module event call inboundWebmention(%s, %s)' %
-                                (sourceURL, targetURL))
+                raise Exception(
+                    'error during module event call inboundWebmention(%s, %s)' %
+                    (sourceURL, targetURL))
 
     def outboundWebmention(self, sourceURL, targetURL):
         for moduleName in self.handlers:
@@ -58,8 +59,9 @@ class Events(object):
                 if hasattr(module, 'outboundWebmention'):
                     module.outboundWebmention(sourceURL, targetURL)
             except:
-                raise Exception('error during module event call outboundWebmention(%s, %s)' %
-                                (sourceURL, targetURL))
+                raise Exception(
+                    'error during module event call outboundWebmention(%s, %s)' %
+                    (sourceURL, targetURL))
 
     def postArticle(self, postURL):
         for moduleName in self.handlers:
@@ -68,4 +70,5 @@ class Events(object):
                 if hasattr(module, 'postArticle'):
                     module.postArticle(postURL)
             except:
-                raise Exception('error during module event call: postArticle(%s)' % (postURL))
+                raise Exception(
+                    'error during module event call: postArticle(%s)' % (postURL))

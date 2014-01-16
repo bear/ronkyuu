@@ -66,7 +66,7 @@ def findRelMe(sourceURL):
     :param sourceURL: the URL for the post we are scanning
     :rtype: dictionary of RelMe references
     """
-    r      = requests.get(sourceURL)
+    r = requests.get(sourceURL)
     result = {'status':  r.status_code,
               'headers': r.headers,
               'history': r.history,
@@ -106,7 +106,7 @@ def confirmRelMe(profileURL, resourceURL, profileRelMes=None, resourceRelMes=Non
         profileRelMe = findRelMe(profileURL)
         profileRelMes = profileRelMe['relme']
     if resourceRelMes is None:
-        resourceRelMe  = findRelMe(resourceURL)
+        resourceRelMe = findRelMe(resourceURL)
         resourceRelMes = resourceRelMe['relme']
 
     for url in resourceRelMes:
