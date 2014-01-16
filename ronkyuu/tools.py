@@ -7,7 +7,8 @@
 IndieWeb Webmention Tools
 """
 
-import os, sys
+import os
+import sys
 import json
 
 import requests
@@ -21,6 +22,7 @@ possibleConfigFiles = []
 for p in cfgFilepaths:
     for f in cfgFilenames:
         possibleConfigFiles.append(os.path.join(p, f))
+
 
 def discoverConfig(cfgFilename=None):
     result = {}
@@ -38,18 +40,20 @@ def discoverConfig(cfgFilename=None):
 
     return result
 
+
 def getURLChain(targetURL):
     ok    = False
     chain = []
     try:
         r  = requests.head(targetURL, allow_redirects=True)
         ok = r.status_code == requests.codes.ok
-        if ok: 
+        if ok:
             for resp in r.history:
                 chain.append(r.url)
     except:
         ok = False
     return (ok, chain)
+
 
 def normalizeURL(targetURL):
     result    = None

@@ -7,7 +7,8 @@
 IndieWeb Rel=Me Tools
 """
 
-import os, sys
+import os
+import sys
 
 from tools import getURLChain, normalizeURL
 
@@ -35,7 +36,7 @@ from bs4 import BeautifulSoup
 # With a profile URL http://dreev.es and a resource URL https://twitter.com/dreev
 # is the resource an authoritative relme of the profile?
 #
-#   The profile URL itself redirects: 
+#   The profile URL itself redirects:
 #       http://dreev.es -> [301] -> http://ai.eecs.umich.edu/people/dreeves/
 #     and contains the following rel="me" links:
 #       <a href="https://twitter.com/dreev" rel="me"/>
@@ -50,7 +51,7 @@ from bs4 import BeautifulSoup
 #   Other questions:
 #     would it also be yes because the given profile URL matches one of the resource relme link's redirect chain urls?
 #     do we then consider it as authorative if the chain segments match for the redirect?
-#     i.e. 
+#     i.e.
 #                                                                              http://dreev.es -> [301] -> http://ai.eecs.umich.edu/people/dreeves/
 #  https://twitter.com/dreev -> [rel-me] -> http://t.co/PlBCqLVndT -> [301] -> http://dreev.es -> [301] -> http://ai.eecs.umich.edu/people/dreeves/
 #
@@ -66,13 +67,13 @@ def findRelMe(sourceURL):
     :rtype: dictionary of RelMe references
     """
     r      = requests.get(sourceURL)
-    result = { 'status':  r.status_code,
-               'headers': r.headers,
-               'history': r.history,
-               'content': r.text,
-               'relme':   [],
-               'url':     sourceURL
-             }
+    result = {'status':  r.status_code,
+              'headers': r.headers,
+              'history': r.history,
+              'content': r.text,
+              'relme':   [],
+              'url':     sourceURL
+              }
     if r.status_code == requests.codes.ok:
         dom = BeautifulSoup(r.text)
 
@@ -84,6 +85,7 @@ def findRelMe(sourceURL):
                 if url is not None and url.scheme in ('http', 'https'):
                     result['relme'].append(href)
     return result
+
 
 def confirmRelMe(profileURL, resourceURL, profileRelMes=None, resourceRelMes=None):
     """Determine if a given :resourceURL: is authoritative for the :profileURL:
@@ -101,7 +103,7 @@ def confirmRelMe(profileURL, resourceURL, profileRelMes=None, resourceRelMes=Non
     profile = normalizeURL(profileURL)
 
     if profileRelMes is None:
-        profileRelMe  = findRelMe(profileURL)
+        profileRelMe = findRelMe(profileURL)
         profileRelMes = profileRelMe['relme']
     if resourceRelMes is None:
         resourceRelMe  = findRelMe(resourceURL)

@@ -7,7 +7,8 @@
 IndieWeb Webmention Tools
 """
 
-import os, sys
+import os
+import sys
 
 import requests
 from urlparse import urlparse
@@ -20,10 +21,12 @@ from bs4 import BeautifulSoup
 # Barnaby's server does webmention discovery on Aaron's post to find its webmention endpoint (if not found, process stops)
 # Barnaby's server sends a webmention to Aaron's post's webmention endpoint with
 #     source set to Barnaby's post's permalink
-#     target set to Aaron's post's permalink. 
+#     target set to Aaron's post's permalink.
 # Aaron's server receives the webmention
 # Aaron's server verifies that target (after following redirects) in the webmention is a valid permalink on Aaron's blog (if not, processing stops)
-# Aaron's server verifies that the source (when retrieved, after following redirects) in the webmention contains a hyperlink to the target (if not, processing stops) 
+# Aaron's server verifies that the source (when retrieved, after following
+# redirects) in the webmention contains a hyperlink to the target (if not,
+# processing stops)
 
 def findMentions(sourceURL, domains=[]):
     """Find all <a /> elements in the given html for a post.
@@ -36,13 +39,13 @@ def findMentions(sourceURL, domains=[]):
     :type domains: list
     :rtype: dictionary of Mentions
     """
-    r      = requests.get(sourceURL)
-    result = { 'status':   r.status_code,
-               'headers':  r.headers,
-               'content':  r.text,
-               'refs':     {},
-               'post-url': sourceURL
-             }
+    r = requests.get(sourceURL)
+    result = {'status':   r.status_code,
+              'headers':  r.headers,
+              'content':  r.text,
+              'refs':     {},
+              'post-url': sourceURL
+              }
     if r.status_code == requests.codes.ok:
         dom = BeautifulSoup(r.text)
 
@@ -53,9 +56,9 @@ def findMentions(sourceURL, domains=[]):
 
                 if url.scheme in ('http', 'https'):
                     if len(url.hostname) > 0 and url.hostname not in domains:
-                        result['refs'][href] = { 'reply':      False,
-                                                 'webmention': '',
-                                               }
+                        result['refs'][href] = {'reply':      False,
+                                                'webmention': '',
+                                                }
                         item = link.get('class')
                         if item is not None and 'u-in-reply-to' in item:
                             result['refs'][href]['reply'] = True
@@ -63,6 +66,7 @@ def findMentions(sourceURL, domains=[]):
                         if item is not None and 'in-reply-to' in item:
                             result['refs'][href]['reply'] = True
     return result
+
 
 def findEndpoint(html):
     """Search the given html content for all <link /> elements
@@ -80,6 +84,7 @@ def findEndpoint(html):
             break
     return result
 
+
 def discoverEndpoint(url):
     """Discover any WebMention endpoint for a given URL.
 
@@ -93,6 +98,7 @@ def discoverEndpoint(url):
         href = findEndpoint(r.text)
 
     return (r.status_code, href)
+
 
 def sendWebmention(sourceURL, targetURL, webmention=None):
     """Send to the :targetURL: a WebMention for the :sourceURL:
@@ -110,11 +116,11 @@ def sendWebmention(sourceURL, targetURL, webmention=None):
         wStatus, wUrl = discoverEndpoint(targetURL)
     else:
         wStatus = 200
-        wUrl    = webmention
+        wUrl = webmention
 
     if wStatus == requests.codes.ok and wUrl is not None:
-        payload = { 'source': sourceURL, 
-                    'target': targetURL  }
+        payload = {'source': sourceURL,
+                   'target': targetURL}
         r       = requests.post(wUrl, data=payload)
         result  = r.status_code
 
