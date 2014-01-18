@@ -12,7 +12,7 @@ import sys
 
 import requests
 from urlparse import urlparse
-from bs4 import BeautifulSoup
+from bs4 import BeautifulSoup, SoupStrainer
 
 
 # User Aaron posts a blog post on his blog
@@ -28,43 +28,47 @@ from bs4 import BeautifulSoup
 # redirects) in the webmention contains a hyperlink to the target (if not,
 # processing stops)
 
-def findMentions(sourceURL, domains=[]):
-    """Find all <a /> elements in the given html for a post.
+def findMentions(sourceURL, exclude_domains=[], content=None, look_in={'name': 'body'}):
+    """Find all <a /> elements in the given html for a post. Only scan html element matching all criteria in look_in.
+
+    optionally the content to be scanned can be given as an argument.
        
     If any have an href attribute that is not from the
-    one of the items in domains, append it to our lists.
+    one of the items in exclude_domains, append it to our lists.
 
     :param sourceURL: the URL for the post we are scanning
-    :param domains: a list of domains to exclude from the search
-    :type domains: list
+    :param exclude_domains: a list of domains to exclude from the search
+    :param content: the content to be scanned for mentions
+    :param look_in: dictionary with name, id and class_. only element matching all of these will be scanned
+    :type exclude_domains: list
     :rtype: dictionary of Mentions
     """
-    r = requests.get(sourceURL)
-    result = {'status':   r.status_code,
-              'headers':  r.headers,
-              'content':  r.text,
-              'refs':     {},
-              'post-url': sourceURL
-              }
-    if r.status_code == requests.codes.ok:
-        dom = BeautifulSoup(r.text)
 
-        for link in dom.body.find_all('a'):
-            href = link.get('href')
+    if content:
+        result = {'status':   requests.codes.ok,
+                  'headers':  None,
+                  'content':  content
+                  }
+    else:
+        r = requests.get(sourceURL)
+        result = {'status':   r.status_code,
+                  'headers':  r.headers,
+                  'content':  r.text
+                  }
+
+    result.update({'refs': set(), 'post-url': sourceURL})
+
+    if result['status'] == requests.codes.ok:
+        all_links = BeautifulSoup(result['content'], parse_only=SoupStrainer(**look_in)).find_all('a')
+    
+        for link in all_links:
+            href = link['href']
             if href is not None:
                 url = urlparse(href)
 
                 if url.scheme in ('http', 'https'):
-                    if len(url.hostname) > 0 and url.hostname not in domains:
-                        result['refs'][href] = {'reply':      False,
-                                                'webmention': '',
-                                                }
-                        item = link.get('class')
-                        if item is not None and 'u-in-reply-to' in item:
-                            result['refs'][href]['reply'] = True
-                        item = link.get('rel')
-                        if item is not None and 'in-reply-to' in item:
-                            result['refs'][href]['reply'] = True
+                    if len(url.hostname) > 0 and url.hostname not in exclude_domains:
+                        result['refs'].add(href)
     return result
 
 
@@ -76,8 +80,8 @@ def findEndpoint(html):
     :rtype: WebMention URL
     """
     result = None
-    dom    = BeautifulSoup(html)
-    for link in dom.find_all('link'):
+    all_links = BeautifulSoup(html).find_all('link')
+    for link in all_links:
         rel = link.get('rel')
         if rel is not None and ('webmention' in rel or 'http://webmention.org/' in rel):
             result = link.get('href')
