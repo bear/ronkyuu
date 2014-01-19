@@ -29,6 +29,12 @@ Pending
 
 See the examples/ directory for sample command line tools.
 
+Contributors
+============
+* bear (Mike Taylor)
+* kartikprabhu (Kartik Prabhu)
+
+
 WebMentions
 ===========
 findMentions(sourceURL, domains=[])
