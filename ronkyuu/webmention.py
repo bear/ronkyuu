@@ -30,7 +30,8 @@ from bs4 import BeautifulSoup, SoupStrainer
 # processing stops)
 
 def findMentions(sourceURL, exclude_domains=[], content=None, look_in={'name': 'body'}):
-    """Find all <a /> elements in the given html for a post. Only scan html element matching all criteria in look_in.
+    """Find all <a /> elements in the given html for a post.
+    Only scan html element matching all criteria in look_in.
 
     optionally the content to be scanned can be given as an argument.
        
@@ -45,15 +46,15 @@ def findMentions(sourceURL, exclude_domains=[], content=None, look_in={'name': '
     :rtype: dictionary of Mentions
     """
     if content:
-        result = {'status':   requests.codes.ok,
-                  'headers':  None,
-                  'content':  content
+        result = {'status':  requests.codes.ok,
+                  'headers': None,
+                  'content': content
                  }
     else:
         r = requests.get(sourceURL, verify=False)
-        result = {'status':   r.status_code,
-                  'headers':  r.headers,
-                  'content':  r.text
+        result = {'status':  r.status_code,
+                  'headers': r.headers,
+                  'content': r.text
                  }
 
     result.update({'refs': set(), 'post-url': sourceURL})
