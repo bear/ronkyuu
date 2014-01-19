@@ -11,6 +11,7 @@ import os
 import sys
 
 import requests
+import re
 from urlparse import urlparse
 from bs4 import BeautifulSoup, SoupStrainer
 
@@ -50,7 +51,7 @@ def findMentions(sourceURL, exclude_domains=[], content=None, look_in={'name': '
                   'content':  content
                   }
     else:
-        r = requests.get(sourceURL)
+        r = requests.get(sourceURL, verify=False)
         result = {'status':   r.status_code,
                   'headers':  r.headers,
                   'content':  r.text
@@ -97,9 +98,14 @@ def discoverEndpoint(url):
     """
     # status, webmention
     href = None
-    r    = requests.get(url)
+    r    = requests.get(url,verify=False)
     if r.status_code == requests.codes.ok:
-        href = findEndpoint(r.text)
+        try:
+            link = r.headers['link']
+            if  'rel="webmention"' in link:
+                href = re.search('<(.+?)>;', link).group(1)
+        except (KeyError, AttributeError):
+            href = findEndpoint(r.text)
 
     return (r.status_code, href)
 
