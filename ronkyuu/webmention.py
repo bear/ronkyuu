@@ -29,7 +29,7 @@ from bs4 import BeautifulSoup, SoupStrainer
 # redirects) in the webmention contains a hyperlink to the target (if not,
 # processing stops)
 
-def findMentions(sourceURL, exclude_domains=[], content=None, look_in={'name': 'body'}):
+def findMentions(sourceURL, exclude_domains=[], content=None, look_in={'name':'body'}):
     """Find all <a /> elements in the given html for a post. Only scan html element matching all criteria in look_in.
 
     optionally the content to be scanned can be given as an argument.
@@ -119,7 +119,7 @@ def sendWebmention(sourceURL, targetURL, webmention=None):
     :param sourceURL: URL that is referencing :targetURL:
     :param targetURL: URL of mentioned post
     :param webmention: optional WebMention endpoint
-    :rtype: boolean True if WebMention endpoint accepted POST
+    :rtype: HTTPrequest object if WebMention endpoint was valid
     """
     result = None
     if webmention is None:
@@ -131,7 +131,6 @@ def sendWebmention(sourceURL, targetURL, webmention=None):
     if wStatus == requests.codes.ok and wUrl is not None:
         payload = {'source': sourceURL,
                    'target': targetURL}
-        r       = requests.post(wUrl, data=payload)
-        result  = r.status_code
+        result  = requests.post(wUrl, data=payload)
 
     return result
