@@ -1,4 +1,18 @@
-## Regex and URL validators borrowed from django.core.validators
+#!/usr/bin/env python
+
+"""
+:copyright: (c) 2013 by Mike Taylor and Kartik Prabhu
+:license: MIT, see LICENSE for more details.
+
+IndieWeb URL Validation
+
+Regex and URL validators borrowed from django.core.validators
+https://github.com/django/django/blob/master/django/core/validators.py
+
+    Copyright (c) Django Software Foundation and individual contributors.
+    All rights reserved.
+    BSD Licensed
+"""
 
 import re
 from urlparse import urlsplit, urlunsplit

@@ -68,6 +68,12 @@ Determine if a given resourceURL is authoritative for the profileURL.
 The list of rel="me" links will be discovered if not provided in the optional
 profileRelMes parameter or the resourceRelMes paramter.
 
+Validators
+==========
+URLValidator class
+
+TODO: fill in details of how to use
+
 Events
 ======
 During the processing each task, be it an incoming webmention, reply or even a new
