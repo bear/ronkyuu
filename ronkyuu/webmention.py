@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 """
-:copyright: (c) 2013 by Mike Taylor and Kartik Prabhu
+:copyright: (c) 2013 by Mike Taylor
 :license: MIT, see LICENSE for more details.
 
 IndieWeb Webmention Tools
@@ -32,9 +32,7 @@ from validators import URLValidator
 # processing stops)
 
 def findMentions(sourceURL, exclude_domains=[], content=None, look_in={'name':'body'}, test_urls=True):
-    """Find all <a /> elements in the given html for a post.
-
-    Only scan html element matching all criteria in look_in.
+    """Find all <a /> elements in the given html for a post. Only scan html element matching all criteria in look_in.
 
     optionally the content to be scanned can be given as an argument.
        
@@ -49,21 +47,20 @@ def findMentions(sourceURL, exclude_domains=[], content=None, look_in={'name':'b
     :type exclude_domains: list
     :rtype: dictionary of Mentions
     """
-
     if test_urls:
         URLValidator(message='invalid source URL')(sourceURL)
 
     if content:
-        result = {'status':  requests.codes.ok,
-                  'headers': None,
-                  'content': content
-                 }
+        result = {'status':   requests.codes.ok,
+                  'headers':  None,
+                  'content':  content
+                  }
     else:
         r = requests.get(sourceURL, verify=False)
-        result = {'status':  r.status_code,
-                  'headers': r.headers,
-                  'content': r.text
-                 }
+        result = {'status':   r.status_code,
+                  'headers':  r.headers,
+                  'content':  r.text
+                  }
 
     result.update({'refs': set(), 'post-url': sourceURL})
 
@@ -88,7 +85,7 @@ def findEndpoint(html):
     :param html: html content
     :rtype: WebMention URL
     """
-    result    = None
+    result = None
     all_links = BeautifulSoup(html).find_all('link')
     for link in all_links:
         rel = link.get('rel')
@@ -144,12 +141,12 @@ def sendWebmention(sourceURL, targetURL, webmention=None, test_urls=True):
         wStatus, wUrl = discoverEndpoint(targetURL)
     else:
         wStatus = 200
-        wUrl    = webmention
-
-    if test_urls:
-        v(wURL)
+        wUrl = webmention
 
     if wStatus == requests.codes.ok and wUrl is not None:
+        if test_urls:
+            v(wUrl)
+
         payload = {'source': sourceURL,
                    'target': targetURL}
         result  = requests.post(wUrl, data=payload)
