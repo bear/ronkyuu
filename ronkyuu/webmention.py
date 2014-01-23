@@ -15,6 +15,8 @@ import re
 from urlparse import urlparse
 from bs4 import BeautifulSoup, SoupStrainer
 
+from validators import URLValidator
+
 
 # User Aaron posts a blog post on his blog
 # User Barnaby writes post on his blog that links to Aaron's post.
@@ -29,7 +31,7 @@ from bs4 import BeautifulSoup, SoupStrainer
 # redirects) in the webmention contains a hyperlink to the target (if not,
 # processing stops)
 
-def findMentions(sourceURL, exclude_domains=[], content=None, look_in={'name':'body'}):
+def findMentions(sourceURL, exclude_domains=[], content=None, look_in={'name':'body'}, test_urls=True):
     """Find all <a /> elements in the given html for a post.
 
     Only scan html element matching all criteria in look_in.
@@ -43,9 +45,14 @@ def findMentions(sourceURL, exclude_domains=[], content=None, look_in={'name':'b
     :param exclude_domains: a list of domains to exclude from the search
     :param content: the content to be scanned for mentions
     :param look_in: dictionary with name, id and class_. only element matching all of these will be scanned
+    :param test_urls: optional flag to test URLs for validation
     :type exclude_domains: list
     :rtype: dictionary of Mentions
     """
+
+    if test_urls:
+        URLValidator(message='invalid source URL')(sourceURL)
+
     if content:
         result = {'status':  requests.codes.ok,
                   'headers': None,
@@ -91,12 +98,16 @@ def findEndpoint(html):
     return result
 
 
-def discoverEndpoint(url):
+def discoverEndpoint(url, test_urls=True):
     """Discover any WebMention endpoint for a given URL.
 
     :param link: URL to discover WebMention endpoint
+    :param test_urls: optional flag to test URLs for validation
     :rtype: tuple (status_code, URL)
     """
+    if test_urls:
+        URLValidator(message='invalid URL')(url)
+
     # status, webmention
     href = None
     r    = requests.get(url,verify=False)
@@ -111,7 +122,7 @@ def discoverEndpoint(url):
     return (r.status_code, href)
 
 
-def sendWebmention(sourceURL, targetURL, webmention=None):
+def sendWebmention(sourceURL, targetURL, webmention=None, test_urls=True):
     """Send to the :targetURL: a WebMention for the :sourceURL:
 
     The WebMention will be discovered if not given in the :webmention:
@@ -120,14 +131,23 @@ def sendWebmention(sourceURL, targetURL, webmention=None):
     :param sourceURL: URL that is referencing :targetURL:
     :param targetURL: URL of mentioned post
     :param webmention: optional WebMention endpoint
+    :param test_urls: optional flag to test URLs for validation
     :rtype: HTTPrequest object if WebMention endpoint was valid
     """
+    if test_urls:
+        v = URLValidator()
+        v(sourceURL)
+        v(targetURL)
+
     result = None
     if webmention is None:
         wStatus, wUrl = discoverEndpoint(targetURL)
     else:
         wStatus = 200
         wUrl    = webmention
+
+    if test_urls:
+        v(wURL)
 
     if wStatus == requests.codes.ok and wUrl is not None:
         payload = {'source': sourceURL,

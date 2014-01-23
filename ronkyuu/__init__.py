@@ -13,3 +13,4 @@ from tools import discoverConfig
 from webmention import findMentions, findEndpoint, discoverEndpoint, sendWebmention
 from relme import findRelMe, confirmRelMe
 from events import Events
+from validators import URLValidator
