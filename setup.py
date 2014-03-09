@@ -24,6 +24,5 @@ setup(
     author_email='bear@bear.im',
     url='https://github.com/bear/ronkyuu',
     license=license,
-    packages=find_packages(exclude=('tests', 'docs')),
-    package_data={'': ['requirements.txt', 'LICENSE']}
+    packages=find_packages(exclude=('tests', 'docs'))
 )
