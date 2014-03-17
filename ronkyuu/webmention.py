@@ -16,6 +16,7 @@ from urlparse import urlparse
 from bs4 import BeautifulSoup, SoupStrainer
 
 from validators import URLValidator
+from tools import absoluteURL
 
 
 # User Aaron posts a blog post on his blog
@@ -115,6 +116,8 @@ def discoverEndpoint(url, test_urls=True):
                 href = re.search('<(.+?)>;', link).group(1)
         except (KeyError, AttributeError):
             href = findEndpoint(r.text)
+
+        href = absoluteURL(href)
 
     return (r.status_code, href)
 

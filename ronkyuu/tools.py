@@ -10,6 +10,7 @@ IndieWeb Webmention Tools
 import os
 import sys
 import json
+from urlparse import urlsplit, urlunsplit
 
 import requests
 
@@ -39,6 +40,18 @@ def discoverConfig(cfgFilename=None):
             result = json.load(open(possibleFile, 'r'))
 
     return result
+
+
+def absoluteURL(targetURL, baseURL):
+    baseScheme, baseNetloc, basePath, baseQuery, baseFragment = urlsplit(baseURL)
+    scheme,     netloc,     path,     query,     fragment     = urlsplit(targetURL)
+
+    if len(scheme) == 0:
+        scheme = baseScheme
+    if len(netloc) == 0:
+        netloc = baseNetloc
+
+    return urlunsplit((scheme, netloc, path, query, fragment))
 
 
 def getURLChain(targetURL):
