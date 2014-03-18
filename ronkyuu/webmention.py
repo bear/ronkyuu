@@ -12,11 +12,10 @@ import sys
 
 import requests
 import re
-from urlparse import urlparse
+from urlparse import urlparse, urljoin
 from bs4 import BeautifulSoup, SoupStrainer
 
 from validators import URLValidator
-from tools import absoluteURL
 
 
 # User Aaron posts a blog post on his blog
@@ -117,7 +116,7 @@ def discoverEndpoint(url, test_urls=True):
         except (KeyError, AttributeError):
             href = findEndpoint(r.text)
 
-        href = absoluteURL(href)
+        href = urljoin(url, href)
 
     return (r.status_code, href)
 

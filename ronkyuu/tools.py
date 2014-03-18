@@ -42,18 +42,6 @@ def discoverConfig(cfgFilename=None):
     return result
 
 
-def absoluteURL(targetURL, baseURL):
-    baseScheme, baseNetloc, basePath, baseQuery, baseFragment = urlsplit(baseURL)
-    scheme,     netloc,     path,     query,     fragment     = urlsplit(targetURL)
-
-    if len(scheme) == 0:
-        scheme = baseScheme
-    if len(netloc) == 0:
-        netloc = baseNetloc
-
-    return urlunsplit((scheme, netloc, path, query, fragment))
-
-
 def getURLChain(targetURL):
     ok = False
     chain = []
