@@ -116,7 +116,8 @@ def discoverEndpoint(url, test_urls=True):
         except (KeyError, AttributeError):
             href = findEndpoint(r.text)
 
-        href = urljoin(url, href)
+        if href is not None:
+            href = urljoin(url, href)
 
     return (r.status_code, href)
 
