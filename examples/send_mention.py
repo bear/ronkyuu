@@ -25,9 +25,11 @@ if __name__ == '__main__':
     print('Scanning %s for mentions' % sourceURL)
 
     mentions = ronkyuu.findMentions(sourceURL, domains)
-    for href in mentions:
+    print mentions['refs']
+    for href in mentions['refs']:
         if sourceURL <> href:
-            wmStatus, wmUrl = ronkyuu.discoverEndpoint(href)
+            print href
+            wmStatus, wmUrl = ronkyuu.discoverEndpoint(href, test_urls=False)
             if wmUrl is not None and wmStatus == 200:
                 print('\tfound webmention endpoint %s for %s' % (wmUrl, href))
                 status_code = ronkyuu.sendWebmention(sourceURL, href, wmUrl)
