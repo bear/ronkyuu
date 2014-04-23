@@ -63,7 +63,7 @@ class URLValidator(RegexValidator):
     def __call__(self, value):
         e = ValueError(self.message)
         #check for None, and empty string
-        if value in {None, ''}:
+        if value in (None, ''):
             raise e
         value = str(value)
         # Check first if the scheme is valid
