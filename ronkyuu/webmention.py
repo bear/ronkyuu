@@ -31,6 +31,7 @@ from validators import URLValidator
 # redirects) in the webmention contains a hyperlink to the target (if not,
 # processing stops)
 
+
 def findMentions(sourceURL, exclude_domains=[], content=None, look_in={'name':'body'}, test_urls=True):
     """Find all <a /> elements in the given html for a post. Only scan html element matching all criteria in look_in.
 
@@ -58,9 +59,13 @@ def findMentions(sourceURL, exclude_domains=[], content=None, look_in={'name':'b
     else:
         r = requests.get(sourceURL, verify=False)
         result = {'status':   r.status_code,
-                  'headers':  r.headers,
-                  'content':  r.text
+                  'headers':  r.headers
                   }
+        ## check for character encodings and use 'correct' data
+        if 'charset' in data.headers.get('content-type', ''):
+            result['content'] = r.text
+        else:
+            result['content'] = r.content
 
     result.update({'refs': set(), 'post-url': sourceURL})
 
@@ -68,8 +73,8 @@ def findMentions(sourceURL, exclude_domains=[], content=None, look_in={'name':'b
         all_links = BeautifulSoup(result['content'], parse_only=SoupStrainer(**look_in)).find_all('a')
     
         for link in all_links:
-            href = link['href']
-            if href is not None:
+            href = link.get('href', None)
+            if href:
                 url = urlparse(href)
 
                 if url.scheme in ('http', 'https'):
