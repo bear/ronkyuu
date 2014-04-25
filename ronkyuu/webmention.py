@@ -62,7 +62,7 @@ def findMentions(sourceURL, exclude_domains=[], content=None, look_in={'name':'b
                   'headers':  r.headers
                   }
         ## check for character encodings and use 'correct' data
-        if 'charset' in data.headers.get('content-type', ''):
+        if 'charset' in r.headers.get('content-type', ''):
             result['content'] = r.text
         else:
             result['content'] = r.content
