@@ -117,7 +117,7 @@ def discoverEndpoint(url, test_urls=True):
     if r.status_code == requests.codes.ok:
         try:
             link = parse_link_header(r.headers['link'])
-            href = link.get('webmention','') or link.get('http://webmention.org','') or link.get('https://webmention.org','')
+            href = link.get('webmention', '') or link.get('http://webmention.org', '') or link.get('http://webmention.org/', '') or link.get('https://webmention.org', '') or link.get('https://webmention.org/', '')
 
             # force searching in the HTML if not found
             if not href:
