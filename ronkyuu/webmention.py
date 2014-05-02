@@ -16,6 +16,7 @@ from urlparse import urlparse, urljoin
 from bs4 import BeautifulSoup, SoupStrainer
 
 from validators import URLValidator
+from .tools import parse_link_header
 
 
 # User Aaron posts a blog post on his blog
@@ -115,9 +116,12 @@ def discoverEndpoint(url, test_urls=True):
     r    = requests.get(url,verify=False)
     if r.status_code == requests.codes.ok:
         try:
-            link = r.headers['link']
-            if  'rel="webmention"' in link:
-                href = re.search('<(.+?)>;', link).group(1)
+            link = parse_link_header(r.headers['link'])
+            href = link.get('webmention','') or link.get('http://webmention.org','') or link.get('https://webmention.org','')
+
+            # force searching in the HTML if not found
+            if not href:
+                raise AttributeError
         except (KeyError, AttributeError):
             href = findEndpoint(r.text)
 
