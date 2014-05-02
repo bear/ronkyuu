@@ -161,6 +161,9 @@ def sendWebmention(sourceURL, targetURL, webmention=None, test_urls=True):
 
         payload = {'source': sourceURL,
                    'target': targetURL}
-        result  = requests.post(wUrl, data=payload)
-
+        print 'sending to', wUrl, payload
+        try:
+            result = requests.post(wUrl, data=payload)
+        except:
+            result = None
     return result
