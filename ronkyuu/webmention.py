@@ -91,14 +91,16 @@ def findEndpoint(html):
     :param html: html content
     :rtype: WebMention URL
     """
-    result = None
-    all_links = BeautifulSoup(html).find_all('link')
+
+    poss_rels = ['webmention', 'http://webmention.org', 'http://webmention.org/', 'https://webmention.org', 'https://webmention.org/']
+
+    # find elements with correct rels and a href value
+    all_links = BeautifulSoup(html).find_all(rel=poss_rels, href=True)
     for link in all_links:
-        rel = link.get('rel')
-        if rel is not None and ('webmention' in rel or 'http://webmention.org/' in rel):
-            result = link.get('href')
-            break
-    return result
+        if link.get('href', ''):
+            return link.get('href', '')
+
+    return None
 
 
 def discoverEndpoint(url, test_urls=True):
