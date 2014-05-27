@@ -79,7 +79,7 @@ def findMentions(sourceURL, exclude_domains=[], content=None, look_in={'name':'b
                 url = urlparse(href)
 
                 if url.scheme in ('http', 'https'):
-                    if len(url.hostname) > 0 and url.hostname not in exclude_domains:
+                    if url.hostname and url.hostname not in exclude_domains:
                         result['refs'].add(href)
     return result
 
