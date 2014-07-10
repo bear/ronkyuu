@@ -13,4 +13,4 @@ from tools import discoverConfig
 from webmention import findMentions, findEndpoint, discoverEndpoint, sendWebmention
 from relme import findRelMe, confirmRelMe
 from validators import URLValidator
-from indieauth import discoverAuthEndpoint
+from indieauth import discoverAuthEndpoint, validateAuthToken

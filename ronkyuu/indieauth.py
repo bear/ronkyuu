@@ -12,7 +12,7 @@ import sys
 
 import requests
 import re
-from urlparse import urlparse, urljoin
+from urlparse import urlparse, urljoin, parse_qs
 from bs4 import BeautifulSoup, SoupStrainer
 
 from validators import URLValidator
@@ -30,7 +30,7 @@ from .tools import parse_link_header
 #   <link rel="token_endpoint" href="https://tokens.oauth.net/token">
 #   <link rel="micropub" href="https://aaronparecki.com/api/post">
 
-def discoverAuthEndpoint(authDomain, content=None, look_in={'name':'header'}, test_urls=True, validateCerts=False):
+def discoverAuthEndpoint(authDomain, content=None, look_in={'name':'header'}, test_urls=True, validateCerts=True):
     """Find the authorization endpoint for the given authDomain.
     Only scan html element matching all criteria in look_in.
 
@@ -87,4 +87,31 @@ def discoverAuthEndpoint(authDomain, content=None, look_in={'name':'header'}, te
 
                     if url.scheme in ('http', 'https'):
                         result['refs'].add(url)
+    return result
+
+
+# validAuthToken(code=request.args.get('code'), scope=requests.args.get('scope'), me=requests.args.get('m
+def validateAuthToken(code, redirect_uri, client_id, validationEndpoint='https://indieauth.com/auth'):
+    """Call token validation endpoint to validate given auth token.
+       
+    :param code: the auth token to validate
+    :param scope: scope of given token
+    :param me: domain URL for the caller
+    :param tokenEndpoint: URL to make token validation request at
+    :rtype: True if token is valid
+    """
+    r = requests.post(validationEndpoint, verify=True, params={'code':         code,
+                                                               'redirect_uri': redirect_uri,
+                                                               'client_id':    client_id
+                                                               })
+    result = {'status':   r.status_code,
+              'headers':  r.headers
+              }
+    if 'charset' in r.headers.get('content-type', ''):
+        result['content'] = r.text
+    else:
+        result['content'] = r.content
+    if r.status_code == requests.codes.ok:
+        result['response'] = parse_qs(result['content'])
+
     return result
