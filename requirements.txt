@@ -3,3 +3,4 @@ beautifulsoup4==4.3.2
 pyOpenSSL==0.13.1
 pyasn1==0.1.7
 ndg-httpsclient==0.3.2
+mf2py==0.1.1
