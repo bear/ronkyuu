@@ -21,8 +21,8 @@ Working
 * support for RelMe verification
 
 Pending
-* Flask app to allow test sending of webmentions
-* ...
+* IndieAuth tools
+* MicroPub support
 
 See the examples/ directory for sample command line tools.
 
