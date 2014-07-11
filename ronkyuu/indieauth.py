@@ -90,15 +90,14 @@ def discoverAuthEndpoints(authDomain, content=None, look_in={'name':'header'}, t
                         result[rel].add(url)
     return result
 
-# validAuthToken(code=request.args.get('code'), scope=requests.args.get('scope'), me=requests.args.get('m
-def validateAuthToken(code, redirect_uri, client_id, validationEndpoint='https://indieauth.com/auth'):
-    """Call token validation endpoint to validate given auth token.
+def validateAuthCode(code, redirect_uri, client_id, validationEndpoint='https://indieauth.com/auth'):
+    """Call authorization endpoint to validate given auth code.
        
-    :param code: the auth token to validate
-    :param scope: scope of given token
-    :param me: domain URL for the caller
-    :param tokenEndpoint: URL to make token validation request at
-    :rtype: True if token is valid
+    :param code: the auth code to validate
+    :param redirect_uri: redirect_uri for the given auth code
+    :param client_id: client_id for the given auth code
+    :param tokenEndpoint: URL to make the validation request at
+    :rtype: True if auth code is valid
     """
     r = requests.post(validationEndpoint, verify=True, params={'code':         code,
                                                                'redirect_uri': redirect_uri,
