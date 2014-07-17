@@ -2,7 +2,6 @@
 # -*- coding: utf-8 -*-
 
 from setuptools import setup, find_packages
-from ronkyuu import __version__
 
 # use requirements.txt for dependencies
 with open('requirements.txt') as f:
@@ -16,11 +15,11 @@ with open('LICENSE') as f:
 
 setup(
     name='ronkyuu',
-    version=__version__,
+    version='0.2.7',
     description='Webmention Manager',
     long_description=readme,
     install_requires=required,
-    author='Mike Taylor',
+    author='Mike Taylor and Kartik Prabhu',
     author_email='bear@bear.im',
     url='https://github.com/bear/ronkyuu',
     license=license,
