@@ -1,6 +1,5 @@
 ronkyuu
 =======
-
 論及 ronkyuu - mention, reference to, touching upon
 
 Python package to help with parsing, handling and other manipulations
@@ -74,5 +73,9 @@ TODO: fill in details of how to use
 Requires
 ========
 Python v2.6+ but see requirements.txt for a full list
+
+Installing the latest version of Requests and it's OAuth plugin now requires pyOpenSSL which
+will require compiling of source libs. You may need to have installed the -dev package for the
+version of Python you are working with.
 
 For testing I use [httmock](https://pypi.python.org/pypi/httmock/) to stub the web calls
