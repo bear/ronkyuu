@@ -1,15 +1,16 @@
 ronkyuu
 =======
-
 論及 ronkyuu - mention, reference to, touching upon
 
 Python package to help with parsing, handling and other manipulations
 of the IndieWeb Toolkit items, such as:
 * [Webmention](http://indiewebcamp.com/webmention)
- * Discovery of mentions in a publisher's post, the handling of finding what the Webmention callback is for the reference and also handling of incoming Webmention requests are handled.
+ * Discovery of mentions in a publisher's post, the handling of finding what
+   the Webmention callback is for the reference and also handling of incoming
+   Webmention requests are handled.
 * [RelMe](http://microformats.org/wiki/rel-me)
- * Take a source URL and a resource URL that is supposed to be a rel=me for the source and verify that it is.
-
+ * Take a source URL and a resource URL that is supposed to be a rel=me for
+   the source and verify that it is.
 
 Roadmap
 =======
@@ -19,10 +20,10 @@ Working
 * POST of Webmention to discovered callback
 * Receipt of a Webmention POST
 * support for RelMe verification
+* IndieAuth tools
 
 Pending
-* Flask app to allow test sending of webmentions
-* ...
+* MicroPub support
 
 See the examples/ directory for sample command line tools.
 
@@ -31,39 +32,51 @@ Contributors
 * bear (Mike Taylor)
 * kartikprabhu (Kartik Prabhu)
 
-
 WebMentions
 ===========
-findMentions(sourceURL, domains=[])
------------------------------------
+findMentions()
+--------------
 Find all <a /> elements in the html returned for a post.
-If any have an href attribute that is not from the one of the items in domains, append it to our lists.
+If any have an href attribute that is not from the one of the items in
+domains, append it to our lists.
 
-findEndpoint(html)
+findEndpoint()
+--------------
+Search the given html content for all <link /> elements and return any
+discovered WebMention URL.
+
+discoverEndpoint()
 ------------------
-Search the given html content for all <link /> elements and return any discovered WebMention URL.
-
-discoverEndpoint(url)
----------------------
 Discover any WebMention endpoint for a given URL.
 
 sendWebmention(sourceURL, targetURL, webmention=None)
 -----------------------------------------------------
 Send to the targetURL a WebMention for the sourceURL.
-The WebMention will be discovered if not given in the optional webmention parameter.
+The WebMention will be discovered if not given in the optional
+webmention parameter.
 
 RelMe
 =====
-findRelMe(sourceURL)
---------------------
+findRelMe()
+-----------
 Find all <a /> elements in the given html for a post.
 If any have an href attribute that is rel="me" then include it in the result.
 
-confirmRelMe(profileURL, resourceURL, profileRelMes=None, resourceRelMes=None)
-------------------------------------------------------------------------------
+confirmRelMe()
+--------------
 Determine if a given resourceURL is authoritative for the profileURL.
 The list of rel="me" links will be discovered if not provided in the optional
 profileRelMes parameter or the resourceRelMes paramter.
+
+IndieAuth
+=========
+discoverAuthEndpoints()
+-----------------------
+Find the authorization or redirect_uri endpoints for the given authDomain.
+
+validateAuthCode()
+------------------
+Call authorization endpoint to validate given auth code.
 
 Validators
 ==========
@@ -75,4 +88,9 @@ Requires
 ========
 Python v2.6+ but see requirements.txt for a full list
 
-For testing I use [httmock](https://pypi.python.org/pypi/httmock/) to stub the web calls
+Installing the latest version of Requests and it's OAuth plugin now requires
+pyOpenSSL which will require compiling of source libs. You may need to have
+installed the -dev package for the version of Python you are working with.
+
+For testing we use [httmock](https://pypi.python.org/pypi/httmock/) to mock
+the web calls.
