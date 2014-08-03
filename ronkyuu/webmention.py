@@ -13,7 +13,7 @@ import sys
 import requests
 import re
 from urlparse import urlparse, urljoin
-from bs4 import BeautifulSoup, SoupStrainer
+from bs4 import BeautifulSoup
 
 from validators import URLValidator
 from .tools import parse_link_header
@@ -33,7 +33,7 @@ from .tools import parse_link_header
 # processing stops)
 
 
-def findMentions(sourceURL, exclude_domains=[], content=None, look_in={'name':'body'}, test_urls=True):
+def findMentions(sourceURL, targetURL=None, exclude_domains=[], content=None, test_urls=True):
     """Find all <a /> elements in the given html for a post. Only scan html element matching all criteria in look_in.
 
     optionally the content to be scanned can be given as an argument.
@@ -49,13 +49,15 @@ def findMentions(sourceURL, exclude_domains=[], content=None, look_in={'name':'b
     :type exclude_domains: list
     :rtype: dictionary of Mentions
     """
+
+    __doc__ = None
+
     if test_urls:
         URLValidator(message='invalid source URL')(sourceURL)
 
     if content:
         result = {'status':   requests.codes.ok,
                   'headers':  None,
-                  'content':  content
                   }
     else:
         r = requests.get(sourceURL, verify=False)
@@ -64,14 +66,31 @@ def findMentions(sourceURL, exclude_domains=[], content=None, look_in={'name':'b
                   }
         ## check for character encodings and use 'correct' data
         if 'charset' in r.headers.get('content-type', ''):
-            result['content'] = r.text
+            content = r.text
         else:
-            result['content'] = r.content
+            content = r.content
 
     result.update({'refs': set(), 'post-url': sourceURL})
 
     if result['status'] == requests.codes.ok:
-        all_links = BeautifulSoup(result['content'], parse_only=SoupStrainer(**look_in)).find_all('a')
+        ## allow passing BS doc as content
+        if isinstance(content, BeautifulSoup):
+            __doc__ = content
+            result.update({'content': unicode(__doc__)})
+        else:
+            __doc__ = BeautifulSoup(content)
+            result.update({'content': content})
+
+        # try to find first h-entry else use full document
+        entry = __doc__.find(class_="h-entry") or __doc__
+
+        ## allow finding particular URL
+        if targetURL:
+            #find only targetURL
+            all_links = entry.find_all('a', href=targetURL)
+        else:
+            #find all links with a href
+            all_links = entry.find_all('a', href=True)
     
         for link in all_links:
             href = link.get('href', None)
