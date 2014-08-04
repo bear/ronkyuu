@@ -1,6 +1,6 @@
 #/usr/bin/env python
 
-VERSION = (0, 2, 8, '')
+VERSION = (0, 2, 9, '')
 
 __author__    = 'Mike Taylor'
 __contact__   = 'bear@bear.im'
@@ -13,4 +13,3 @@ from tools import discoverConfig
 from webmention import findMentions, findEndpoint, discoverEndpoint, sendWebmention
 from relme import findRelMe, confirmRelMe
 from validators import URLValidator
-from indieauth import discoverAuthEndpoints, validateAuthCode
