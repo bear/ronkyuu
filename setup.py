@@ -15,7 +15,7 @@ with open('LICENSE') as f:
 
 setup(
     name='ronkyuu',
-    version='0.2.9',
+    version='0.2.10',
     description='Webmention Manager',
     long_description=readme,
     install_requires=required,

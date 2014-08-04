@@ -1,6 +1,6 @@
 #/usr/bin/env python
 
-VERSION = (0, 2, 9, '')
+VERSION = (0, 2, 10, '')
 
 __author__    = 'Mike Taylor'
 __contact__   = 'bear@bear.im'
