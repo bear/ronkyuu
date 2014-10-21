@@ -60,7 +60,7 @@ def findMentions(sourceURL, targetURL=None, exclude_domains=[], content=None, te
                   'headers':  None,
                   }
     else:
-        r = requests.get(sourceURL, verify=False)
+        r = requests.get(sourceURL, verify=True)
         result = {'status':   r.status_code,
                   'headers':  r.headers
                   }

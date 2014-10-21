@@ -25,7 +25,9 @@ if __name__ == '__main__':
     print('Scanning %s for mentions' % sourceURL)
 
     mentions = ronkyuu.findMentions(sourceURL, domains)
-    print mentions['refs']
+
+    print(mentions['refs'])
+
     for href in mentions['refs']:
         if sourceURL <> href:
             print href
