@@ -152,7 +152,7 @@ def discoverEndpoint(url, test_urls=True):
     return (r.status_code, href)
 
 
-def sendWebmention(sourceURL, targetURL, webmention=None, test_urls=True):
+def sendWebmention(sourceURL, targetURL, webmention=None, test_urls=True, vouchDomain=None):
     """Send to the :targetURL: a WebMention for the :sourceURL:
 
     The WebMention will be discovered if not given in the :webmention:
@@ -182,6 +182,9 @@ def sendWebmention(sourceURL, targetURL, webmention=None, test_urls=True):
 
         payload = {'source': sourceURL,
                    'target': targetURL}
+        if vouchDomain is not None:
+            payload['vouch'] = vouchDomain
+
         print 'sending to', wUrl, payload
         try:
             result = requests.post(wUrl, data=payload)
