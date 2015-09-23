@@ -1,27 +1,55 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
+import os
+import re
+import codecs
+
 from setuptools import setup, find_packages
 
-# use requirements.txt for dependencies
-with open('requirements.txt') as f:
-    required = map(lambda s: s.strip(), f.readlines())
+cwd = os.path.abspath(os.path.dirname(__file__))
 
-with open('README.md') as f:
-    readme = f.read()
+def read(filename):
+    with codecs.open(os.path.join(cwd, filename), 'rb', 'utf-8') as h:
+        return h.read()
 
-with open('LICENSE') as f:
-    license = f.read()
+metadata = read(os.path.join(cwd, 'ronkyuu', '__init__.py'))
 
-setup(
-    name='ronkyuu',
-    version='0.2.11',
-    description='Webmention Manager',
-    long_description=readme,
-    install_requires=required,
-    author='Mike Taylor and Kartik Prabhu',
-    author_email='bear@bear.im',
-    url='https://github.com/bear/ronkyuu',
-    license=license,
-    packages=find_packages(exclude=('tests', 'docs'))
-)
+def extract_metaitem(meta):
+    # swiped from https://hynek.me 's attr package
+    meta_match = re.search(r"""^__{meta}__\s+=\s+['\"]([^'\"]*)['\"]""".format(meta=meta), 
+                           metadata, re.MULTILINE)
+    if meta_match:
+        return meta_match.group(1)
+    raise RuntimeError('Unable to find __{meta}__ string.'.format(meta=meta))
+
+if __name__ == '__main__':
+    setup(
+        name='ronkyuu',
+        version=extract_metaitem('version'),
+        description=extract_metaitem('description'),
+        long_description=read('README.md'),
+        author=extract_metaitem('author'),
+        author_email=extract_metaitem('email'),
+        maintainer=extract_metaitem('author'),
+        maintainer_email=extract_metaitem('email'),
+        url=extract_metaitem('url'),
+        download_url=extract_metaitem('download_url'),
+        license=extract_metaitem('license'),
+        packages=find_packages(exclude=('tests', 'docs')),
+        platforms=['Any'],
+        classifiers=[
+          'Development Status :: 4 - Beta',
+          'Intended Audience :: Developers',
+          'Operating System :: OS Independent',
+          'License :: OSI Approved :: MIT License',
+          'Programming Language :: Python',
+          'Programming Language :: Python :: 2',
+          'Programming Language :: Python :: 2.7',
+          'Programming Language :: Python :: 3',
+          'Programming Language :: Python :: 3.3',
+          'Programming Language :: Python :: 3.4',
+          'Programming Language :: Python :: 3.5',
+          'Topic :: Software Development :: Libraries :: Python Modules',
+        ]
+    )
