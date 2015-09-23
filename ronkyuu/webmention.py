@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 """
-:copyright: (c) 2013-2014 by Mike Taylor and Kartik Prabhu
+:copyright: (c) 2013-2015 by Mike Taylor and Kartik Prabhu
 :license: MIT, see LICENSE for more details.
 
 IndieWeb Webmention Tools
@@ -78,7 +78,7 @@ def findMentions(sourceURL, targetURL=None, exclude_domains=[], content=None, te
             __doc__ = content
             result.update({'content': unicode(__doc__)})
         else:
-            __doc__ = BeautifulSoup(content)
+            __doc__ = BeautifulSoup(content, 'html.parser')
             result.update({'content': content})
 
         # try to find first h-entry else use full document
@@ -91,7 +91,6 @@ def findMentions(sourceURL, targetURL=None, exclude_domains=[], content=None, te
         else:
             #find all links with a href
             all_links = entry.find_all('a', href=True)
-    
         for link in all_links:
             href = link.get('href', None)
             if href:
@@ -114,7 +113,7 @@ def findEndpoint(html):
     poss_rels = ['webmention', 'http://webmention.org', 'http://webmention.org/', 'https://webmention.org', 'https://webmention.org/']
 
     # find elements with correct rels and a href value
-    all_links = BeautifulSoup(html).find_all(rel=poss_rels, href=True)
+    all_links = BeautifulSoup(html, 'html.parser').find_all(rel=poss_rels, href=True)
     for link in all_links:
         if link.get('href', ''):
             return link.get('href', '')
