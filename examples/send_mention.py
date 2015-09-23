@@ -38,7 +38,7 @@ if __name__ == '__main__':
             wmStatus, wmUrl = ronkyuu.discoverEndpoint(href, test_urls=False)
             if wmUrl is not None and wmStatus == 200:
                 print('\tfound webmention endpoint %s for %s' % (wmUrl, href))
-                status_code = ronkyuu.sendWebmention(sourceURL, href, wmUrl, vouchDomain)
+                status_code = ronkyuu.sendWebmention(sourceURL, href, wmUrl, vouchDomain=vouchDomain)
 
                 if status_code == requests.codes.ok:
                     print('\twebmention sent successfully')
