@@ -1,4 +1,8 @@
-#/usr/bin/env python
+# -*- coding: utf-8 -*-
+"""
+:copyright: (c) 2013-2015 by Mike Taylor and Kartik Prabhu
+:license: MIT, see LICENSE for more details.
+"""
 
 __author__       = 'Mike Taylor and Kartik Prabhu'
 __email__        = 'bear@bear.im'
