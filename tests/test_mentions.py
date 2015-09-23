@@ -23,11 +23,10 @@ class TestParsing(unittest.TestCase):
     # test the core mention and replies link finding
     def runTest(self):
         with HTTMock(bear_im_mock):
-            mentions = findMentions(post_url, ['bear.im'])
-
+            mentions = findMentions(post_url, exclude_domains=['bear.im'])
             assert len(mentions['refs']) > 0
-            assert 'http://indiewebify.me/' in mentions['refs'].keys()
-            assert tantek_url in mentions['refs'].keys()
+            assert 'http://indiewebify.me/' in mentions['refs']
+            assert tantek_url in mentions['refs']
 
 class TestEndpoint(unittest.TestCase):
     # run the html parsing for a discoverWebmentions result using a stored
