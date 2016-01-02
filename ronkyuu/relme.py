@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-:copyright: (c) 2013-2015 by Mike Taylor and Kartik Prabhu
+:copyright: (c) 2013-2016 by Mike Taylor and Kartik Prabhu
 :license: MIT, see LICENSE for more details.
 
 IndieWeb Rel=Me Tools
@@ -58,7 +58,7 @@ from bs4 import BeautifulSoup
 
 def findRelMe(sourceURL):
     """Find all <a /> elements in the given html for a post.
-       
+
     If any have an href attribute that is rel="me" then include
     it in the result.
 

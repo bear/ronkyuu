@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-:copyright: (c) 2013-2015 by Mike Taylor and Kartik Prabhu
+:copyright: (c) 2013-2016 by Mike Taylor and Kartik Prabhu
 :license: MIT, see LICENSE for more details.
 
 IndieWeb Webmention Tools
@@ -36,7 +36,7 @@ def findMentions(sourceURL, targetURL=None, exclude_domains=[], content=None, te
     """Find all <a /> elements in the given html for a post. Only scan html element matching all criteria in look_in.
 
     optionally the content to be scanned can be given as an argument.
-       
+
     If any have an href attribute that is not from the
     one of the items in exclude_domains, append it to our lists.
 
@@ -148,8 +148,8 @@ def discoverEndpoint(url, test_urls=True):
 
             if href is not None:
                 href = urljoin(url, href)
-    except (requests.exceptions.RequestException, requests.exceptions.ConnectionError, 
-            requests.exceptions.HTTPError, requests.exceptions.URLRequired, 
+    except (requests.exceptions.RequestException, requests.exceptions.ConnectionError,
+            requests.exceptions.HTTPError, requests.exceptions.URLRequired,
             requests.exceptions.TooManyRedirects, requests.exceptions.Timeout):
         rc = 500
     return (rc, href)
