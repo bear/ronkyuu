@@ -132,22 +132,27 @@ def discoverEndpoint(url, test_urls=True):
 
     # status, webmention
     href = None
-    r    = requests.get(url,verify=False)
-    if r.status_code == requests.codes.ok:
-        try:
-            link = parse_link_header(r.headers['link'])
-            href = link.get('webmention', '') or link.get('http://webmention.org', '') or link.get('http://webmention.org/', '') or link.get('https://webmention.org', '') or link.get('https://webmention.org/', '')
+    try:
+        r  = requests.get(url, verify=False)
+        rc = r.status_code
+        if rc == requests.codes.ok:
+            try:
+                link = parse_link_header(r.headers['link'])
+                href = link.get('webmention', '') or link.get('http://webmention.org', '') or link.get('http://webmention.org/', '') or link.get('https://webmention.org', '') or link.get('https://webmention.org/', '')
 
-            # force searching in the HTML if not found
-            if not href:
-                raise AttributeError
-        except (KeyError, AttributeError):
-            href = findEndpoint(r.text)
+                # force searching in the HTML if not found
+                if not href:
+                    raise AttributeError
+            except (KeyError, AttributeError):
+                href = findEndpoint(r.text)
 
-        if href is not None:
-            href = urljoin(url, href)
-
-    return (r.status_code, href)
+            if href is not None:
+                href = urljoin(url, href)
+    except (requests.exceptions.RequestException, requests.exceptions.ConnectionError, 
+            requests.exceptions.HTTPError, requests.exceptions.URLRequired, 
+            requests.exceptions.TooManyRedirects, requests.exceptions.Timeout):
+        rc = 500
+    return (rc, href)
 
 
 def sendWebmention(sourceURL, targetURL, webmention=None, test_urls=True, vouchDomain=None):

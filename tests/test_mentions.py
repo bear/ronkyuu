@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 
+import os
 import unittest
 from httmock import urlmatch, HTTMock
 
@@ -11,9 +12,21 @@ tantek_url  = "http://tantek.com/2013/322/b1/homebrew-computer-club-reunion-insp
 post_html   = ''.join(open('./tests/data/mentions_post.html').readlines())
 tantek_html = ''.join(open('./tests/data/mentions_tantek.html').readlines())
 
-event_config = { "handler_path": "./tests/test_event_handlers",
-                    
-               }
+path_testdata = './tests/data/'
+
+html = {}
+for n in range(0, 4):
+    f       = 'mentions_link_in_head_%02d.html' % n
+    html[f] = []
+    with open(os.path.join(path_testdata, f), 'r') as h:
+        html[f].append(h.read())
+
+with open(os.path.join(path_testdata, 'mentions_empty.html'), 'r') as h:
+    empty_html = h.read()
+
+@urlmatch(netloc=r'(.*\.)?ronkyuu\.io$')
+def link_mock(url, request):
+    return post_html
 
 @urlmatch(netloc=r'(.*\.)?bear\.im$')
 def bear_im_mock(url, request):
