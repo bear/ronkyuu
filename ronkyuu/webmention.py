@@ -6,11 +6,7 @@
 IndieWeb Webmention Tools
 """
 
-import os
-import sys
-
 import requests
-import re
 from urlparse import urlparse, urljoin
 from bs4 import BeautifulSoup
 
@@ -63,7 +59,7 @@ def findMentions(sourceURL, targetURL=None, exclude_domains=[], content=None, te
         result = {'status':   r.status_code,
                   'headers':  r.headers
                   }
-        ## check for character encodings and use 'correct' data
+        # Check for character encodings and use 'correct' data
         if 'charset' in r.headers.get('content-type', ''):
             content = r.text
         else:
@@ -72,7 +68,7 @@ def findMentions(sourceURL, targetURL=None, exclude_domains=[], content=None, te
     result.update({'refs': set(), 'post-url': sourceURL})
 
     if result['status'] == requests.codes.ok:
-        ## allow passing BS doc as content
+        # Allow passing BS doc as content
         if isinstance(content, BeautifulSoup):
             __doc__ = content
             result.update({'content': unicode(__doc__)})
@@ -83,12 +79,12 @@ def findMentions(sourceURL, targetURL=None, exclude_domains=[], content=None, te
         # try to find first h-entry else use full document
         entry = __doc__.find(class_="h-entry") or __doc__
 
-        ## allow finding particular URL
+        # Allow finding particular URL
         if targetURL:
-            #find only targetURL
+            # find only targetURL
             all_links = entry.find_all('a', href=targetURL)
         else:
-            #find all links with a href
+            # find all links with a href
             all_links = entry.find_all('a', href=True)
         for link in all_links:
             href = link.get('href', None)

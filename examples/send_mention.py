@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 """
-:copyright: (c) 2013 by Mike Taylor
+:copyright: (c) 2013-2016 by Mike Taylor
 :license: MIT, see LICENSE for more details.
 
 IndieWeb Webmention Tools
@@ -20,7 +20,7 @@ if __name__ == '__main__':
     args = parser.parse_args()
     cfg  = ronkyuu.discoverConfig(args.eventConfigFile)
 
-    domains     = [] #cfg.get('domains', [])
+    domains     = []  # cfg.get('domains', [])
     sourceURL   = args.sourceURL
     vouchDomain = args.vouch
 
@@ -33,7 +33,7 @@ if __name__ == '__main__':
     print(mentions['refs'])
 
     for href in mentions['refs']:
-        if sourceURL <> href:
+        if sourceURL != href:
             print href
             wmStatus, wmUrl = ronkyuu.discoverEndpoint(href, test_urls=False)
             if wmUrl is not None and wmStatus == 200:

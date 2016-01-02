@@ -7,10 +7,8 @@ IndieWeb Webmention Tools
 """
 
 import os
-import sys
 import json
 import re
-from urlparse import urlsplit, urlunsplit
 
 import requests
 
@@ -83,4 +81,3 @@ def parse_link_header(link):
             pass
 
     return rel_dict
-

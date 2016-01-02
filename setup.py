@@ -17,7 +17,7 @@ metadata = read(os.path.join(cwd, 'ronkyuu', '__init__.py'))
 
 def extract_metaitem(meta):
     # swiped from https://hynek.me 's attr package
-    meta_match = re.search(r"""^__{meta}__\s+=\s+['\"]([^'\"]*)['\"]""".format(meta=meta), 
+    meta_match = re.search(r"""^__{meta}__\s+=\s+['\"]([^'\"]*)['\"]""".format(meta=meta),
                            metadata, re.MULTILINE)
     if meta_match:
         return meta_match.group(1)
@@ -39,17 +39,17 @@ if __name__ == '__main__':
         packages=find_packages(exclude=('tests', 'docs')),
         platforms=['Any'],
         classifiers=[
-          'Development Status :: 4 - Beta',
-          'Intended Audience :: Developers',
-          'Operating System :: OS Independent',
-          'License :: OSI Approved :: MIT License',
-          'Programming Language :: Python',
-          'Programming Language :: Python :: 2',
-          'Programming Language :: Python :: 2.7',
-          'Programming Language :: Python :: 3',
-          'Programming Language :: Python :: 3.3',
-          'Programming Language :: Python :: 3.4',
-          'Programming Language :: Python :: 3.5',
-          'Topic :: Software Development :: Libraries :: Python Modules',
+            'Development Status :: 4 - Beta',
+            'Intended Audience :: Developers',
+            'Operating System :: OS Independent',
+            'License :: OSI Approved :: MIT License',
+            'Programming Language :: Python',
+            'Programming Language :: Python :: 2',
+            'Programming Language :: Python :: 2.7',
+            'Programming Language :: Python :: 3',
+            'Programming Language :: Python :: 3.3',
+            'Programming Language :: Python :: 3.4',
+            'Programming Language :: Python :: 3.5',
+            'Topic :: Software Development :: Libraries :: Python Modules',
         ]
     )

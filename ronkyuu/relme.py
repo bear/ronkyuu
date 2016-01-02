@@ -6,10 +6,7 @@
 IndieWeb Rel=Me Tools
 """
 
-import os
-import sys
-
-from tools import getURLChain, normalizeURL
+from tools import normalizeURL
 
 import requests
 from urlparse import urlparse

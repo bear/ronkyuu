@@ -16,7 +16,7 @@ dev: init
 	pip install --upgrade -e .
 
 lint:
-	flake8 twitter > violations.flake8.txt
+	flake8 . > violations.flake8.txt
 
 test:
 	nosetests --verbosity=2 tests
