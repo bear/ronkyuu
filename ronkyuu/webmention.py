@@ -13,6 +13,8 @@ from bs4 import BeautifulSoup
 from validators import URLValidator
 from .tools import parse_link_header
 
+_html_parser = 'html5lib'   # 'html.parser', 'lxml', 'lxml-xml'
+
 
 # User Aaron posts a blog post on his blog
 # User Barnaby writes post on his blog that links to Aaron's post.
@@ -73,7 +75,7 @@ def findMentions(sourceURL, targetURL=None, exclude_domains=[], content=None, te
             __doc__ = content
             result.update({'content': unicode(__doc__)})
         else:
-            __doc__ = BeautifulSoup(content, 'html.parser')
+            __doc__ = BeautifulSoup(content, _html_parser)
             result.update({'content': content})
 
         # try to find first h-entry else use full document
@@ -108,7 +110,7 @@ def findEndpoint(html):
     poss_rels = ['webmention', 'http://webmention.org', 'http://webmention.org/', 'https://webmention.org', 'https://webmention.org/']
 
     # find elements with correct rels and a href value
-    all_links = BeautifulSoup(html, 'html.parser').find_all(rel=poss_rels, href=True)
+    all_links = BeautifulSoup(html, _html_parser).find_all(rel=poss_rels, href=True)
     for link in all_links:
         if link.get('href', ''):
             return link.get('href', '')
