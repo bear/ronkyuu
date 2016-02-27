@@ -1,0 +1,7 @@
+check-manifest>=0.30
+flake8>=2.5.1
+httmock>=1.2.3
+nose>=1.3.7
+pep8>=1.5.7
+pyflakes>=1.0.0
+wheel>=0.24.0

@@ -5,15 +5,11 @@ ifndef VIRTUAL_ENV
 endif
 
 init:
-	pip install wheel
-	pip install nose
-	pip install httmock
-	pip install flake8
-	pip install check-manifest
 	pip install -r requirements.txt
+	pip install -r requirements-test.txt
 
-dev: init
-	pip install --upgrade -e .
+update:
+	pip install -r requirements.txt
 
 lint:
 	flake8 . > violations.flake8.txt
@@ -27,6 +23,7 @@ upload: check
 
 clean:
 	python setup.py clean
+	rm -f violations.flake8.txt
 
 distclean: clean dist
 
