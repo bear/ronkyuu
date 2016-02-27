@@ -6,11 +6,14 @@
 IndieWeb Rel=Me Tools
 """
 
-from tools import normalizeURL
+from tools import normalizeURL, cleanURL
 
 import requests
 from urlparse import urlparse
 from bs4 import BeautifulSoup
+
+
+_html_parser = 'html5lib'   # 'html.parser', 'lxml', 'lxml-xml'
 
 
 # see http://microformats.org/wiki/rel-me for the spec
@@ -71,15 +74,14 @@ def findRelMe(sourceURL):
               'url':     sourceURL
               }
     if r.status_code == requests.codes.ok:
-        dom = BeautifulSoup(r.text, 'html.parser')
-
+        dom = BeautifulSoup(r.text, _html_parser)
         for link in dom.find_all('a', rel='me'):
             rel  = link.get('rel')
             href = link.get('href')
             if rel is not None and href is not None:
                 url = urlparse(href)
                 if url is not None and url.scheme in ('http', 'https'):
-                    result['relme'].append(href)
+                    result['relme'].append(cleanURL(href))
     return result
 
 

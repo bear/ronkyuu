@@ -38,6 +38,13 @@ if __name__ == '__main__':
         license=extract_metaitem('license'),
         packages=find_packages(exclude=('tests', 'docs')),
         platforms=['Any'],
+        install_requires=[
+            'requests',
+            'beautifulsoup',
+            'mf2py',
+            'html5lib',
+            'lxml',
+        ],
         classifiers=[
             'Development Status :: 4 - Beta',
             'Intended Audience :: Developers',

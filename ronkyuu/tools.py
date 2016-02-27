@@ -9,6 +9,7 @@ IndieWeb Webmention Tools
 import os
 import json
 import re
+from urlparse import urlsplit, urlunsplit
 
 import requests
 
@@ -53,6 +54,11 @@ def getURLChain(targetURL):
         ok = False
     return (ok, chain)
 
+def cleanURL(targetURL):
+    scheme, netloc, path, query, fragment = urlsplit(targetURL)
+    if len(path) == 0:
+        path = '/'
+    return urlunsplit((scheme, netloc, path, query, fragment))
 
 def normalizeURL(targetURL):
     result = None
