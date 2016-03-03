@@ -189,6 +189,11 @@ def sendWebmention(sourceURL, targetURL, webmention=None, test_urls=True, vouchD
         print 'sending to', wUrl, payload
         try:
             result = requests.post(wUrl, data=payload)
+
+            if result.status_code == 405 and len(result.history) > 0:
+                o = result.history[-1]
+                if o.status_code == 301 and 'Location' in o.headers:
+                    result = requests.post(o.headers['Location'], data=payload)
         except:
             result = None
     return result
