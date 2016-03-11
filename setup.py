@@ -40,7 +40,7 @@ if __name__ == '__main__':
         platforms=['Any'],
         install_requires=[
             'requests',
-            'beautifulsoup',
+            'beautifulsoup4',
             'mf2py',
             'html5lib',
             'lxml',
