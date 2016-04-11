@@ -118,21 +118,25 @@ def findEndpoint(html):
     return None
 
 
-def discoverEndpoint(url, test_urls=True):
+def discoverEndpoint(url, test_urls=True, debug=False):
     """Discover any WebMention endpoint for a given URL.
 
     :param link: URL to discover WebMention endpoint
     :param test_urls: optional flag to test URLs for validation
-    :rtype: tuple (status_code, URL)
+    :param debug: if true, then include in the returned tuple
+                  a list of debug entries
+    :rtype: tuple (status_code, URL, [debug])
     """
     if test_urls:
         URLValidator(message='invalid URL')(url)
 
     # status, webmention
     href = None
+    d    = []
     try:
         r  = requests.get(url, verify=False)
         rc = r.status_code
+        d.append('is url [%s] retrievable? [%s]' % (url, rc))
         if rc == requests.codes.ok:
             try:
                 link = parse_link_header(r.headers['link'])
@@ -140,20 +144,24 @@ def discoverEndpoint(url, test_urls=True):
 
                 # force searching in the HTML if not found
                 if not href:
+                    d.append('link header not found, forcing html scan')
                     raise AttributeError
             except (KeyError, AttributeError):
                 href = findEndpoint(r.text)
 
             if href is not None:
                 href = urljoin(url, href)
+            d.append('discovered href [%s]' % href)
     except (requests.exceptions.RequestException, requests.exceptions.ConnectionError,
             requests.exceptions.HTTPError, requests.exceptions.URLRequired,
             requests.exceptions.TooManyRedirects, requests.exceptions.Timeout):
         rc = 500
-    return (rc, href)
+    if debug:
+        return (rc, href, d)
+    else:
+        return (rc, href)
 
-
-def sendWebmention(sourceURL, targetURL, webmention=None, test_urls=True, vouchDomain=None):
+def sendWebmention(sourceURL, targetURL, webmention=None, test_urls=True, vouchDomain=None, debug=False):
     """Send to the :targetURL: a WebMention for the :sourceURL:
 
     The WebMention will be discovered if not given in the :webmention:
@@ -163,6 +171,8 @@ def sendWebmention(sourceURL, targetURL, webmention=None, test_urls=True, vouchD
     :param targetURL: URL of mentioned post
     :param webmention: optional WebMention endpoint
     :param test_urls: optional flag to test URLs for validation
+    :param debug: if true, then include in the returned tuple
+                  a list of debug entries
     :rtype: HTTPrequest object if WebMention endpoint was valid
     """
     if test_urls:
@@ -171,8 +181,9 @@ def sendWebmention(sourceURL, targetURL, webmention=None, test_urls=True, vouchD
         v(targetURL)
 
     result = None
+    d      = []
     if webmention is None:
-        wStatus, wUrl = discoverEndpoint(targetURL)
+        wStatus, wUrl = discoverEndpoint(targetURL, debug=False)
     else:
         wStatus = 200
         wUrl = webmention
@@ -186,14 +197,24 @@ def sendWebmention(sourceURL, targetURL, webmention=None, test_urls=True, vouchD
         if vouchDomain is not None:
             payload['vouch'] = vouchDomain
 
-        print 'sending to', wUrl, payload
+        d.append('sending to [%s] %s' % (wUrl, payload))
         try:
             result = requests.post(wUrl, data=payload)
+            d.append('POST returned %d' % result.status_code)
 
             if result.status_code == 405 and len(result.history) > 0:
+                d.append('status code was 405, looking for redirect location')
                 o = result.history[-1]
                 if o.status_code == 301 and 'Location' in o.headers:
+                    d.append('redirected to [%s]' % o.headers['Location'])
                     result = requests.post(o.headers['Location'], data=payload)
+            elif result.status_code not in (200, 201, 202):
+                d.append('status code was not 200, 201, 202')
+
         except:
+            d.append('exception during request post')
             result = None
-    return result
+    if debug:
+        return result, d
+    else:
+        return result
