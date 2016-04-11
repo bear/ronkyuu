@@ -4,7 +4,6 @@
 :license: MIT, see LICENSE for more details.
 """
 
-import os
 import unittest
 
 from ronkyuu.tools import parse_link_header

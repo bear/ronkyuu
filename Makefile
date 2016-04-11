@@ -22,6 +22,7 @@ upload: check
 	python setup.py bdist_wheel upload
 
 clean:
+	rm -rf build
 	python setup.py clean
 	rm -f violations.flake8.txt
 
