@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+
+  <title>Webmention Rocks!</title>
+  <link href="/assets/semantic.min.css" rel="stylesheet">
+  <link href="/assets/style.css" rel="stylesheet">
+
+  
+</head>
+<body>
+
+
+<div class="post-container h-entry">
+  <div class="post-main has-responses">
+    <div class="left p-author h-card">
+      <a href="/">
+        <img src="/assets/webmention-rocks-icon.png" width="80" class="u-photo" alt="Webmention Rocks!">
+      </a>
+    </div>
+    <div class="right">
+      <h3 class="p-name"><a href="/test/7">Test #7</a></h3>
+      <div class="e-content">This post advertises its Webmention endpoint with an HTTP header with intentionally unusual casing, "<code>LinK</code>". This helps you test whether you are handling HTTP header names in a case insensitive way.</div>
+      <div class="meta">
+        <a href="/test/7" class="u-url">
+          <time class="dt-published" datetime="2016-04-10T18:17:22-07:00">
+            Sunday April 10, 2016 6:17pm -07:00          </time>
+        </a>
+      </div>
+    </div>
+  </div>
+  <div class="post-responses">
+    <ul>
+            <li class="p-comment h-cite">
+        <div class="comment">
+          <div class="p-author h-card author">
+            <img class="u-photo" src="https://bear.im/images/bear_145x145.jpg" width="48">
+                          <a class="p-name u-url" href="https://bear.im/">
+                Mike Taylor              </a>
+              <a class="author-url" href="https://bear.im/">
+                bear.im              </a>
+                      </div>
+          <div class="e-content comment-content "><p>This post is me trying to help <a href="https://aaronparecki.com">Aaron</a> test his Webmention.rocks test site.</p>
+
+<ul><li><a href="https://webmention.rocks/test/1">Webmention Rocks! test/1</a></li>
+<li><a href="https://webmention.rocks/test/2">Webmention Rocks! test/2</a></li>
+<li><a href="https://webmention.rocks/test/3">Webmention Rocks! test/3</a></li>
+<li><a href="https://webmention.rocks/test/4">Webmention Rocks! test/4</a></li>
+<li><a href="https://webmention.rocks/test/5">Webmention Rocks! test/5</a></li>
+<li><a href="https://webmention.rocks/test/6">Webmention Rocks! test/6</a></li>
+<li><a href="https://webmention.rocks/test/7">Webmention Rocks! test/7</a></li>
+<li><a href="https://webmention.rocks/test/8">Webmention Rocks! test/8</a></li>
+</ul></div>
+          <div class="meta">
+            <a class="u-url" href="https://bear.im/bearlog/2016/101/testing-webmention-rocks.html">
+                              <time class="dt-published" datetime="2016-04-10T22:48:34+00:00">
+                  Sunday, April 10, 2016 10:48pm +00:00                </time>
+                          </a>
+                      </div>
+        </div>
+      </li>
+          </ul>
+  </div>
+  <div class="post-footer">
+    <p>Responses are stored for 48 hours and may be deleted after that time.</p>
+  </div>
+</div>
+
+
+<style type="text/css">
+
+.post-container {
+  max-width: 600px;
+  margin: 20px auto;
+
+  font-size: 14pt;
+  line-height: 17pt;
+}
+@media(max-width: 616px) {
+  .post-container {
+    margin-left: 8px;
+    margin-right: 8px;
+  }
+}
+.post-container .post-main {
+  display: flex;
+  flex-direction: row;  
+
+  border-radius: 8px;
+  border: 1px #fbf6bd solid;
+
+  background: #fff;
+  padding: 12px;
+}
+.post-container .post-main .meta {
+  font-size: 10pt;
+}
+.post-container .post-main .meta a {
+  color: #777;
+}
+.post-container .post-main .meta a:hover {
+  color: #999;
+}
+
+@media(max-width: 400px) {
+  .post-container .post-main {
+    display: block;
+  }
+  .post-container .left {
+    float: left;
+  }
+}
+
+.post-container .post-main.has-responses {
+  border-bottom-right-radius: 0;
+  border-bottom-left-radius: 0;
+  border-bottom: 0;
+}
+
+.post-container .post-responses {
+  background: #fffef1;
+  border-bottom-right-radius: 8px;
+  border-bottom-left-radius: 8px;
+  border: 1px #fbf6bd solid;
+  border-top: 0;
+}
+
+.post-container .left {
+  flex: 0 auto; /* this needs to be "0 auto" for Safari, but works as "0" for everything else */
+  padding-right: 12px;
+}
+.post-container .right {
+  flex: 1;
+}
+.post-container img {
+  background: white;
+  border: 1px #fbf6bd solid;
+  border-radius: 6px;
+}
+.post-container h3 {
+  margin: 0;
+  font-size: 16pt;
+  font-weight: bold;
+}
+
+/* comments */
+
+.post-container .post-responses > ul {
+  margin: 0;
+  padding: 0;
+  list-style-type: none;
+}
+.post-responses > ul > li {
+  padding: 0;
+  margin: 0;
+  padding-top: 6px;
+  padding-right: 12px;
+  border-top: 1px #fbf6bd solid;
+}
+.post-responses > ul > li .comment {
+  margin-left: 66px;
+  margin-bottom: 6px;
+}
+.post-responses > ul > li .comment .author img {
+  margin-left: -54px;
+  float: left;
+}
+.post-responses > ul > li .comment .author {
+  font-size: 0.8em;
+  margin-bottom: 6px;
+}
+.post-responses > ul > li .comment .author-url {
+  color: #888;
+  font-weight: normal;
+}
+.post-responses > ul > li .comment .comment-content.plaintext {
+  white-space: pre-line;
+}
+.post-responses > ul > li .comment .comment-content .missing {
+  color: #888;
+}
+.post-responses > ul > li .comment .meta {
+  color: #777;
+  margin-top: 8px;
+  font-size: 0.65em;
+  line-height: 1.1em;
+}
+.post-responses > ul > li .comment .meta a {
+  color: #777;
+}
+.post-responses > ul > li .comment .meta a:hover, .post-responses > ul > li .comment .author a:hover {
+  text-decoration: underline;
+}
+.post-responses > ul > li .comment blockquote {
+  border-left: 4px #bbb solid;
+  margin-left: 0;
+  padding-left: 12px;
+}
+
+.post-footer {
+  padding-top: 20px;
+  font-size: 0.7em;
+  color: #777;
+  text-align: center;
+}
+
+</style>
+
+</body>
+</html>

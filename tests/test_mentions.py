@@ -4,60 +4,75 @@
 :license: MIT, see LICENSE for more details.
 """
 
-import os
+import json
 import unittest
-from httmock import urlmatch, HTTMock
+from urlparse import urlparse
+from httmock import all_requests, response, HTTMock
 
 from ronkyuu import findMentions, findEndpoint, discoverEndpoint
 
+post_url  = "https://bear.im/bearlog/2013/325/indiewebify-and-the-new-site.html"
+post_html = ''.join(open('./tests/data/mentions_post.html').readlines())
 
-post_url    = "https://bear.im/bearlog/2013/325/indiewebify-and-the-new-site.html"
-tantek_url  = "http://tantek.com/2013/322/b1/homebrew-computer-club-reunion-inspiration"
-post_html   = ''.join(open('./tests/data/mentions_post.html').readlines())
-tantek_html = ''.join(open('./tests/data/mentions_tantek.html').readlines())
+path_testdata = './tests/data/webmention_rocks_test_'
+max_testdata  = 9
+test_data     = {}
+for n in range(1, max_testdata):
+    urlpath = 'webmention.rocks/test/%d' % n
+    with open('%s%0d.html' % (path_testdata, n), 'r') as h:
+        html = h.read()
+    with open('%s%0d.json' % (path_testdata, n), 'r') as h:
+        headers = json.load(h)
+    test_data[urlpath] = { 'headers': headers, 'html': html }
 
-path_testdata = './tests/data/'
+# this dict only contains those items that have endpoints
+# specified in the html and not in headers
+endpoint_data = { 'webmention.rocks/test/3': '/test/3/webmention',
+                  'webmention.rocks/test/4': 'https://webmention.rocks/test/4/webmention',
+                  'webmention.rocks/test/5': '/test/5/webmention',
+                  'webmention.rocks/test/6': 'https://webmention.rocks/test/6/webmention',
+                }
 
-html = {}
-for n in range(0, 4):
-    f       = 'mentions_link_in_head_%02d.html' % n
-    html[f] = []
-    with open(os.path.join(path_testdata, f), 'r') as h:
-        html[f].append(h.read())
-
-with open(os.path.join(path_testdata, 'mentions_empty.html'), 'r') as h:
-    empty_html = h.read()
-
-@urlmatch(netloc=r'(.*\.)?ronkyuu\.io$')
-def link_mock(url, request):
-    return post_html
-
-@urlmatch(netloc=r'(.*\.)?bear\.im$')
-def bear_im_mock(url, request):
-    return post_html
+@all_requests
+def mock_response(url, request):
+    if url.netloc == 'webmention.rocks':
+        key = '%s%s' % (url.netloc, url.path)
+        if key in test_data.keys():
+            d = test_data[key]
+            return response(200, d['html'], d['headers'])
+    elif url.netloc == 'bear.im' and url.path == '/bearlog/2013/325/indiewebify-and-the-new-site.html':
+        return response(200, post_html)
+    else:
+        return response(500)
 
 class TestParsing(unittest.TestCase):
     # test the core mention and replies link finding
     def runTest(self):
-        with HTTMock(bear_im_mock):
+        with HTTMock(mock_response):
             mentions = findMentions(post_url, exclude_domains=['bear.im'])
             assert len(mentions['refs']) > 0
             assert 'http://indiewebify.me/' in mentions['refs']
-            assert tantek_url in mentions['refs']
 
 class TestEndpoint(unittest.TestCase):
-    # run the html parsing for a discoverWebmentions result using a stored
-    # GET from one of Tantek's posts
+    # run the html parsing for a discoverWebmentions result
     def runTest(self):
-        assert findEndpoint(tantek_html) == 'http://webmention.io/tantek.com/webmention'
+        for urlpath in test_data.keys():
+            if urlpath in endpoint_data:
+                endpoint = endpoint_data[urlpath]
+                html     = test_data[urlpath]['html']
 
-@urlmatch(netloc=r'(.*\.)?tantek\.com$')
-def tantek_mock(url, request):
-    return tantek_html
+                href = findEndpoint(html)
+                assert href == endpoint
 
 class TestDiscovery(unittest.TestCase):
     def runTest(self):
-        with HTTMock(tantek_mock):
-            result = discoverEndpoint(tantek_url)
+        with HTTMock(mock_response):
+            for urlpath in test_data.keys():
+                url      = 'http://%s' % urlpath
+                endpoint = urlparse('%s/webmention' % url).path
 
-            assert result[1] == 'http://webmention.io/tantek.com/webmention'
+                rc, href, debug = discoverEndpoint(url, debug=True)
+
+                wmUrl = urlparse(href)
+                assert wmUrl.netloc == 'webmention.rocks'
+                assert wmUrl.path   == endpoint
