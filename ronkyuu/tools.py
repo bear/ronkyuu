@@ -7,8 +7,9 @@ IndieWeb Webmention Tools
 """
 
 import os
-import json
 import re
+import json
+import shlex
 from urlparse import urlsplit, urlunsplit
 
 import requests
@@ -70,6 +71,12 @@ def normalizeURL(targetURL):
             result = targetURL
     return result
 
+def quoted_split(text, boundary):
+    o = shlex.shlex(text)
+    o.whitespace = boundary
+    o.whitespace_split = True
+    return list(o)
+
 def parse_link_header(link):
     """takes the link header as a string and returns a dictionary with rel values as keys and urls as values
     :param link: link header as a string
@@ -77,11 +84,13 @@ def parse_link_header(link):
     """
     rel_dict = {}
     for rels in link.split(','):
-        rel_break = rels.split(';')
+        rel_break = quoted_split(rels, ';')
         try:
             rel_url = re.search('<(.+?)>', rel_break[0]).group(1)
-            rel_names = re.search('rel="(.+?)"', rel_break[1]).group(1)
+            rel_names = quoted_split(rel_break[1], '=')[-1]
             for name in rel_names.split():
+                if name.startswith('"') and name.endswith('"'):
+                    name = name[1:-1]
                 rel_dict[name] = rel_url
         except (AttributeError, IndexError):
             pass
