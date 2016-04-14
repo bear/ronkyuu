@@ -88,9 +88,9 @@ def parse_link_header(link):
         try:
             rel_url = re.search('<(.+?)>', rel_break[0]).group(1)
             rel_names = quoted_split(rel_break[1], '=')[-1]
+            if rel_names.startswith('"') and rel_names.endswith('"'):
+                    rel_names = rel_names[1:-1]
             for name in rel_names.split():
-                if name.startswith('"') and name.endswith('"'):
-                    name = name[1:-1]
                 rel_dict[name] = rel_url
         except (AttributeError, IndexError):
             pass
