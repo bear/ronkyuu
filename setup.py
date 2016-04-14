@@ -38,6 +38,7 @@ if __name__ == '__main__':
         license=extract_metaitem('license'),
         packages=find_packages(exclude=('tests', 'docs')),
         platforms=['Any'],
+        use_2to3=True,
         install_requires=[
             'requests',
             'beautifulsoup4',
