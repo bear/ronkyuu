@@ -1,9 +1,8 @@
 {
-  "Content-Length": "26473", 
+  "Content-Length": "11294", 
   "X-Powered-By": "PHP/5.6.18-1+deb.sury.org~trusty+1", 
   "Server": "nginx/1.9.10", 
   "Connection": "keep-alive", 
-  "Link": "<https://webmention.rocks/test/8/webmention>; rel=\"webmention\"", 
-  "Date": "Thu, 14 Apr 2016 19:14:22 GMT", 
+  "Date": "Thu, 14 Apr 2016 19:14:24 GMT", 
   "Content-Type": "text/html; charset=UTF-8"
 }

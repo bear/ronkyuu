@@ -15,9 +15,9 @@ post_url  = "https://bear.im/bearlog/2013/325/indiewebify-and-the-new-site.html"
 post_html = ''.join(open('./tests/data/mentions_post.html').readlines())
 
 path_testdata = './tests/data/webmention_rocks_test_'
-max_testdata  = 9
+max_testdata  = 14
 test_data     = {}
-for n in range(1, max_testdata):
+for n in range(1, max_testdata + 1):
     urlpath = 'webmention.rocks/test/%d' % n
     with open('%s%0d.html' % (path_testdata, n), 'r') as h:
         html = h.read()

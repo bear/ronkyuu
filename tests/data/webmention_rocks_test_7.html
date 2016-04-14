@@ -8,6 +8,10 @@
   <title>Webmention Rocks!</title>
   <link href="/assets/semantic.min.css" rel="stylesheet">
   <link href="/assets/style.css" rel="stylesheet">
+  <link href="/assets/test.css" rel="stylesheet">
+
+  <script src="/assets/jquery-1.11.3.min.js"></script>
+  <script src="/assets/semantic.min.js"></script>
 
   
 </head>
@@ -22,192 +26,353 @@
       </a>
     </div>
     <div class="right">
-      <h3 class="p-name"><a href="/test/7">Test #7</a></h3>
+      <h1 class="p-name"><a href="/test/7">Test #7</a></h1>
       <div class="e-content">This post advertises its Webmention endpoint with an HTTP header with intentionally unusual casing, "<code>LinK</code>". This helps you test whether you are handling HTTP header names in a case insensitive way.</div>
       <div class="meta">
         <a href="/test/7" class="u-url">
-          <time class="dt-published" datetime="2016-04-10T18:17:22-07:00">
-            Sunday April 10, 2016 6:17pm -07:00          </time>
+          <time class="dt-published" datetime="2016-04-14T09:14:22-07:00">
+            Thursday April 14, 2016 9:14am -07:00          </time>
         </a>
       </div>
     </div>
   </div>
   <div class="post-responses">
-    <ul>
-            <li class="p-comment h-cite">
+    <div id="debug"></div>
+
+    <div class="responses-row reacji ">
+      <div style="padding: 12px 12px 3px 12px;">
+        <h3 style="margin: 0;">Reacji</h3>
+        <p class="help-text">The emoji below show <a href="http://indiewebcamp.com/reacji">Reacji</a> responses, created by people posting a comment linking to this post with an <code><a href="http://indiewebcamp.com/in-reply-to">in-reply-to</a></code> property, whose text is a single emoji character.</p>
+      </div>
+      <ul class="reacji stream reacji">
+                            <li data-emoji="🔀">
+            <span class="emojichar">🔀</span>
+            <span class="count">1</span>
+            <div class="ui special popup">
+              <ul class="reacji-links">
+                                  <li><a href="https://snarfed.org/2016-04-14_webmention-rocks-5" rel="nofollow">https://snarfed.org/2016-04-14_webmention-rocks-5</a>
+                              </ul>
+            </div>
+          </li>
+              </ul>
+      <div style="clear:both;"></div>
+    </div>
+
+          <div class="responses-row like ">
+        <div style="padding: 12px 12px 3px 12px;">
+          <h3 style="margin: 0;">Likes</h3>
+          <p class="help-text">
+            The profile icons below are the <a href="http://indiewebcamp.com/authorship">author</a> photos from people who have posted a "like" post on their site, where their post links to this post with the <code><a href="http://indiewebcamp.com/like-of">like-of</a></code> property.</p>          </p>
+        </div>
+        <div class="facepile-type-icon"><i class="ui star icon"></i></div>
+        <ul class="facepile stream like">
+                                              <li class="p-like h-cite" data-response-id="9b76f2a7a7f2e5901ec69f9660d9b04e">
+            <a href="https://snarfed.org/2016-04-13_webmention-rocks-2" class="u-url" rel="nofollow">
+              <span class="p-author h-card author">
+                <img class="u-photo" src="/image?url=https%3A%2F%2Fsecure.gravatar.com%2Favatar%2F947b5f3f323da0ef785b6f02d9c265d6%3Fs%3D96%26d%3Dblank%26r%3Dg&sig=ed31334fc937c7a24ee000552f2f798d75fa64de29f19ca4e2a704dad0415154" 
+                  width="48" alt="Ryan Barrett">
+              </span>
+            </a>
+          </li>
+                                    <li class="p-like h-cite" data-response-id="30446b53032ae1d2fa7c90f57ee6f273">
+            <a href="https://bear.im/bearlog/2016/101/testing-webmention-rocks-likes.html" class="u-url" rel="nofollow">
+              <span class="p-author h-card author">
+                <img class="u-photo" src="/image?url=https%3A%2F%2Fbear.im%2Fimages%2Fbear_145x145.jpg&sig=71d68c1e03e6214a359ca7a04ab2c0f67fafcaabe9e342788047768500a04b49" 
+                  width="48" alt="Mike Taylor">
+              </span>
+            </a>
+          </li>
+                              </ul>
+        <div style="clear:both;"></div>
+      </div>
+          <div class="responses-row repost ">
+        <div style="padding: 12px 12px 3px 12px;">
+          <h3 style="margin: 0;">Reposts</h3>
+          <p class="help-text">
+            The profile icons below are the <a href="http://indiewebcamp.com/authorship">author</a> photos from people who have posted a "repost" of this post on their site, where their post links to this post with the <code><a href="http://indiewebcamp.com/repost-of">repost-of</a></code> property.</p>          </p>
+        </div>
+        <div class="facepile-type-icon"><i class="ui retweet icon"></i></div>
+        <ul class="facepile stream repost">
+                                              <li class="p-repost h-cite" data-response-id="e5de5d007b5768f4ecee52407efc8fd5">
+            <a href="https://snarfed.org/2016-04-13_webmention-rocks-3" class="u-url" rel="nofollow">
+              <span class="p-author h-card author">
+                <img class="u-photo" src="/image?url=https%3A%2F%2Fsecure.gravatar.com%2Favatar%2F947b5f3f323da0ef785b6f02d9c265d6%3Fs%3D96%26d%3Dblank%26r%3Dg&sig=ed31334fc937c7a24ee000552f2f798d75fa64de29f19ca4e2a704dad0415154" 
+                  width="48" alt="Ryan Barrett">
+              </span>
+            </a>
+          </li>
+                              </ul>
+        <div style="clear:both;"></div>
+      </div>
+          <div class="responses-row bookmark empty">
+        <div style="padding: 12px 12px 3px 12px;">
+          <h3 style="margin: 0;">Bookmarks</h3>
+          <p class="help-text">
+            The profile icons below are the <a href="http://indiewebcamp.com/authorship">author</a> photos from people who have posted a bookmark of this post on their site, where their post links to this post with the <code><a href="http://indiewebcamp.com/bookmark-of">bookmark-of</a></code> property.</p>          </p>
+        </div>
+        <div class="facepile-type-icon"><i class="ui bookmark icon"></i></div>
+        <ul class="facepile stream bookmark">
+                  </ul>
+        <div style="clear:both;"></div>
+      </div>
+    
+    <div class="responses-row reply ">
+      <div style="padding: 12px 12px 3px 12px;">
+        <h3 style="margin: 0;">Comments</h3>
+        <p class="help-text">The comments below are replies to this post, and marked up their link to the post with the <code><a href="http://indiewebcamp.com/in-reply-to">in-reply-to</a></code> property.</p>
+      </div>
+      <ul class="comments stream reply">
+                        <li class="p-reply h-cite" data-response-id="fc28def7b21e3a310b847e8e46472f70">
         <div class="comment">
           <div class="p-author h-card author">
-            <img class="u-photo" src="https://bear.im/images/bear_145x145.jpg" width="48">
-                          <a class="p-name u-url" href="https://bear.im/">
+            <img class="u-photo" src="/image?url=https%3A%2F%2Fsecure.gravatar.com%2Favatar%2F947b5f3f323da0ef785b6f02d9c265d6%3Fs%3D96%26d%3Dblank%26r%3Dg&sig=ed31334fc937c7a24ee000552f2f798d75fa64de29f19ca4e2a704dad0415154" width="48">
+                          <a class="p-name u-url" href="https://snarfed.org/" rel="nofollow">
+                Ryan Barrett              </a>
+              <a class="author-url" href="https://snarfed.org/" rel="nofollow">
+                snarfed.org              </a>
+                      </div>
+          <div class="comment-content">
+                          <a href="https://snarfed.org/2016-04-13_webmention-rocks-4" rel="nofollow">
+                <h3 class="p-name">Webmention Rocks!</h3>
+              </a> 
+                      </div>
+          <div class="meta">
+            <a class="u-url" href="https://snarfed.org/2016-04-13_webmention-rocks-4" rel="nofollow">
+                              <time class="dt-published" datetime="2016-04-13T11:40:05-07:00">
+                  Wednesday, April 13, 2016 11:40am -07:00                </time>
+                          </a>
+                      </div>
+        </div>
+      </li>
+                        <li class="p-reply h-cite" data-response-id="00a7af40f42acd30dd9b90b548a11bce">
+        <div class="comment">
+          <div class="p-author h-card author">
+            <img class="u-photo" src="/image?url=http%3A%2F%2Fmabulledu.net%2Fuploads%2Favatar%2Ficon-114x114.jpg&sig=6065b7df8f6c0b2fdaf3791629a889f4501824a1c4db7a5078143ffd1854e6f3" width="48">
+                          <a class="p-name u-url" href="http://mabulledu.net/author/nicolascluz/" rel="nofollow">
+                Nicolas Cluzeau              </a>
+              <a class="author-url" href="http://mabulledu.net/author/nicolascluz/" rel="nofollow">
+                mabulledu.net              </a>
+                      </div>
+          <div class="comment-content">
+                          <div class="e-content "><h2 class="p-name"><a class="u-in-reply-to" href="https://webmention.rocks/test/1" rel="nofollow">Webmention Rocks!</a> <a class="u-in-reply-to" href="https://webmention.rocks/test/2" rel="nofollow">Webmention Rocks!</a> <a class="u-in-reply-to" href="https://webmention.rocks/test/3" rel="nofollow">Webmention Rocks!</a> <a class="u-in-reply-to" href="https://webmention.rocks/test/4" rel="nofollow">Webmention Rocks!</a> <a class="u-in-reply-to" href="https://webmention.rocks/test/5" rel="nofollow">Webmention Rocks!</a> <a class="u-in-reply-to" href="https://webmention.rocks/test/6" rel="nofollow">Webmention Rocks!</a> <a class="u-in-reply-to" href="https://webmention.rocks/test/7" rel="nofollow">Webmention Rocks!</a> <a class="u-in-reply-to" href="https://webmention.rocks/test/8" rel="nofollow">Webmention Rocks!</a></h2></div>
+                      </div>
+          <div class="meta">
+            <a class="u-url" href="http://mabulledu.net/webmention-test/" rel="nofollow">
+                              <time class="dt-published" datetime="2016-04-11T23:54:50+00:00">
+                  Monday, April 11, 2016 11:54pm +00:00                </time>
+                          </a>
+                      </div>
+        </div>
+      </li>
+                        <li class="p-reply h-cite" data-response-id="08e7afa3009f77469ca1114392017bc6">
+        <div class="comment">
+          <div class="p-author h-card author">
+            <img class="u-photo" src="/image?url=http%3A%2F%2Fgregorlove.com%2Fsite%2Fassets%2Ffiles%2F3473%2Fprofile-2016-med.jpg&sig=6d23f5737e9fdf668942e9708409a2e3aec1ec4f3f6976112a361c603a95ec43" width="48">
+                          <a class="p-name u-url" href="http://gregorlove.com/" rel="nofollow">
+                gRegor Morrill              </a>
+              <a class="author-url" href="http://gregorlove.com/" rel="nofollow">
+                gregorlove.com              </a>
+                      </div>
+          <div class="comment-content">
+                          <div class="e-content "><p>Webmention is the schist!</p></div>
+                      </div>
+          <div class="meta">
+            <a class="u-url" href="http://gregorlove.com/2016/04/webmention-is-the-schist/" rel="nofollow">
+                              <time class="dt-published" datetime="2016-04-11T12:32:00-07:00">
+                  Monday, April 11, 2016 12:32pm -07:00                </time>
+                          </a>
+                      </div>
+        </div>
+      </li>
+                        <li class="p-reply h-cite" data-response-id="fde084c01e4b64e946f333e602fbb59e">
+        <div class="comment">
+          <div class="p-author h-card author">
+            <img class="u-photo" src="/image?url=http%3A%2F%2Ftantek.com%2Flogo.jpg&sig=092101ae6205e728413159087b0afdfc64d6638956dd483bb767b1f6f3ddef3e" width="48">
+                          <a class="p-name u-url" href="http://tantek.com/" rel="nofollow">
+                Tantek Çelik              </a>
+              <a class="author-url" href="http://tantek.com/" rel="nofollow">
+                tantek.com              </a>
+                      </div>
+          <div class="comment-content">
+                          <div class="e-content "><a class="h-x-username" href="https://twitter.com/webmentionrocks" rel="nofollow">@webmentionrocks</a> passed 8 for 8, using <a class="h-x-username" href="https://twitter.com/Falcon" rel="nofollow">@Falcon</a> and open source link-rel-parser-php: <a href="https://github.com/indieweb/link-rel-parser-php" rel="nofollow">https://github.com/indieweb/link-rel-parser-php</a></div>
+                      </div>
+          <div class="meta">
+            <a class="u-url" href="http://tantek.com/2016/102/t2/webmentionrocks-passed-falcon-link-rel-parser" rel="nofollow">
+                              <time class="dt-published" datetime="2016-04-11T11:56:00-07:00">
+                  Monday, April 11, 2016 11:56am -07:00                </time>
+                          </a>
+                      </div>
+        </div>
+      </li>
+                        <li class="p-reply h-cite" data-response-id="437c5ff0dcbf31b82217085331795a8c">
+        <div class="comment">
+          <div class="p-author h-card author">
+            <img class="u-photo" src="/image?url=https%3A%2F%2Fsecure.gravatar.com%2Favatar%2F947b5f3f323da0ef785b6f02d9c265d6%3Fs%3D96%26d%3Dblank%26r%3Dg&sig=ed31334fc937c7a24ee000552f2f798d75fa64de29f19ca4e2a704dad0415154" width="48">
+                          <a class="p-name u-url" href="https://snarfed.org/" rel="nofollow">
+                Ryan Barrett              </a>
+              <a class="author-url" href="https://snarfed.org/" rel="nofollow">
+                snarfed.org              </a>
+                      </div>
+          <div class="comment-content">
+                          <a href="https://snarfed.org/2016-04-11_webmention-rocks" rel="nofollow">
+                <h3 class="p-name">Webmention Rocks!</h3>
+              </a> 
+                      </div>
+          <div class="meta">
+            <a class="u-url" href="https://snarfed.org/2016-04-11_webmention-rocks" rel="nofollow">
+                              <time class="dt-published" datetime="2016-04-11T10:51:05-07:00">
+                  Monday, April 11, 2016 10:51am -07:00                </time>
+                          </a>
+                      </div>
+        </div>
+      </li>
+                        <li class="p-reply h-cite" data-response-id="a679bafbc00f020d7c6a26bbe54c7b44">
+        <div class="comment">
+          <div class="p-author h-card author">
+            <img class="u-photo" src="/image?url=http%3A%2F%2Ftantek.com%2Flogo.jpg&sig=092101ae6205e728413159087b0afdfc64d6638956dd483bb767b1f6f3ddef3e" width="48">
+                          <a class="p-name u-url" href="http://tantek.com/" rel="nofollow">
+                Tantek Çelik              </a>
+              <a class="author-url" href="http://tantek.com/" rel="nofollow">
+                tantek.com              </a>
+                      </div>
+          <div class="comment-content">
+                          <div class="e-content "><a class="h-x-username" href="https://twitter.com/webmentionrocks" rel="nofollow">@webmentionrocks</a> nice work! Here’s an 8 test multi-reply per <a href="https://indiewebcamp.com/multi-reply" rel="nofollow">https://indiewebcamp.com/multi-reply</a></div>
+                      </div>
+          <div class="meta">
+            <a class="u-url" href="http://tantek.com/2016/102/t1/webmentionrocks-nice-work-test-multi-reply" rel="nofollow">
+                              <time class="dt-published" datetime="2016-04-11T10:13:00-07:00">
+                  Monday, April 11, 2016 10:13am -07:00                </time>
+                          </a>
+                      </div>
+        </div>
+      </li>
+              </ul>
+    </div>
+
+    <div class="responses-row mention ">
+      <div style="padding: 12px 12px 3px 12px;">
+        <h3 style="margin: 0;">Mentions</h3>
+        <p class="help-text">The mentions below linked to this post, but did not include this post's URL as an <code><a href="http://indiewebcamp.com/in-reply-to">in-reply-to</a></code> property.</p>
+      </div>
+      <ul class="comments stream mention">
+                        <li class="p-mention h-cite" data-response-id="d9a869ac0b8974c225ceb4f582d18f5d">
+        <div class="comment">
+          <div class="p-author h-card author">
+            <img class="u-photo" src="/image?url=https%3A%2F%2Fkylewm.com%2Ffile%2F4daed85d3af8c8a72ce83d0a85d64e2c%2Fthumb.jpg&sig=330cf7d865d5d9ed3745cd068b9b8d448b198735828f307db98b501ee08eeba8" width="48">
+                          <a class="p-name u-url" href="https://kylewm.com/profile/kyle" rel="nofollow">
+                Kyle Mahan              </a>
+              <a class="author-url" href="https://kylewm.com/profile/kyle" rel="nofollow">
+                kylewm.com              </a>
+                      </div>
+          <div class="comment-content">
+                          <div class="e-content "><h2 class="p-name"><a href="https://kylewm.com/2016/04/trying-webmentionrocks-from-known-2" rel="nofollow">Trying webmention.rocks from Known</a>
+            </h2>
+                    <p>
+                1 min read 
+            </p>
+            <ul style="font-family:Lato, 'Helvetica Neue', Arial, Helvetica, sans-serif;line-height:19.999px;"><li><a href="https://webmention.rocks/test/1" style="color:#4183c4;text-decoration:none;background:0px 0px;" rel="nofollow">Test 1</a> - HTTP Link header, unquoted rel, relative URL</li>
+<li><a href="https://webmention.rocks/test/2" style="color:#4183c4;text-decoration:none;background:0px 0px;" rel="nofollow">Test 2</a> - HTTP Link header, unquoted rel, absolute URL</li>
+<li><a href="https://webmention.rocks/test/3" style="color:#4183c4;text-decoration:none;background:0px 0px;" rel="nofollow">Test 3</a> - HTML &lt;link&gt; tag, relative URL</li>
+<li><a href="https://webmention.rocks/test/4" style="color:#4183c4;text-decoration:none;background:0px 0px;" rel="nofollow">Test 4</a> - HTML &lt;link&gt; tag, absolute URL</li>
+<li><a href="https://webmention.rocks/test/5" style="color:#4183c4;text-decoration:none;background:0px 0px;" rel="nofollow">Test 5</a> - HTML &lt;a&gt; tag, relative URL</li>
+<li><a href="https://webmention.rocks/test/6" style="color:#4183c4;text-decoration:none;background:0px 0px;" rel="nofollow">Test 6</a> - HTML &lt;a&gt; tag, absolute URL</li>
+<li><a href="https://webmention.rocks/test/7" style="color:#4183c4;text-decoration:none;background:0px 0px;" rel="nofollow">Test 7</a> - HTTP Link header with strange casing</li>
+<li><a href="https://webmention.rocks/test/8" style="color:#4183c4;text-decoration:none;background:0px 0px;" rel="nofollow">Test 8</a> - HTTP Link header, quoted rel</li>
+</ul></div>
+                      </div>
+          <div class="meta">
+            <a class="u-url" href="https://kylewm.com/2016/04/trying-webmentionrocks-from-known-2" rel="nofollow">
+                              <time class="dt-published" datetime="2016-04-12T05:11:06+00:00">
+                  Tuesday, April 12, 2016 5:11am +00:00                </time>
+                          </a>
+                      </div>
+        </div>
+      </li>
+                        <li class="p-mention h-cite" data-response-id="d09cf4bf896a13e2a3e300f63db37047">
+        <div class="comment">
+          <div class="p-author h-card author">
+            <img class="u-photo" src="/image?url=https%3A%2F%2Faaronparecki.com%2Fimages%2Faaronpk-256.jpg&sig=3c1599f61a4ad25d74ff009b67b2ff47d508b269a327ea1a40b07840280e6877" width="48">
+                          <a class="p-name u-url" href="https://aaronparecki.com/" rel="nofollow">
+                Aaron Parecki              </a>
+              <a class="author-url" href="https://aaronparecki.com/" rel="nofollow">
+                aaronparecki.com              </a>
+                      </div>
+          <div class="comment-content">
+                          <div class="e-content "><p>Here is my test post for <a href="https://webmention.rocks" rel="nofollow">webmention.rocks</a>! Posted using <a href="http://p3k.io/" rel="nofollow">p3k</a>, Webmentions sent by <a href="https://telegraph.p3k.io/" rel="nofollow">Telegraph</a> using the <a href="https://github.com/indieweb/mention-client-php" rel="nofollow">mention-client-php</a> library.</p>
+
+<p><a href="https://webmention.rocks/test/1" rel="nofollow">Test 1</a>,
+<a href="https://webmention.rocks/test/2" rel="nofollow">Test 2</a>,
+<a href="https://webmention.rocks/test/3" rel="nofollow">Test 3</a>,
+<a href="https://webmention.rocks/test/4" rel="nofollow">Test 4</a>,
+<a href="https://webmention.rocks/test/5" rel="nofollow">Test 5</a>,
+<a href="https://webmention.rocks/test/6" rel="nofollow">Test 6</a>,
+<a href="https://webmention.rocks/test/7" rel="nofollow">Test 7</a>,
+<a href="https://webmention.rocks/test/8" rel="nofollow">Test 8</a>,
+<a href="https://webmention.rocks/test/9" rel="nofollow">Test 9</a>,
+<a href="https://webmention.rocks/test/10" rel="nofollow">Test 10</a>,
+<a href="https://webmention.rocks/test/11" rel="nofollow">Test 11</a>,
+<a href="https://webmention.rocks/test/12" rel="nofollow">Test 12</a>,
+<a href="https://webmention.rocks/test/13" rel="nofollow">Test 13</a>,
+<a href="https://webmention.rocks/test/14" rel="nofollow">Test 14</a>
+</p></div>
+                      </div>
+          <div class="meta">
+            <a class="u-url" href="https://aaronparecki.com/2016/04/14/20/webmention-rocks" rel="nofollow">
+                              <time class="dt-published" datetime="2016-04-14T18:12:37+02:00">
+                  Thursday, April 14, 2016 6:12pm +02:00                </time>
+                          </a>
+                      </div>
+        </div>
+      </li>
+                        <li class="p-mention h-cite" data-response-id="559d25cb4c7d160307911aef6872d366">
+        <div class="comment">
+          <div class="p-author h-card author">
+            <img class="u-photo" src="/assets/no-photo.png" width="48">
+                          <span class="p-name">No Name</span>
+                      </div>
+          <div class="comment-content">
+                          <div class="e-content plaintext"><span class="missing">Comment text not found</span></div>
+                      </div>
+          <div class="meta">
+            <a class="u-url" href="http://mention-tech.appspot.com/testing.html" rel="nofollow">
+                              http://mention-tech.appspot.com/testing.html                          </a>
+                          <p>The post did not provide a URL, using source instead</p>
+                      </div>
+        </div>
+      </li>
+                        <li class="p-mention h-cite" data-response-id="153fd25dada0a8accdf27fdd5f456832">
+        <div class="comment">
+          <div class="p-author h-card author">
+            <img class="u-photo" src="/image?url=https%3A%2F%2Fbear.im%2Fimages%2Fbear_145x145.jpg&sig=71d68c1e03e6214a359ca7a04ab2c0f67fafcaabe9e342788047768500a04b49" width="48">
+                          <a class="p-name u-url" href="https://bear.im/" rel="nofollow">
                 Mike Taylor              </a>
-              <a class="author-url" href="https://bear.im/">
+              <a class="author-url" href="https://bear.im/" rel="nofollow">
                 bear.im              </a>
                       </div>
-          <div class="e-content comment-content "><p>This post is me trying to help <a href="https://aaronparecki.com">Aaron</a> test his Webmention.rocks test site.</p>
-
-<ul><li><a href="https://webmention.rocks/test/1">Webmention Rocks! test/1</a></li>
-<li><a href="https://webmention.rocks/test/2">Webmention Rocks! test/2</a></li>
-<li><a href="https://webmention.rocks/test/3">Webmention Rocks! test/3</a></li>
-<li><a href="https://webmention.rocks/test/4">Webmention Rocks! test/4</a></li>
-<li><a href="https://webmention.rocks/test/5">Webmention Rocks! test/5</a></li>
-<li><a href="https://webmention.rocks/test/6">Webmention Rocks! test/6</a></li>
-<li><a href="https://webmention.rocks/test/7">Webmention Rocks! test/7</a></li>
-<li><a href="https://webmention.rocks/test/8">Webmention Rocks! test/8</a></li>
-</ul></div>
+          <div class="comment-content">
+                          <a href="https://bear.im/bearlog/2016/101/testing-webmention-rocks.html" rel="nofollow">
+                <h3 class="p-name">Testing Webmention.rocks</h3>
+              </a> 
+                      </div>
           <div class="meta">
-            <a class="u-url" href="https://bear.im/bearlog/2016/101/testing-webmention-rocks.html">
+            <a class="u-url" href="https://bear.im/bearlog/2016/101/testing-webmention-rocks.html" rel="nofollow">
                               <time class="dt-published" datetime="2016-04-10T22:48:34+00:00">
                   Sunday, April 10, 2016 10:48pm +00:00                </time>
                           </a>
                       </div>
         </div>
       </li>
-          </ul>
+              </ul>
+    </div>
+
   </div>
   <div class="post-footer">
     <p>Responses are stored for 48 hours and may be deleted after that time.</p>
   </div>
 </div>
 
-
-<style type="text/css">
-
-.post-container {
-  max-width: 600px;
-  margin: 20px auto;
-
-  font-size: 14pt;
-  line-height: 17pt;
-}
-@media(max-width: 616px) {
-  .post-container {
-    margin-left: 8px;
-    margin-right: 8px;
-  }
-}
-.post-container .post-main {
-  display: flex;
-  flex-direction: row;  
-
-  border-radius: 8px;
-  border: 1px #fbf6bd solid;
-
-  background: #fff;
-  padding: 12px;
-}
-.post-container .post-main .meta {
-  font-size: 10pt;
-}
-.post-container .post-main .meta a {
-  color: #777;
-}
-.post-container .post-main .meta a:hover {
-  color: #999;
-}
-
-@media(max-width: 400px) {
-  .post-container .post-main {
-    display: block;
-  }
-  .post-container .left {
-    float: left;
-  }
-}
-
-.post-container .post-main.has-responses {
-  border-bottom-right-radius: 0;
-  border-bottom-left-radius: 0;
-  border-bottom: 0;
-}
-
-.post-container .post-responses {
-  background: #fffef1;
-  border-bottom-right-radius: 8px;
-  border-bottom-left-radius: 8px;
-  border: 1px #fbf6bd solid;
-  border-top: 0;
-}
-
-.post-container .left {
-  flex: 0 auto; /* this needs to be "0 auto" for Safari, but works as "0" for everything else */
-  padding-right: 12px;
-}
-.post-container .right {
-  flex: 1;
-}
-.post-container img {
-  background: white;
-  border: 1px #fbf6bd solid;
-  border-radius: 6px;
-}
-.post-container h3 {
-  margin: 0;
-  font-size: 16pt;
-  font-weight: bold;
-}
-
-/* comments */
-
-.post-container .post-responses > ul {
-  margin: 0;
-  padding: 0;
-  list-style-type: none;
-}
-.post-responses > ul > li {
-  padding: 0;
-  margin: 0;
-  padding-top: 6px;
-  padding-right: 12px;
-  border-top: 1px #fbf6bd solid;
-}
-.post-responses > ul > li .comment {
-  margin-left: 66px;
-  margin-bottom: 6px;
-}
-.post-responses > ul > li .comment .author img {
-  margin-left: -54px;
-  float: left;
-}
-.post-responses > ul > li .comment .author {
-  font-size: 0.8em;
-  margin-bottom: 6px;
-}
-.post-responses > ul > li .comment .author-url {
-  color: #888;
-  font-weight: normal;
-}
-.post-responses > ul > li .comment .comment-content.plaintext {
-  white-space: pre-line;
-}
-.post-responses > ul > li .comment .comment-content .missing {
-  color: #888;
-}
-.post-responses > ul > li .comment .meta {
-  color: #777;
-  margin-top: 8px;
-  font-size: 0.65em;
-  line-height: 1.1em;
-}
-.post-responses > ul > li .comment .meta a {
-  color: #777;
-}
-.post-responses > ul > li .comment .meta a:hover, .post-responses > ul > li .comment .author a:hover {
-  text-decoration: underline;
-}
-.post-responses > ul > li .comment blockquote {
-  border-left: 4px #bbb solid;
-  margin-left: 0;
-  padding-left: 12px;
-}
-
-.post-footer {
-  padding-top: 20px;
-  font-size: 0.7em;
-  color: #777;
-  text-align: center;
-}
-
-</style>
+<div id="test-num" data-num="7"></div>
+<script src="/assets/streaming.js"></script>
 
 </body>
 </html>
