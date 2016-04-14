@@ -38,7 +38,6 @@ if __name__ == '__main__':
         license=extract_metaitem('license'),
         packages=find_packages(exclude=('tests', 'docs')),
         platforms=['Any'],
-        use_2to3=True,
         install_requires=[
             'requests',
             'beautifulsoup4',
@@ -55,8 +54,6 @@ if __name__ == '__main__':
             'Programming Language :: Python :: 2',
             'Programming Language :: Python :: 2.7',
             'Programming Language :: Python :: 3',
-            'Programming Language :: Python :: 3.3',
-            'Programming Language :: Python :: 3.4',
             'Programming Language :: Python :: 3.5',
             'Topic :: Software Development :: Libraries :: Python Modules',
         ]

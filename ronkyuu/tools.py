@@ -10,7 +10,11 @@ import os
 import re
 import json
 import shlex
-from urlparse import urlsplit, urlunsplit
+
+try:  # Python v3
+    from urllib.parse import urlsplit, urlunsplit
+except ImportError:
+    from urlparse import urlsplit, urlunsplit
 
 import requests
 

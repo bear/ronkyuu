@@ -6,11 +6,15 @@
 IndieWeb Rel=Me Tools
 """
 
-from tools import normalizeURL, cleanURL
+from .tools import normalizeURL, cleanURL
 
 import requests
-from urlparse import urlparse
 from bs4 import BeautifulSoup
+
+try:  # Python v3
+    from urllib.parse import urlparse
+except ImportError:
+    from urlparse import urlparse
 
 
 _html_parser = 'html5lib'   # 'html.parser', 'lxml', 'lxml-xml'

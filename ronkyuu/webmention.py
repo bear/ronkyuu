@@ -7,11 +7,15 @@ IndieWeb Webmention Tools
 """
 
 import requests
-from urlparse import urlparse, urljoin
 from bs4 import BeautifulSoup
-
-from validators import URLValidator
+from .validators import URLValidator
 from .tools import parse_link_header
+
+try:  # Python v3
+    from urllib.parse import urlparse, urljoin
+except ImportError:
+    from urlparse import urlparse, urljoin
+
 
 _html_parser = 'html5lib'   # 'html.parser', 'lxml', 'lxml-xml'
 
@@ -73,7 +77,8 @@ def findMentions(sourceURL, targetURL=None, exclude_domains=[], content=None, te
         # Allow passing BS doc as content
         if isinstance(content, BeautifulSoup):
             __doc__ = content
-            result.update({'content': unicode(__doc__)})
+            # result.update({'content': unicode(__doc__)})
+            result.update({'content': str(__doc__)})
         else:
             __doc__ = BeautifulSoup(content, _html_parser)
             result.update({'content': content})

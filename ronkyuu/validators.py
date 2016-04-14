@@ -14,7 +14,12 @@ https://github.com/django/django/blob/master/django/core/validators.py
 """
 
 import re
-from urlparse import urlsplit, urlunsplit
+
+try:  # Python v3
+    from urllib.parse import urlsplit, urlunsplit
+except ImportError:
+    from urlparse import urlsplit, urlunsplit
+
 
 class RegexValidator(object):
     regex = ''
