@@ -13,7 +13,7 @@
   <script src="/assets/jquery-1.11.3.min.js"></script>
   <script src="/assets/semantic.min.js"></script>
 
-  <link rel="webmention" href="/test/11/webmention?error">
+  <link rel="webmention" href="/test/11/webmention/error">
 </head>
 <body>
 
@@ -27,11 +27,11 @@
     </div>
     <div class="right">
       <h1 class="p-name"><a href="/test/11">Test #11</a></h1>
-      <div class="e-content">This post advertises its Webmention endpoint in the HTTP Link header, HTML &lt;link&gt; tag, as well as an <a href="/test/11/webmention?error" rel="webmention">&lt;a&gt; tag</a>. Your Webmention client must only send a Webmention to the one in the Link header.</div>
+      <div class="e-content">This post advertises its Webmention endpoint in the HTTP Link header, HTML &lt;link&gt; tag, as well as an <a href="/test/11/webmention/error" rel="webmention">&lt;a&gt; tag</a>. Your Webmention client must only send a Webmention to the one in the Link header.</div>
       <div class="meta">
         <a href="/test/11" class="u-url">
-          <time class="dt-published" datetime="2016-04-14T09:14:24-07:00">
-            Thursday April 14, 2016 9:14am -07:00          </time>
+          <time class="dt-published" datetime="2016-04-15T08:06:32-07:00">
+            Friday April 15, 2016 8:06am -07:00          </time>
         </a>
       </div>
     </div>
@@ -91,12 +91,54 @@
         <div style="clear:both;"></div>
       </div>
     
-    <div class="responses-row reply empty">
+    <div class="responses-row reply ">
       <div style="padding: 12px 12px 3px 12px;">
         <h3 style="margin: 0;">Comments</h3>
         <p class="help-text">The comments below are replies to this post, and marked up their link to the post with the <code><a href="http://indiewebcamp.com/in-reply-to">in-reply-to</a></code> property.</p>
       </div>
       <ul class="comments stream reply">
+                        <li class="p-reply h-cite" data-response-id="3b0a03eac08be31b8363550494ff2b2b">
+        <div class="comment">
+          <div class="p-author h-card author">
+            <img class="u-photo" src="/image?url=https%3A%2F%2Fsecure.gravatar.com%2Favatar%2F947b5f3f323da0ef785b6f02d9c265d6%3Fs%3D96%26d%3Dblank%26r%3Dg&sig=ed31334fc937c7a24ee000552f2f798d75fa64de29f19ca4e2a704dad0415154" width="48">
+                          <a class="p-name u-url" href="https://snarfed.org/" rel="nofollow">
+                Ryan Barrett              </a>
+              <a class="author-url" href="https://snarfed.org/" rel="nofollow">
+                snarfed.org              </a>
+                      </div>
+          <div class="comment-content">
+                          <a href="https://snarfed.org/2016-04-11_webmention-rocks" rel="nofollow">
+                <h3 class="p-name">Webmention Rocks!</h3>
+              </a> 
+                      </div>
+          <div class="meta">
+            <a class="u-url" href="https://snarfed.org/2016-04-11_webmention-rocks" rel="nofollow">
+                              <time class="dt-published" datetime="2016-04-11T10:51:05-07:00">
+                  Monday, April 11, 2016 10:51am -07:00                </time>
+                          </a>
+                      </div>
+        </div>
+      </li>
+                        <li class="p-reply h-cite" data-response-id="1f1f6fd8ee5a0bedc9e10fd264c1dba4">
+        <div class="comment">
+          <div class="p-author h-card author">
+            <img class="u-photo" src="/image?url=http%3A%2F%2Ftantek.com%2Flogo.jpg&sig=092101ae6205e728413159087b0afdfc64d6638956dd483bb767b1f6f3ddef3e" width="48">
+                          <a class="p-name u-url" href="http://tantek.com/" rel="nofollow">
+                Tantek Çelik              </a>
+              <a class="author-url" href="http://tantek.com/" rel="nofollow">
+                tantek.com              </a>
+                      </div>
+          <div class="comment-content">
+                          <div class="e-content "><a class="h-x-username" href="https://twitter.com/webmentionrocks" rel="nofollow">@webmentionrocks</a> tests 1-21 passing with <a class="h-x-username" href="https://twitter.com/Falcon" rel="nofollow">@Falcon</a> using <a class="h-x-username" href="https://twitter.com/cassisjs" rel="nofollow">@cassisjs</a> and link-rel-parser-php! <a href="https://github.com/indieweb/link-rel-parser-php" rel="nofollow">https://github.com/indieweb/link-rel-parser-php</a></div>
+                      </div>
+          <div class="meta">
+            <a class="u-url" href="http://tantek.com/2016/106/t1/webmentionrocks-tests-1-21-passing" rel="nofollow">
+                              <time class="dt-published" datetime="2016-04-15T04:32:00-07:00">
+                  Friday, April 15, 2016 4:32am -07:00                </time>
+                          </a>
+                      </div>
+        </div>
+      </li>
               </ul>
     </div>
 
@@ -106,28 +148,6 @@
         <p class="help-text">The mentions below linked to this post, but did not include this post's URL as an <code><a href="http://indiewebcamp.com/in-reply-to">in-reply-to</a></code> property.</p>
       </div>
       <ul class="comments stream mention">
-                        <li class="p-mention h-cite" data-response-id="306fc8b9b48c3cd3a18164bf3b6d9a75">
-        <div class="comment">
-          <div class="p-author h-card author">
-            <img class="u-photo" src="/image?url=http%3A%2F%2Fmention-tech.appspot.com%2Fstatic%2Flogo.jpg&sig=9294659a9f4796e6d8a9c421895e193e17d41c997628ce882b1c003974c310c9" width="48">
-                          <a class="p-name u-url" href="http://mention-tech.appspot.com/" rel="nofollow">
-                http://mention-tech.appspot.com/static/logo.jpgmention.tech              </a>
-              <a class="author-url" href="http://mention-tech.appspot.com/" rel="nofollow">
-                mention-tech.appspot.com              </a>
-                      </div>
-          <div class="comment-content">
-                          <a href="http://mention-tech.appspot.com/testing.html#" rel="nofollow">
-                <h3 class="p-name">Test page for pinging webmention.rocks from</h3>
-              </a> 
-                      </div>
-          <div class="meta">
-            <a class="u-url" href="http://mention-tech.appspot.com/testing.html#" rel="nofollow">
-                              <time class="dt-published" datetime="2016-04-11T00:00:00+00:00">
-                  Monday, April 11, 2016 12:00am +00:00                </time>
-                          </a>
-                      </div>
-        </div>
-      </li>
                         <li class="p-mention h-cite" data-response-id="c1fb1200189f2dcf0b180d6a1c365197">
         <div class="comment">
           <div class="p-author h-card author">
@@ -153,13 +173,41 @@
 <a href="https://webmention.rocks/test/11" rel="nofollow">Test 11</a>,
 <a href="https://webmention.rocks/test/12" rel="nofollow">Test 12</a>,
 <a href="https://webmention.rocks/test/13" rel="nofollow">Test 13</a>,
-<a href="https://webmention.rocks/test/14" rel="nofollow">Test 14</a>
+<a href="https://webmention.rocks/test/14" rel="nofollow">Test 14</a>,
+<a href="https://webmention.rocks/test/15" rel="nofollow">Test 15</a>,
+<a href="https://webmention.rocks/test/16" rel="nofollow">Test 16</a>,
+<a href="https://webmention.rocks/test/17" rel="nofollow">Test 17</a>,
+<a href="https://webmention.rocks/test/18" rel="nofollow">Test 18</a>,
+<a href="https://webmention.rocks/test/19" rel="nofollow">Test 19</a>,
+<a href="https://webmention.rocks/test/20" rel="nofollow">Test 20</a>
 </p></div>
                       </div>
           <div class="meta">
             <a class="u-url" href="https://aaronparecki.com/2016/04/14/20/webmention-rocks" rel="nofollow">
                               <time class="dt-published" datetime="2016-04-14T18:12:37+02:00">
                   Thursday, April 14, 2016 6:12pm +02:00                </time>
+                          </a>
+                      </div>
+        </div>
+      </li>
+                        <li class="p-mention h-cite" data-response-id="306fc8b9b48c3cd3a18164bf3b6d9a75">
+        <div class="comment">
+          <div class="p-author h-card author">
+            <img class="u-photo" src="/image?url=http%3A%2F%2Fmention-tech.appspot.com%2Fstatic%2Flogo.jpg&sig=9294659a9f4796e6d8a9c421895e193e17d41c997628ce882b1c003974c310c9" width="48">
+                          <a class="p-name u-url" href="http://mention-tech.appspot.com/" rel="nofollow">
+                http://mention-tech.appspot.com/static/logo.jpgmention.tech              </a>
+              <a class="author-url" href="http://mention-tech.appspot.com/" rel="nofollow">
+                mention-tech.appspot.com              </a>
+                      </div>
+          <div class="comment-content">
+                          <a href="http://mention-tech.appspot.com/testing.html#" rel="nofollow">
+                <h3 class="p-name">Test page for pinging webmention.rocks from</h3>
+              </a> 
+                      </div>
+          <div class="meta">
+            <a class="u-url" href="http://mention-tech.appspot.com/testing.html#" rel="nofollow">
+                              <time class="dt-published" datetime="2016-04-11T00:00:00+00:00">
+                  Monday, April 11, 2016 12:00am +00:00                </time>
                           </a>
                       </div>
         </div>

@@ -1,0 +1,9 @@
+{
+  "Content-Length": "14442", 
+  "X-Powered-By": "PHP/5.6.18-1+deb.sury.org~trusty+1", 
+  "Server": "nginx/1.9.10", 
+  "Connection": "keep-alive", 
+  "Link": "<https://webmention.rocks/test/19/webmention/error>; rel=\"other\", <https://webmention.rocks/test/19/webmention>; rel=\"webmention\"", 
+  "Date": "Fri, 15 Apr 2016 18:06:35 GMT", 
+  "Content-Type": "text/html; charset=UTF-8"
+}

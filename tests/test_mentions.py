@@ -15,7 +15,7 @@ post_url  = "https://bear.im/bearlog/2013/325/indiewebify-and-the-new-site.html"
 post_html = ''.join(open('./tests/data/mentions_post.html').readlines())
 
 path_testdata = './tests/data/webmention_rocks_test_'
-max_testdata  = 14
+max_testdata  = 21
 test_data     = {}
 for n in range(1, max_testdata + 1):
     urlpath = 'webmention.rocks/test/%d' % n
@@ -27,10 +27,12 @@ for n in range(1, max_testdata + 1):
 
 # this dict only contains those items that have endpoints
 # specified in the html and not in headers
-endpoint_data = { 'webmention.rocks/test/3': '/test/3/webmention',
-                  'webmention.rocks/test/4': 'https://webmention.rocks/test/4/webmention',
-                  'webmention.rocks/test/5': '/test/5/webmention',
-                  'webmention.rocks/test/6': 'https://webmention.rocks/test/6/webmention',
+html_endpoints = { 'webmention.rocks/test/3':  '/test/3/webmention',
+                   'webmention.rocks/test/4':  'https://webmention.rocks/test/4/webmention',
+                   'webmention.rocks/test/5':  '/test/5/webmention',
+                   'webmention.rocks/test/6':  'https://webmention.rocks/test/6/webmention',
+                 }
+odd_endpoints = { 'webmention.rocks/test/15': '/test/15'
                 }
 
 @all_requests
@@ -57,8 +59,8 @@ class TestEndpoint(unittest.TestCase):
     # run the html parsing for a discoverWebmentions result
     def runTest(self):
         for urlpath in test_data.keys():
-            if urlpath in endpoint_data:
-                endpoint = endpoint_data[urlpath]
+            if urlpath in html_endpoints:
+                endpoint = html_endpoints[urlpath]
                 html     = test_data[urlpath]['html']
 
                 href = findEndpoint(html)
@@ -69,10 +71,19 @@ class TestDiscovery(unittest.TestCase):
         with HTTMock(mock_response):
             for urlpath in test_data.keys():
                 url      = 'http://%s' % urlpath
-                endpoint = urlparse('%s/webmention' % url).path
+                if urlpath in odd_endpoints:
+                    endpoint = odd_endpoints[urlpath]
+                else:
+                    endpoint = urlparse('%s/webmention' % url).path
 
                 rc, href, debug = discoverEndpoint(url, debug=True)
 
                 wmUrl = urlparse(href)
+
+                print url
+                print wmUrl
+                print wmUrl.path
+                print endpoint
+
                 assert wmUrl.netloc == 'webmention.rocks'
                 assert wmUrl.path   == endpoint

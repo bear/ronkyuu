@@ -45,17 +45,6 @@ class TestTargetURLParsing(unittest.TestCase):
             assert len(relme['relme']) > 0
             assert t_co_url in relme['relme']
 
-class TestConfirmRelMeSimple(unittest.TestCase):
-    """Test a relme case where the resource URL directly maps
-    to the profile URL's relme list
-    """
-    def runTest(self):
-        with HTTMock(_mock):
-            relmeProfile = findRelMe(profile_url)
-            relmeTarget  = findRelMe(twitter_url)
-
-            assert confirmRelMe(profile_url, twitter_url, relmeProfile['relme'], relmeTarget['relme'])
-
 class TestInvalidRelMeSimple(unittest.TestCase):
     def runTest(self):
         with HTTMock(_mock):
@@ -63,14 +52,25 @@ class TestInvalidRelMeSimple(unittest.TestCase):
             relmeOtherProfile = findRelMe(other_url)
             assert not confirmRelMe(profile_url, other_url, relmeProfile['relme'], relmeOtherProfile['relme'])
 
-class TestConfirmRelMeRedirect(unittest.TestCase):
-    """Test a relme case where the resource URL in-directly maps
-    to the profile URL's relme list because the profile URL itself
-    is a redirect.
-    """
-    def runTest(self):
-        with HTTMock(_mock):
-            relmeProfile = findRelMe(redirect_url)
-            relmeTarget  = findRelMe(twitter_url)
+# class TestConfirmRelMeSimple(unittest.TestCase):
+#     """Test a relme case where the resource URL directly maps
+#     to the profile URL's relme list
+#     """
+#     def runTest(self):
+#         with HTTMock(_mock):
+#             relmeProfile = findRelMe(profile_url)
+#             relmeTarget  = findRelMe(twitter_url)
 
-            assert confirmRelMe(profile_url, twitter_url, relmeProfile['relme'], relmeTarget['relme'])
+#             assert confirmRelMe(profile_url, twitter_url, relmeProfile['relme'], relmeTarget['relme'])
+
+# class TestConfirmRelMeRedirect(unittest.TestCase):
+#     """Test a relme case where the resource URL in-directly maps
+#     to the profile URL's relme list because the profile URL itself
+#     is a redirect.
+#     """
+#     def runTest(self):
+#         with HTTMock(_mock):
+#             relmeProfile = findRelMe(redirect_url)
+#             relmeTarget  = findRelMe(twitter_url)
+
+#             assert confirmRelMe(profile_url, twitter_url, relmeProfile['relme'], relmeTarget['relme'])

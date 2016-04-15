@@ -13,7 +13,7 @@
   <script src="/assets/jquery-1.11.3.min.js"></script>
   <script src="/assets/semantic.min.js"></script>
 
-  <link rel="webmention somethingelse" href="https://webmention.rocks/test/9/webmention">
+  
 </head>
 <body>
 
@@ -26,11 +26,11 @@
       </a>
     </div>
     <div class="right">
-      <h1 class="p-name"><a href="/test/9">Test #9</a></h1>
-      <div class="e-content">This post has a &lt;link&gt; tag with multiple rel values.</div>
+      <h1 class="p-name"><a href="/test/17">Test #17</a></h1>
+      <div class="e-content">This post advertises its Webmention endpoint in an HTML &lt;link&gt; tag <link rel="webmention" href="/test/17/webmention"> followed by a later definition in an <a href="/test/17/webmention/error" rel="webmention">&lt;a&gt; tag</a>. Your Webmention client must only send a Webmention to the one in the &lt;link&gt; tag since it appears first in the document.</div>
       <div class="meta">
-        <a href="/test/9" class="u-url">
-          <time class="dt-published" datetime="2016-04-15T08:06:31-07:00">
+        <a href="/test/17" class="u-url">
+          <time class="dt-published" datetime="2016-04-15T08:06:35-07:00">
             Friday April 15, 2016 8:06am -07:00          </time>
         </a>
       </div>
@@ -57,7 +57,7 @@
         </div>
         <div class="facepile-type-icon"><i class="ui star icon"></i></div>
         <ul class="facepile stream like">
-                                              <li class="p-like h-cite" data-response-id="6517f3623e5fa2cb392c4c992bbbaad4">
+                                              <li class="p-like h-cite" data-response-id="fc0fd830ba47a286bd7908c0c32fa122">
             <a href="https://bear.im/bearlog/2016/101/testing-webmention-rocks-likes.html" class="u-url" rel="nofollow">
               <span class="p-author h-card author">
                 <img class="u-photo" src="/image?url=https%3A%2F%2Fbear.im%2Fimages%2Fbear_145x145.jpg&sig=71d68c1e03e6214a359ca7a04ab2c0f67fafcaabe9e342788047768500a04b49" 
@@ -97,29 +97,7 @@
         <p class="help-text">The comments below are replies to this post, and marked up their link to the post with the <code><a href="http://indiewebcamp.com/in-reply-to">in-reply-to</a></code> property.</p>
       </div>
       <ul class="comments stream reply">
-                        <li class="p-reply h-cite" data-response-id="a9b9205c0069428033d627b97d48bd26">
-        <div class="comment">
-          <div class="p-author h-card author">
-            <img class="u-photo" src="/image?url=https%3A%2F%2Fsecure.gravatar.com%2Favatar%2F947b5f3f323da0ef785b6f02d9c265d6%3Fs%3D96%26d%3Dblank%26r%3Dg&sig=ed31334fc937c7a24ee000552f2f798d75fa64de29f19ca4e2a704dad0415154" width="48">
-                          <a class="p-name u-url" href="https://snarfed.org/" rel="nofollow">
-                Ryan Barrett              </a>
-              <a class="author-url" href="https://snarfed.org/" rel="nofollow">
-                snarfed.org              </a>
-                      </div>
-          <div class="comment-content">
-                          <a href="https://snarfed.org/2016-04-11_webmention-rocks" rel="nofollow">
-                <h3 class="p-name">Webmention Rocks!</h3>
-              </a> 
-                      </div>
-          <div class="meta">
-            <a class="u-url" href="https://snarfed.org/2016-04-11_webmention-rocks" rel="nofollow">
-                              <time class="dt-published" datetime="2016-04-11T10:51:05-07:00">
-                  Monday, April 11, 2016 10:51am -07:00                </time>
-                          </a>
-                      </div>
-        </div>
-      </li>
-                        <li class="p-reply h-cite" data-response-id="cfe30be5aab59ffa5c451c790d813adc">
+                        <li class="p-reply h-cite" data-response-id="67b7a52f3b832cf4fd90cf102be7a744">
         <div class="comment">
           <div class="p-author h-card author">
             <img class="u-photo" src="/image?url=http%3A%2F%2Ftantek.com%2Flogo.jpg&sig=092101ae6205e728413159087b0afdfc64d6638956dd483bb767b1f6f3ddef3e" width="48">
@@ -148,7 +126,51 @@
         <p class="help-text">The mentions below linked to this post, but did not include this post's URL as an <code><a href="http://indiewebcamp.com/in-reply-to">in-reply-to</a></code> property.</p>
       </div>
       <ul class="comments stream mention">
-                        <li class="p-mention h-cite" data-response-id="e5bf7cc03a116379bc37d277d7e9ecb2">
+                        <li class="p-mention h-cite" data-response-id="daabce0516ec0896c099dafca20d3bf1">
+        <div class="comment">
+          <div class="p-author h-card author">
+            <img class="u-photo" src="/image?url=https%3A%2F%2Fbear.im%2Fimages%2Fbear_145x145.jpg&sig=71d68c1e03e6214a359ca7a04ab2c0f67fafcaabe9e342788047768500a04b49" width="48">
+                          <a class="p-name u-url" href="https://bear.im/" rel="nofollow">
+                Mike Taylor              </a>
+              <a class="author-url" href="https://bear.im/" rel="nofollow">
+                bear.im              </a>
+                      </div>
+          <div class="comment-content">
+                          <a href="https://bear.im/bearlog/2016/101/testing-webmention-rocks.html" rel="nofollow">
+                <h3 class="p-name">Testing Webmention.rocks</h3>
+              </a> 
+                      </div>
+          <div class="meta">
+            <a class="u-url" href="https://bear.im/bearlog/2016/101/testing-webmention-rocks.html" rel="nofollow">
+                              <time class="dt-published" datetime="2016-04-10T22:48:34+00:00">
+                  Sunday, April 10, 2016 10:48pm +00:00                </time>
+                          </a>
+                      </div>
+        </div>
+      </li>
+                        <li class="p-mention h-cite" data-response-id="fb1b1e9f2a91ca25701d669c68f6d954">
+        <div class="comment">
+          <div class="p-author h-card author">
+            <img class="u-photo" src="/image?url=http%3A%2F%2Fmention-tech.appspot.com%2Fstatic%2Flogo.jpg&sig=9294659a9f4796e6d8a9c421895e193e17d41c997628ce882b1c003974c310c9" width="48">
+                          <a class="p-name u-url" href="http://mention-tech.appspot.com/" rel="nofollow">
+                http://mention-tech.appspot.com/static/logo.jpgmention.tech              </a>
+              <a class="author-url" href="http://mention-tech.appspot.com/" rel="nofollow">
+                mention-tech.appspot.com              </a>
+                      </div>
+          <div class="comment-content">
+                          <a href="http://mention-tech.appspot.com/testing.html#" rel="nofollow">
+                <h3 class="p-name">Test page for pinging webmention.rocks from</h3>
+              </a> 
+                      </div>
+          <div class="meta">
+            <a class="u-url" href="http://mention-tech.appspot.com/testing.html#" rel="nofollow">
+                              <time class="dt-published" datetime="2016-04-11T00:00:00+00:00">
+                  Monday, April 11, 2016 12:00am +00:00                </time>
+                          </a>
+                      </div>
+        </div>
+      </li>
+                        <li class="p-mention h-cite" data-response-id="f3ea8695fe174aabcc460f1b85c9ec3e">
         <div class="comment">
           <div class="p-author h-card author">
             <img class="u-photo" src="/image?url=https%3A%2F%2Faaronparecki.com%2Fimages%2Faaronpk-256.jpg&sig=3c1599f61a4ad25d74ff009b67b2ff47d508b269a327ea1a40b07840280e6877" width="48">
@@ -190,50 +212,6 @@
                       </div>
         </div>
       </li>
-                        <li class="p-mention h-cite" data-response-id="fcbfaaa7519bdf6a7a90a52b4dae5b4c">
-        <div class="comment">
-          <div class="p-author h-card author">
-            <img class="u-photo" src="/image?url=http%3A%2F%2Fmention-tech.appspot.com%2Fstatic%2Flogo.jpg&sig=9294659a9f4796e6d8a9c421895e193e17d41c997628ce882b1c003974c310c9" width="48">
-                          <a class="p-name u-url" href="http://mention-tech.appspot.com/" rel="nofollow">
-                http://mention-tech.appspot.com/static/logo.jpgmention.tech              </a>
-              <a class="author-url" href="http://mention-tech.appspot.com/" rel="nofollow">
-                mention-tech.appspot.com              </a>
-                      </div>
-          <div class="comment-content">
-                          <a href="http://mention-tech.appspot.com/testing.html#" rel="nofollow">
-                <h3 class="p-name">Test page for pinging webmention.rocks from</h3>
-              </a> 
-                      </div>
-          <div class="meta">
-            <a class="u-url" href="http://mention-tech.appspot.com/testing.html#" rel="nofollow">
-                              <time class="dt-published" datetime="2016-04-11T00:00:00+00:00">
-                  Monday, April 11, 2016 12:00am +00:00                </time>
-                          </a>
-                      </div>
-        </div>
-      </li>
-                        <li class="p-mention h-cite" data-response-id="0d95eea594a75558d645403b5f62eb29">
-        <div class="comment">
-          <div class="p-author h-card author">
-            <img class="u-photo" src="/image?url=https%3A%2F%2Fbear.im%2Fimages%2Fbear_145x145.jpg&sig=71d68c1e03e6214a359ca7a04ab2c0f67fafcaabe9e342788047768500a04b49" width="48">
-                          <a class="p-name u-url" href="https://bear.im/" rel="nofollow">
-                Mike Taylor              </a>
-              <a class="author-url" href="https://bear.im/" rel="nofollow">
-                bear.im              </a>
-                      </div>
-          <div class="comment-content">
-                          <a href="https://bear.im/bearlog/2016/101/testing-webmention-rocks.html" rel="nofollow">
-                <h3 class="p-name">Testing Webmention.rocks</h3>
-              </a> 
-                      </div>
-          <div class="meta">
-            <a class="u-url" href="https://bear.im/bearlog/2016/101/testing-webmention-rocks.html" rel="nofollow">
-                              <time class="dt-published" datetime="2016-04-10T22:48:34+00:00">
-                  Sunday, April 10, 2016 10:48pm +00:00                </time>
-                          </a>
-                      </div>
-        </div>
-      </li>
               </ul>
     </div>
 
@@ -243,7 +221,7 @@
   </div>
 </div>
 
-<div id="test-num" data-num="9"></div>
+<div id="test-num" data-num="17"></div>
 <script src="/assets/streaming.js"></script>
 
 </body>
