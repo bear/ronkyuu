@@ -45,6 +45,8 @@ if __name__ == '__main__':
             'html5lib',
             'lxml',
         ],
+        setup_requires=['pytest-runner'],
+        tests_require=['pytest'],
         classifiers=[
             'Development Status :: 4 - Beta',
             'Intended Audience :: Developers',
