@@ -1,4 +1,6 @@
 [![Downloads](https://img.shields.io/pypi/v/ronkyuu.svg)](https://pypi.python.org/pypi/ronkyuu/)
+[![Circle CI](https://circleci.com/gh/bear/ronkyuu.svg?style=svg)](https://circleci.com/gh/bear/ronkyuu)
+[![CodeCov](http://codecov.io/github/bear/ronkyuu/coverage.svg?branch=master)](http://codecov.io/github/bear/ronkyuu)
 [![Requirements Status](https://requires.io/github/bear/ronkyuu/requirements.svg?branch=master)](https://requires.io/github/bear/ronkyuu/requirements/?branch=master)
 
 論及 ronkyuu - mention, reference to, touching upon
