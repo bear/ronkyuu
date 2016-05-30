@@ -38,7 +38,7 @@ def setParser(htmlParser='html5lib'):
 # processing stops)
 
 
-def findMentions(sourceURL, targetURL=None, exclude_domains=[], content=None, test_urls=True):
+def findMentions(sourceURL, targetURL=None, exclude_domains=[], content=None, test_urls=True, headers={}):
     """Find all <a /> elements in the given html for a post. Only scan html element matching all criteria in look_in.
 
     optionally the content to be scanned can be given as an argument.
@@ -51,7 +51,9 @@ def findMentions(sourceURL, targetURL=None, exclude_domains=[], content=None, te
     :param content: the content to be scanned for mentions
     :param look_in: dictionary with name, id and class_. only element matching all of these will be scanned
     :param test_urls: optional flag to test URLs for validation
+    :param headers: optional headers to send with any web requests
     :type exclude_domains: list
+    :type headers: dict
     :rtype: dictionary of Mentions
     """
 
@@ -65,7 +67,7 @@ def findMentions(sourceURL, targetURL=None, exclude_domains=[], content=None, te
                   'headers':  None,
                   }
     else:
-        r = requests.get(sourceURL, verify=True)
+        r = requests.get(sourceURL, verify=True, headers=headers)
         result = {'status':   r.status_code,
                   'headers':  r.headers
                   }
@@ -127,13 +129,14 @@ def findEndpoint(html):
     return None
 
 
-def discoverEndpoint(url, test_urls=True, debug=False):
+def discoverEndpoint(url, test_urls=True, debug=False, headers={}):
     """Discover any WebMention endpoint for a given URL.
 
     :param link: URL to discover WebMention endpoint
     :param test_urls: optional flag to test URLs for validation
     :param debug: if true, then include in the returned tuple
                   a list of debug entries
+    :param headers: optional headers to send with any web requests
     :rtype: tuple (status_code, URL, [debug])
     """
     if test_urls:
@@ -143,7 +146,7 @@ def discoverEndpoint(url, test_urls=True, debug=False):
     href = None
     d    = []
     try:
-        r  = requests.get(url, verify=False)
+        r  = requests.get(url, verify=False, headers=headers)
         rc = r.status_code
         d.append('is url [%s] retrievable? [%s]' % (url, rc))
         if rc == requests.codes.ok:
@@ -170,7 +173,7 @@ def discoverEndpoint(url, test_urls=True, debug=False):
     else:
         return (rc, href)
 
-def sendWebmention(sourceURL, targetURL, webmention=None, test_urls=True, vouchDomain=None, debug=False):
+def sendWebmention(sourceURL, targetURL, webmention=None, test_urls=True, vouchDomain=None, debug=False, headers={}):
     """Send to the :targetURL: a WebMention for the :sourceURL:
 
     The WebMention will be discovered if not given in the :webmention:
@@ -182,6 +185,7 @@ def sendWebmention(sourceURL, targetURL, webmention=None, test_urls=True, vouchD
     :param test_urls: optional flag to test URLs for validation
     :param debug: if true, then include in the returned tuple
                   a list of debug entries
+    :param headers: optional headers to send with any web requests
     :rtype: HTTPrequest object if WebMention endpoint was valid
     """
     if test_urls:
@@ -192,7 +196,7 @@ def sendWebmention(sourceURL, targetURL, webmention=None, test_urls=True, vouchD
     result = None
     d      = []
     if webmention is None:
-        wStatus, wUrl = discoverEndpoint(targetURL, debug=False)
+        wStatus, wUrl = discoverEndpoint(targetURL, debug=False, headers=headers)
     else:
         wStatus = 200
         wUrl = webmention
@@ -208,7 +212,7 @@ def sendWebmention(sourceURL, targetURL, webmention=None, test_urls=True, vouchD
 
         d.append('sending to [%s] %s' % (wUrl, payload))
         try:
-            result = requests.post(wUrl, data=payload)
+            result = requests.post(wUrl, data=payload, headers=headers)
             d.append('POST returned %d' % result.status_code)
 
             if result.status_code == 405 and len(result.history) > 0:
@@ -216,10 +220,9 @@ def sendWebmention(sourceURL, targetURL, webmention=None, test_urls=True, vouchD
                 o = result.history[-1]
                 if o.status_code == 301 and 'Location' in o.headers:
                     d.append('redirected to [%s]' % o.headers['Location'])
-                    result = requests.post(o.headers['Location'], data=payload)
+                    result = requests.post(o.headers['Location'], data=payload, headers=headers)
             elif result.status_code not in (200, 201, 202):
                 d.append('status code was not 200, 201, 202')
-
         except:
             d.append('exception during request post')
             result = None
