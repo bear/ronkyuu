@@ -30,7 +30,7 @@ lint:
 test: lint
 	python setup.py test
 
-coverage: clean test
+coverage: clean
 	coverage run --source=ronkyuu setup.py test
 	coverage html
 	coverage report
