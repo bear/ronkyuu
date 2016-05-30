@@ -43,7 +43,6 @@ if __name__ == '__main__':
             'beautifulsoup4',
             'mf2py',
             'html5lib',
-            'lxml',
         ],
         setup_requires=['pytest-runner'],
         tests_require=['pytest'],

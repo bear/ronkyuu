@@ -11,16 +11,15 @@ Python package to help with parsing, handling and other manipulations of the Ind
 * [RelMe](http://microformats.org/wiki/rel-me)
  * Take a source URL and a resource URL that is supposed to be a rel=me for the source and verify that it is.
 
-Roadmap
-=======
-Working
-* Mention discovery in a post
-* Discovery of Webmention callback for a link
-* POST of Webmention to discovered callback
-* Receipt of a Webmention POST
-* support for RelMe verification
-
 See the examples/ directory for sample command line tools.
+
+Because Ronkyuu uses BeautifulSoup4 for it's amazing HTML wrangling ability, you have the option of enabling faster parsing via the `lxml` package instead of the default `html5lib` package. This is done by having `lxml` installed and...
+
+```
+import ronkyuu
+
+ronkyuu.webmention.setParser('lxml')
+```
 
 Contributors
 ============

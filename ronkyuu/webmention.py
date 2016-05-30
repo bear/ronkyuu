@@ -19,6 +19,10 @@ except ImportError:
 
 _html_parser = 'html5lib'   # 'html.parser', 'lxml', 'lxml-xml'
 
+def setParser(htmlParser='html5lib'):
+    global _html_parser
+    _html_parser = htmlParser
+
 
 # User Aaron posts a blog post on his blog
 # User Barnaby writes post on his blog that links to Aaron's post.
