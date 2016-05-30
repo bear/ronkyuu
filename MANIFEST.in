@@ -3,6 +3,7 @@ include README.md
 include requirements.txt
 include requirements-test.txt
 include Makefile
+include pytest.ini
 include *.py
 recursive-include docs *.md
 recursive-include tests *.py
