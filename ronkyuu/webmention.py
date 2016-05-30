@@ -38,7 +38,7 @@ def setParser(htmlParser='html5lib'):
 # processing stops)
 
 
-def findMentions(sourceURL, targetURL=None, exclude_domains=[], content=None, test_urls=True, headers={}):
+def findMentions(sourceURL, targetURL=None, exclude_domains=[], content=None, test_urls=True, headers={}, timeout=None):
     """Find all <a /> elements in the given html for a post. Only scan html element matching all criteria in look_in.
 
     optionally the content to be scanned can be given as an argument.
@@ -48,12 +48,14 @@ def findMentions(sourceURL, targetURL=None, exclude_domains=[], content=None, te
 
     :param sourceURL: the URL for the post we are scanning
     :param exclude_domains: a list of domains to exclude from the search
+    :type exclude_domains: list
     :param content: the content to be scanned for mentions
     :param look_in: dictionary with name, id and class_. only element matching all of these will be scanned
     :param test_urls: optional flag to test URLs for validation
     :param headers: optional headers to send with any web requests
-    :type exclude_domains: list
     :type headers: dict
+    :param timeout: optional timeout for web requests
+    :type timeout float
     :rtype: dictionary of Mentions
     """
 
@@ -67,7 +69,7 @@ def findMentions(sourceURL, targetURL=None, exclude_domains=[], content=None, te
                   'headers':  None,
                   }
     else:
-        r = requests.get(sourceURL, verify=True, headers=headers)
+        r = requests.get(sourceURL, verify=True, headers=headers, timeout=timeout)
         result = {'status':   r.status_code,
                   'headers':  r.headers
                   }
@@ -129,7 +131,7 @@ def findEndpoint(html):
     return None
 
 
-def discoverEndpoint(url, test_urls=True, debug=False, headers={}):
+def discoverEndpoint(url, test_urls=True, debug=False, headers={}, timeout=None):
     """Discover any WebMention endpoint for a given URL.
 
     :param link: URL to discover WebMention endpoint
@@ -137,6 +139,9 @@ def discoverEndpoint(url, test_urls=True, debug=False, headers={}):
     :param debug: if true, then include in the returned tuple
                   a list of debug entries
     :param headers: optional headers to send with any web requests
+    :type headers dict
+    :param timeout: optional timeout for web requests
+    :type timeout float
     :rtype: tuple (status_code, URL, [debug])
     """
     if test_urls:
@@ -146,7 +151,7 @@ def discoverEndpoint(url, test_urls=True, debug=False, headers={}):
     href = None
     d    = []
     try:
-        r  = requests.get(url, verify=False, headers=headers)
+        r  = requests.get(url, verify=False, headers=headers, timeout=timeout)
         rc = r.status_code
         d.append('is url [%s] retrievable? [%s]' % (url, rc))
         if rc == requests.codes.ok:
@@ -173,7 +178,8 @@ def discoverEndpoint(url, test_urls=True, debug=False, headers={}):
     else:
         return (rc, href)
 
-def sendWebmention(sourceURL, targetURL, webmention=None, test_urls=True, vouchDomain=None, debug=False, headers={}):
+def sendWebmention(sourceURL, targetURL, webmention=None, test_urls=True, vouchDomain=None,
+                   debug=False, headers={}, timeout=None):
     """Send to the :targetURL: a WebMention for the :sourceURL:
 
     The WebMention will be discovered if not given in the :webmention:
@@ -186,6 +192,10 @@ def sendWebmention(sourceURL, targetURL, webmention=None, test_urls=True, vouchD
     :param debug: if true, then include in the returned tuple
                   a list of debug entries
     :param headers: optional headers to send with any web requests
+    :type headers dict
+    :param timeout: optional timeout for web requests
+    :type timeout float
+
     :rtype: HTTPrequest object if WebMention endpoint was valid
     """
     if test_urls:
@@ -196,7 +206,7 @@ def sendWebmention(sourceURL, targetURL, webmention=None, test_urls=True, vouchD
     result = None
     d      = []
     if webmention is None:
-        wStatus, wUrl = discoverEndpoint(targetURL, debug=False, headers=headers)
+        wStatus, wUrl = discoverEndpoint(targetURL, debug=False, headers=headers, timeout=timeout)
     else:
         wStatus = 200
         wUrl = webmention
@@ -212,7 +222,7 @@ def sendWebmention(sourceURL, targetURL, webmention=None, test_urls=True, vouchD
 
         d.append('sending to [%s] %s' % (wUrl, payload))
         try:
-            result = requests.post(wUrl, data=payload, headers=headers)
+            result = requests.post(wUrl, data=payload, headers=headers, timeout=timeout)
             d.append('POST returned %d' % result.status_code)
 
             if result.status_code == 405 and len(result.history) > 0:
@@ -220,7 +230,7 @@ def sendWebmention(sourceURL, targetURL, webmention=None, test_urls=True, vouchD
                 o = result.history[-1]
                 if o.status_code == 301 and 'Location' in o.headers:
                     d.append('redirected to [%s]' % o.headers['Location'])
-                    result = requests.post(o.headers['Location'], data=payload, headers=headers)
+                    result = requests.post(o.headers['Location'], data=payload, headers=headers, timeout=timeout)
             elif result.status_code not in (200, 201, 202):
                 d.append('status code was not 200, 201, 202')
         except:
