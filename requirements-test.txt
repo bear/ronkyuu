@@ -9,3 +9,6 @@ codecov
 check-manifest
 httmock
 wheel
+tox
+tox-pyenv
+pycodestyle

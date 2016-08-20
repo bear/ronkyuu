@@ -34,7 +34,7 @@ if __name__ == '__main__':
 
     for href in mentions['refs']:
         if sourceURL != href:
-            print href
+            print(href)
             wmStatus, wmUrl = ronkyuu.discoverEndpoint(href, test_urls=False)
             if wmUrl is not None and wmStatus == 200:
                 print('\tfound webmention endpoint %s for %s' % (wmUrl, href))

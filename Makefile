@@ -7,37 +7,19 @@ help:
 	@echo "  coverage    run codecov"
 
 env:
-ifndef VIRTUAL_ENV
-	$(error Please install and activate a virtualenv before using the init or dev targets)
-else
-	pip install -r requirements.txt
-endif
+	pip install -U pip
+	pip install -Ur requirements.txt
+	pip install -Ur requirements-test.txt
 
 dev: env
-	pip install -r requirements-test.txt
-
-update:
-	pip install -r requirements.txt
+	pyenv install -s 2.7.11
+	pyenv install -s 3.5.2
+	pyenv local 2.7.11 3.5.2
 
 info:
-	python --version
-	pyenv --version
-	pip --version
-
-lint:
-	flake8 . > violations.flake8.txt
-
-test: lint
-	python setup.py test
-
-coverage: clean
-	coverage run --source=ronkyuu setup.py test
-	coverage html
-	coverage report
-
-upload: check
-	python setup.py sdist upload
-	python setup.py bdist_wheel upload
+	@python --version
+	@pyenv --version
+	@pip --version
 
 clean:
 	rm -rf build
@@ -48,11 +30,30 @@ clean:
 	find . -name '*.pyo' -exec rm -f {} \;
 	find . -name '*~' ! -name '*.un~' -exec rm -f {} \;
 
-distclean: clean dist
+lint: info
+	flake8 . > violations.flake8.txt
+
+test: lint
+	python setup.py test
+
+tox: clean
+	tox
+
+coverage: clean
+	coverage run --source=ronkyuu setup.py test
+	coverage html
+	coverage report
+
+ci: tox coverage
+	CODECOV_TOKEN=`cat .codecov-token` codecov
+
+check: clean
+	check-manifest
+	python setup.py check
+
+upload: check
+	python setup.py sdist upload
+	python setup.py bdist_wheel upload
 
 dist: check
 	python setup.py sdist
-
-check:
-	check-manifest
-	python setup.py check

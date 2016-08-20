@@ -15,6 +15,5 @@ class TestParseLinkRels(unittest.TestCase):
                   ]
         for s in headers:
           d = parse_link_header(s)
-          print d
-          print d.keys()
+
           assert 'webmention' in d.keys()

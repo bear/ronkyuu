@@ -6,8 +6,12 @@
 
 import json
 import unittest
-from urlparse import urlparse
 from httmock import all_requests, response, HTTMock
+
+try:  # Python v3
+    from urllib.parse import urlparse
+except ImportError:
+    from urlparse import urlparse
 
 from ronkyuu import findMentions, findEndpoint, discoverEndpoint
 
@@ -79,11 +83,6 @@ class TestDiscovery(unittest.TestCase):
                 rc, href, debug = discoverEndpoint(url, debug=True)
 
                 wmUrl = urlparse(href)
-
-                print url
-                print wmUrl
-                print wmUrl.path
-                print endpoint
 
                 assert wmUrl.netloc == 'webmention.rocks'
                 assert wmUrl.path   == endpoint
