@@ -2,24 +2,25 @@ help:
 	@echo "  env         install all production dependencies"
 	@echo "  dev         install all dev and production dependencies (virtualenv is assumed)"
 	@echo "  clean       remove unwanted stuff"
-	@echo "  lint        check style with flake8"
+	@echo "  lint        check style with pycodestyle"
 	@echo "  test        run tests"
 	@echo "  coverage    run codecov"
 
 env:
+	pyenv install -s 2.7.12
+	pyenv install -s 3.5.2
+	pyenv local 2.7.12 3.5.2
 	pip install -U pip
-	pip install -Ur requirements.txt
-	pip install -Ur requirements-test.txt
 
 dev: env
-	pyenv install -s 2.7.11
-	pyenv install -s 3.5.2
-	pyenv local 2.7.11 3.5.2
+	pip install -Ur requirements.txt
+	pip install -Ur requirements-test.txt
 
 info:
 	@python --version
 	@pyenv --version
 	@pip --version
+	@pycodestyle --version
 
 clean:
 	rm -rf build
@@ -31,21 +32,24 @@ clean:
 	find . -name '*~' ! -name '*.un~' -exec rm -f {} \;
 
 lint: info
-	flake8 . > violations.flake8.txt
+	pycodestyle
 
 test: lint
 	python setup.py test
 
-tox: clean
+tox.ini: requirements.txt requirements-test.txt
+	tox --recreate
+
+tox: tox.ini
 	tox
 
 coverage: clean
 	coverage run --source=ronkyuu setup.py test
-	coverage html
-	coverage report
 
-ci: tox coverage
-	CODECOV_TOKEN=`cat .codecov-token` codecov
+ci: lint coverage
+	@coverage html
+	@coverage report
+	# CODECOV_TOKEN=`cat .codecov-token` codecov
 
 check: clean
 	check-manifest
