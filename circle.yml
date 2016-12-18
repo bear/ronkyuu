@@ -1,11 +1,27 @@
-dependencies:
-  override:
-    - make dev
+version: 2
+executorType: docker
 
-test:
-  pre:
-    - make info
-    - uname -a
-    - lsb_release -a
-  override:
-    - make ci
+containerInfo:
+  - image: python:2.7
+
+stages:
+  build:
+    workDir: ~/ronkyuu
+    steps:
+      - type: checkout
+      - type: shell
+        shell: /bin/bash --login
+        name: Install pyenv
+        command: |
+          curl -L https://raw.githubusercontent.com/yyuu/pyenv-installer/master/bin/pyenv-installer | bash
+          echo 'export PATH="/root/.pyenv/bin:$PATH"' >> ~/.profile
+          echo 'eval "$(pyenv init -)"'               >> ~/.profile
+          echo 'eval "$(pyenv virtualenv-init -)"'    >> ~/.profile
+      - type: shell
+        shell: /bin/bash --login
+        name: Install Dependencies
+        command: make dev
+      - type: shell
+        shell: /bin/bash --login
+        name: Test
+        command: make ci
