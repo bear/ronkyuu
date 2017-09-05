@@ -14,6 +14,7 @@ def storePageData(url, fname):
     with open('%s.json' % fname, 'w') as h:
       h.write(json.dumps(dict(r.headers), indent=2))
 
+
 for n in range(1, 22):
     url   = 'https://webmention.rocks/test/%d' % n
     fname = '%s_%d' % (path_testdata, n)
