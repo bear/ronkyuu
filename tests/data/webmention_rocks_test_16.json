@@ -1,8 +1,7 @@
 {
-  "Content-Length": "14659", 
-  "X-Powered-By": "PHP/5.6.18-1+deb.sury.org~trusty+1", 
-  "Server": "nginx/1.9.10", 
+  "Date": "Sat, 02 Sep 2017 21:36:29 GMT", 
+  "Content-Length": "6719", 
+  "Content-Type": "text/html; charset=UTF-8", 
   "Connection": "keep-alive", 
-  "Date": "Fri, 15 Apr 2016 18:06:34 GMT", 
-  "Content-Type": "text/html; charset=UTF-8"
+  "Server": "nginx/1.12.0"
 }

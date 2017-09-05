@@ -13,7 +13,7 @@ try:  # Python v3
 except ImportError:
     from urlparse import urlparse
 
-from ronkyuu import findMentions, findEndpoint, discoverEndpoint
+from ronkyuu import findMentions, findEndpoint, discoverEndpoint, sendWebmention
 
 post_url  = "https://bear.im/bearlog/2013/325/indiewebify-and-the-new-site.html"
 post_html = ''.join(open('./tests/data/mentions_post.html').readlines())
@@ -31,10 +31,10 @@ for n in range(1, max_testdata + 1):
 
 # this dict only contains those items that have endpoints
 # specified in the html and not in headers
-html_endpoints = { 'webmention.rocks/test/3':  '/test/3/webmention',
-                   'webmention.rocks/test/4':  'https://webmention.rocks/test/4/webmention',
-                   'webmention.rocks/test/5':  '/test/5/webmention',
-                   'webmention.rocks/test/6':  'https://webmention.rocks/test/6/webmention',
+html_endpoints = { 'webmention.rocks/test/3': '/test/3/webmention',
+                   'webmention.rocks/test/4': 'https://webmention.rocks/test/4/webmention',
+                   'webmention.rocks/test/5': '/test/5/webmention',
+                   'webmention.rocks/test/6': 'https://webmention.rocks/test/6/webmention',
                  }
 odd_endpoints = { 'webmention.rocks/test/15': '/test/15'
                 }
@@ -74,15 +74,32 @@ class TestDiscovery(unittest.TestCase):
     def runTest(self):
         with HTTMock(mock_response):
             for urlpath in test_data.keys():
-                url      = 'http://%s' % urlpath
+                url = 'http://%s' % urlpath
                 if urlpath in odd_endpoints:
                     endpoint = odd_endpoints[urlpath]
                 else:
                     endpoint = urlparse('%s/webmention' % url).path
 
-                rc, href, debug = discoverEndpoint(url, debug=True)
+                rc, href = discoverEndpoint(url)
 
                 wmUrl = urlparse(href)
 
                 assert wmUrl.netloc == 'webmention.rocks'
                 assert wmUrl.path   == endpoint
+
+class TestDiscoveryRedirect(unittest.TestCase):
+    def runTest(self):
+        rc, href = discoverEndpoint('https://webmention.rocks/test/23/page')
+        wmUrl = urlparse(href)
+
+        assert wmUrl.netloc == 'webmention.rocks'
+        assert wmUrl.path.startswith('/test/23/webmention-endpoint/')
+
+class TestSendMention(unittest.TestCase):
+    def runTest(self):
+        source = 'https://bear.im/bearlog/2017/245/checking-indieweb-code'
+        target = 'https://webmention.rocks/test/23/page'
+
+        resp = sendWebmention(source, target, test_urls=False)
+
+        assert resp.status_code == 200
