@@ -12,9 +12,9 @@ from .validators import URLValidator
 from .tools import parse_link_header
 
 try:  # Python v3
-    from urllib.parse import urlparse, urljoin
+    from urllib.parse import urlparse, urljoin, ParseResult
 except ImportError:
-    from urlparse import urlparse, urljoin
+    from urlparse import urlparse, urljoin, ParseResult
 
 
 _html_parser = 'html5lib'   # 'html.parser', 'lxml', 'lxml-xml'
@@ -131,55 +131,61 @@ def findEndpoint(html):
     return None
 
 
-def discoverEndpoint(url, test_urls=True, debug=False, headers={}, timeout=None):
+def discoverEndpoint(url, test_urls=True, headers={}, timeout=None, request=None, debug=False):
     """Discover any WebMention endpoint for a given URL.
 
     :param link: URL to discover WebMention endpoint
     :param test_urls: optional flag to test URLs for validation
-    :param debug: if true, then include in the returned tuple
-                  a list of debug entries
     :param headers: optional headers to send with any web requests
     :type headers dict
     :param timeout: optional timeout for web requests
     :type timeout float
+    :param request: optional Requests request object to avoid another GET
     :rtype: tuple (status_code, URL, [debug])
     """
     if test_urls:
         URLValidator(message='invalid URL')(url)
 
     # status, webmention
-    href = None
-    d    = []
+    endpointURL = None
+    debugOutput = []
     try:
-        r  = requests.get(url, verify=False, headers=headers, timeout=timeout)
-        rc = r.status_code
-        d.append('is url [%s] retrievable? [%s]' % (url, rc))
-        if rc == requests.codes.ok:
+        if request is not None:
+            targetRequest = request
+        else:
+            targetRequest = requests.get(url, verify=False, headers=headers, timeout=timeout)
+        returnCode = targetRequest.status_code
+        debugOutput.append('%s %s' % (returnCode, url))
+        if returnCode == requests.codes.ok:
             try:
-                link = parse_link_header(r.headers['link'])
-                href = link.get('webmention', '') or link.get('http://webmention.org', '') or link.get('http://webmention.org/', '') or link.get('https://webmention.org', '') or link.get('https://webmention.org/', '')
-
+                linkHeader  = parse_link_header(targetRequest.headers['link'])
+                endpointURL = linkHeader.get('webmention', '') or \
+                              linkHeader.get('http://webmention.org', '') or \
+                              linkHeader.get('http://webmention.org/', '') or \
+                              linkHeader.get('https://webmention.org', '') or \
+                              linkHeader.get('https://webmention.org/', '')
                 # force searching in the HTML if not found
-                if not href:
-                    d.append('link header not found, forcing html scan')
+                if not endpointURL:
                     raise AttributeError
+                debugOutput.append('found in link headers')
             except (KeyError, AttributeError):
-                href = findEndpoint(r.text)
-
-            if href is not None:
-                href = urljoin(url, href)
-            d.append('discovered href [%s]' % href)
+                endpointURL = findEndpoint(targetRequest.text)
+                debugOutput.append('found in body')
+            if endpointURL is not None:
+                endpointURL = urljoin(url, endpointURL)
     except (requests.exceptions.RequestException, requests.exceptions.ConnectionError,
             requests.exceptions.HTTPError, requests.exceptions.URLRequired,
             requests.exceptions.TooManyRedirects, requests.exceptions.Timeout):
-        rc = 500
+        debugOutput.append('exception during GET request')
+        returnCode = 500
+    debugOutput.append('endpointURL: %s %s' % (returnCode, endpointURL))
     if debug:
-        return (rc, href, d)
+        return (returnCode, endpointURL, debugOutput)
     else:
-        return (rc, href)
+        return (returnCode, endpointURL)
 
 def sendWebmention(sourceURL, targetURL, webmention=None, test_urls=True, vouchDomain=None,
-                   debug=False, headers={}, timeout=None):
+                   headers={}, timeout=None, debug=False):
     """Send to the :targetURL: a WebMention for the :sourceURL:
 
     The WebMention will be discovered if not given in the :webmention:
@@ -189,8 +195,6 @@ def sendWebmention(sourceURL, targetURL, webmention=None, test_urls=True, vouchD
     :param targetURL: URL of mentioned post
     :param webmention: optional WebMention endpoint
     :param test_urls: optional flag to test URLs for validation
-    :param debug: if true, then include in the returned tuple
-                  a list of debug entries
     :param headers: optional headers to send with any web requests
     :type headers dict
     :param timeout: optional timeout for web requests
@@ -203,40 +207,43 @@ def sendWebmention(sourceURL, targetURL, webmention=None, test_urls=True, vouchD
         v(sourceURL)
         v(targetURL)
 
-    result = None
-    d      = []
-    if webmention is None:
-        wStatus, wUrl = discoverEndpoint(targetURL, debug=False, headers=headers, timeout=timeout)
-    else:
-        wStatus = 200
-        wUrl = webmention
+    debugOutput = []
+    originalURL = targetURL
+    try:
+        targetRequest = requests.get(targetURL)
 
-    if wStatus == requests.codes.ok and wUrl is not None:
-        if test_urls:
-            v(wUrl)
-
-        payload = {'source': sourceURL,
-                   'target': targetURL}
-        if vouchDomain is not None:
-            payload['vouch'] = vouchDomain
-
-        d.append('sending to [%s] %s' % (wUrl, payload))
-        try:
-            result = requests.post(wUrl, data=payload, headers=headers, timeout=timeout)
-            d.append('POST returned %d' % result.status_code)
-
-            if result.status_code == 405 and len(result.history) > 0:
-                d.append('status code was 405, looking for redirect location')
-                o = result.history[-1]
-                if o.status_code == 301 and 'Location' in o.headers:
-                    d.append('redirected to [%s]' % o.headers['Location'])
-                    result = requests.post(o.headers['Location'], data=payload, headers=headers, timeout=timeout)
-            elif result.status_code not in (200, 201, 202):
-                d.append('status code was not 200, 201, 202')
-        except:
-            d.append('exception during request post')
-            result = None
-    if debug:
-        return result, d
-    else:
-        return result
+        if targetRequest.status_code == requests.codes.ok:
+            if len(targetRequest.history) > 0:
+                redirect = targetRequest.history[-1]
+                if (redirect.status_code == 301 or redirect.status_code == 302) and 'Location' in redirect.headers:
+                    targetURL = urljoin(targetURL, redirect.headers['Location'])
+                    debugOutput.append('targetURL redirected: %s' % targetURL)
+        if webmention is None:
+            wStatus, wUrl = discoverEndpoint(targetURL, headers=headers, timeout=timeout, request=targetRequest)
+        else:
+            wStatus = 200
+            wUrl = webmention
+        debugOutput.append('endpointURL: %s %s' % (wStatus, wUrl))
+        if wStatus == requests.codes.ok and wUrl is not None:
+            if test_urls:
+                v(wUrl)
+            payload = {'source': sourceURL,
+                       'target': originalURL}
+            if vouchDomain is not None:
+                payload['vouch'] = vouchDomain
+            try:
+                result = requests.post(wUrl, data=payload, headers=headers, timeout=timeout)
+                debugOutput.append('POST %s -- %s' % (wUrl, result.status_code))
+                if result.status_code == 405 and len(result.history) > 0:
+                    redirect = result.history[-1]
+                    if redirect.status_code == 301 and 'Location' in redirect.headers:
+                        result = requests.post(redirect.headers['Location'], data=payload, headers=headers, timeout=timeout)
+                        debugOutput.append('redirected POST %s -- %s' % (redirect.headers['Location'], result.status_code))
+            except Exception as e:
+                result = None
+    except (requests.exceptions.RequestException, requests.exceptions.ConnectionError,
+            requests.exceptions.HTTPError, requests.exceptions.URLRequired,
+            requests.exceptions.TooManyRedirects, requests.exceptions.Timeout):
+        debugOutput.append('exception during GET request')
+        result = None
+    return result
