@@ -55,7 +55,9 @@ def getURLChain(targetURL):
         if ok:
             for resp in r.history:
                 chain.append(r.url)
-    except:
+    except (requests.exceptions.RequestException, requests.exceptions.ConnectionError,
+            requests.exceptions.HTTPError, requests.exceptions.URLRequired,
+            requests.exceptions.TooManyRedirects, requests.exceptions.Timeout):
         ok = False
     return (ok, chain)
 
