@@ -5,22 +5,20 @@
 
 IndieWeb Webmention Tools
 """
-
+from urllib.parse import urlparse, urljoin
 import requests
 from bs4 import BeautifulSoup
 from .validators import URLValidator
 from .tools import parse_link_header
 
-try:  # Python v3
-    from urllib.parse import urlparse, urljoin, ParseResult
-except ImportError:
-    from urlparse import urlparse, urljoin, ParseResult
-
 
 _html_parser = 'html5lib'   # 'html.parser', 'lxml', 'lxml-xml'
 
 def setParser(htmlParser='html5lib'):
-    global _html_parser
+    """Allow consumers of Ronkyuu to change the default
+    HTML parser BeautifulSoup will use to parse the returned HTML
+    """
+    global _html_parser  # pylint: disable=global-statement
     _html_parser = htmlParser
 
 
@@ -38,7 +36,7 @@ def setParser(htmlParser='html5lib'):
 # processing stops)
 
 
-def findMentions(sourceURL, targetURL=None, exclude_domains=[], content=None, test_urls=True, headers={}, timeout=None):
+def findMentions(sourceURL, targetURL=None, exclude_domains=None, content=None, test_urls=True, headers=None, timeout=None):
     """Find all <a /> elements in the given html for a post. Only scan html element matching all criteria in look_in.
 
     optionally the content to be scanned can be given as an argument.
@@ -58,16 +56,19 @@ def findMentions(sourceURL, targetURL=None, exclude_domains=[], content=None, te
     :type timeout float
     :rtype: dictionary of Mentions
     """
+    __doc__ = None  # pylint: disable=redefined-builtin
 
-    __doc__ = None
-
+    if exclude_domains is None:
+        exclude_domains = []
+    if headers is None:
+        headers = {}
     if test_urls:
         URLValidator(message='invalid source URL')(sourceURL)
 
     if content:
-        result = {'status':   requests.codes.ok,
+        result = {'status':   requests.codes.ok,  # pylint: disable=no-member
                   'headers':  None,
-                  }
+                 }
     else:
         r = requests.get(sourceURL, verify=True, headers=headers, timeout=timeout)
         result = {'status':   r.status_code,
@@ -81,7 +82,7 @@ def findMentions(sourceURL, targetURL=None, exclude_domains=[], content=None, te
 
     result.update({'refs': set(), 'post-url': sourceURL})
 
-    if result['status'] == requests.codes.ok:
+    if result['status'] == requests.codes.ok:  #pylint: disable=no-member
         # Allow passing BS doc as content
         if isinstance(content, BeautifulSoup):
             __doc__ = content
@@ -131,7 +132,7 @@ def findEndpoint(html):
     return None
 
 
-def discoverEndpoint(url, test_urls=True, headers={}, timeout=None, request=None, debug=False):
+def discoverEndpoint(url, test_urls=True, headers=None, timeout=None, request=None, debug=False):
     """Discover any WebMention endpoint for a given URL.
 
     :param link: URL to discover WebMention endpoint
@@ -143,6 +144,8 @@ def discoverEndpoint(url, test_urls=True, headers={}, timeout=None, request=None
     :param request: optional Requests request object to avoid another GET
     :rtype: tuple (status_code, URL, [debug])
     """
+    if headers is None:
+        headers = {}
     if test_urls:
         URLValidator(message='invalid URL')(url)
 
@@ -156,7 +159,7 @@ def discoverEndpoint(url, test_urls=True, headers={}, timeout=None, request=None
             targetRequest = requests.get(url, verify=False, headers=headers, timeout=timeout)
         returnCode = targetRequest.status_code
         debugOutput.append('%s %s' % (returnCode, url))
-        if returnCode == requests.codes.ok:
+        if returnCode == requests.codes.ok:  #pylint: disable=no-member
             try:
                 linkHeader  = parse_link_header(targetRequest.headers['link'])
                 endpointURL = linkHeader.get('webmention', '') or \
@@ -181,11 +184,10 @@ def discoverEndpoint(url, test_urls=True, headers={}, timeout=None, request=None
     debugOutput.append('endpointURL: %s %s' % (returnCode, endpointURL))
     if debug:
         return (returnCode, endpointURL, debugOutput)
-    else:
-        return (returnCode, endpointURL)
+    return (returnCode, endpointURL)
 
 def sendWebmention(sourceURL, targetURL, webmention=None, test_urls=True, vouchDomain=None,
-                   headers={}, timeout=None, debug=False):
+                   headers=None, timeout=None, debug=False):
     """Send to the :targetURL: a WebMention for the :sourceURL:
 
     The WebMention will be discovered if not given in the :webmention:
@@ -202,6 +204,8 @@ def sendWebmention(sourceURL, targetURL, webmention=None, test_urls=True, vouchD
 
     :rtype: HTTPrequest object if WebMention endpoint was valid
     """
+    if headers is None:
+        headers = {}
     if test_urls:
         v = URLValidator()
         v(sourceURL)
@@ -212,7 +216,7 @@ def sendWebmention(sourceURL, targetURL, webmention=None, test_urls=True, vouchD
     try:
         targetRequest = requests.get(targetURL)
 
-        if targetRequest.status_code == requests.codes.ok:
+        if targetRequest.status_code == requests.codes.ok:  #pylint: disable=no-member
             if len(targetRequest.history) > 0:
                 redirect = targetRequest.history[-1]
                 if (redirect.status_code == 301 or redirect.status_code == 302) and 'Location' in redirect.headers:
@@ -224,7 +228,7 @@ def sendWebmention(sourceURL, targetURL, webmention=None, test_urls=True, vouchD
             wStatus = 200
             wUrl = webmention
         debugOutput.append('endpointURL: %s %s' % (wStatus, wUrl))
-        if wStatus == requests.codes.ok and wUrl is not None:
+        if wStatus == requests.codes.ok and wUrl is not None:  #pylint: disable=no-member
             if test_urls:
                 v(wUrl)
             payload = {'source': sourceURL,
@@ -239,11 +243,14 @@ def sendWebmention(sourceURL, targetURL, webmention=None, test_urls=True, vouchD
                     if redirect.status_code == 301 and 'Location' in redirect.headers:
                         result = requests.post(redirect.headers['Location'], data=payload, headers=headers, timeout=timeout)
                         debugOutput.append('redirected POST %s -- %s' % (redirect.headers['Location'], result.status_code))
-            except Exception as e:
+            except Exception:  # pylint: disable=broad-except
                 result = None
     except (requests.exceptions.RequestException, requests.exceptions.ConnectionError,
             requests.exceptions.HTTPError, requests.exceptions.URLRequired,
             requests.exceptions.TooManyRedirects, requests.exceptions.Timeout):
         debugOutput.append('exception during GET request')
         result = None
+
+    if debug:
+        return result, debugOutput
     return result

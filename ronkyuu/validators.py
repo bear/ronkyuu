@@ -12,16 +12,14 @@ https://github.com/django/django/blob/master/django/core/validators.py
     All rights reserved.
     BSD Licensed
 """
-
 import re
 
-try:  # Python v3
-    from urllib.parse import urlsplit, urlunsplit
-except ImportError:
-    from urlparse import urlsplit, urlunsplit
+from urllib.parse import urlsplit, urlunsplit
 
 
-class RegexValidator(object):
+class RegexValidator(object):  # pylint: disable=R0205
+    """Abstract Class to validate URLs using given regular expressions
+    """
     regex = ''
     message = 'Enter a valid value.'
 
@@ -46,7 +44,9 @@ class RegexValidator(object):
         return isinstance(other, RegexValidator) and (self.regex == other.regex) and (self.message == other.message)
 
 
-class URLValidator(RegexValidator):
+class URLValidator(RegexValidator):  # pylint: disable=R0903
+    """URL Validation using a regular expression
+    """
     regex = re.compile(
         r'^(?:[a-z0-9\.\-]*)://'  # scheme is validated separately
         r'(?:(?:[A-Z0-9](?:[A-Z0-9-]{0,61}[A-Z0-9])?\.)+(?:[A-Z]{2,6}\.?|[A-Z0-9-]{2,}\.?)|'  # domain...

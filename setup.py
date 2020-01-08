@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-
 import os
 import re
 import codecs
@@ -54,10 +53,8 @@ if __name__ == '__main__':
             'Operating System :: OS Independent',
             'License :: OSI Approved :: MIT License',
             'Programming Language :: Python',
-            'Programming Language :: Python :: 2',
-            'Programming Language :: Python :: 2.7',
             'Programming Language :: Python :: 3',
-            'Programming Language :: Python :: 3.5',
+            'Programming Language :: Python :: 3.7',
             'Topic :: Software Development :: Libraries :: Python Modules',
         ]
     )

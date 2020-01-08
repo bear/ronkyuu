@@ -66,6 +66,6 @@ TODO: fill in details of how to use
 
 Requires
 ========
-Python v2.6+ but see requirements.txt for a full list
+Python v3.7+ but see `Pipfile` for a full list. The `Makefile` takes advantage of `Pipenv` (which will use `pyenv` if installed) to manage the Python dependencies.
 
 For testing we use [httmock](https://pypi.python.org/pypi/httmock/) to mock the web calls.
