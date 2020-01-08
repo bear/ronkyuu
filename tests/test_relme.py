@@ -22,7 +22,7 @@ twitter_html = ''.join(open('./tests/data/relme_twitter_bear.html').readlines())
 other_html   = ''.join(open('./tests/data/relme_tantek.html').readlines())
 
 @all_requests
-def _mock(url, request):
+def _mock(url, request):  # pylint: disable=unused-argument
     if 'code-bear.com' in url:
         return profile_html
     if 'bear.im' in url:

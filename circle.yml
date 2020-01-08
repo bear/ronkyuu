@@ -2,7 +2,7 @@ version: 2
 executorType: docker
 
 containerInfo:
-  - image: python:2.7
+  - image: python:3.7
 
 stages:
   build:
@@ -11,16 +11,13 @@ stages:
       - type: checkout
       - type: shell
         shell: /bin/bash --login
-        name: Install pyenv
+        name: Install pipenv
         command: |
-          curl -L https://raw.githubusercontent.com/yyuu/pyenv-installer/master/bin/pyenv-installer | bash
-          echo 'export PATH="/root/.pyenv/bin:$PATH"' >> ~/.profile
-          echo 'eval "$(pyenv init -)"'               >> ~/.profile
-          echo 'eval "$(pyenv virtualenv-init -)"'    >> ~/.profile
+          pip install --user --upgrade pipenv
       - type: shell
         shell: /bin/bash --login
         name: Install Dependencies
-        command: make dev
+        command: make env
       - type: shell
         shell: /bin/bash --login
         name: Test

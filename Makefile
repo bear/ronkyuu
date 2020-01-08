@@ -1,63 +1,48 @@
 help:
 	@echo "  env         install all production dependencies"
-	@echo "  dev         install all dev and production dependencies (virtualenv is assumed)"
 	@echo "  clean       remove unwanted stuff"
 	@echo "  lint        check style with pycodestyle"
 	@echo "  test        run tests"
 	@echo "  coverage    run codecov"
 
 env:
-	pyenv install -s 2.7.12
-	pyenv install -s 3.5.2
-	pyenv local 2.7.12 3.5.2
-	pip install -U pip
-
-dev: env
-	pip install -Ur requirements.txt
-	pip install -Ur requirements-test.txt
+	pipenv install -d
 
 info:
-	@python --version
-	@pyenv --version
-	@pip --version
-	@pycodestyle --version
+	@pipenv run python --version
+	@pipenv graph
 
 clean:
 	rm -rf build
 	rm -rf dist
 	rm -f violations.flake8.txt
-	python setup.py clean
+	pipenv clean
+	pipenv run python setup.py clean
 	find . -name '*.pyc' -exec rm -f {} \;
 	find . -name '*.pyo' -exec rm -f {} \;
 	find . -name '*~' ! -name '*.un~' -exec rm -f {} \;
 
-lint: info
-	pycodestyle
+lint: 
+	pipenv run pylint --rcfile=./setup.cfg ronkyuu tests
 
 test: lint
-	python setup.py test
-
-tox.ini: requirements.txt requirements-test.txt
-	tox --recreate
-
-tox: tox.ini
-	tox
+	pipenv run python setup.py test
 
 coverage: clean
-	coverage run --source=ronkyuu setup.py test
+	pipenv run coverage run --source=ronkyuu setup.py test
 
-ci: lint coverage
+ci: info lint coverage
 	@coverage html
 	@coverage report
 	# CODECOV_TOKEN=`cat .codecov-token` codecov
 
 check: clean
 	check-manifest
-	python setup.py check
+	pipenv run python setup.py check
 
 upload: check
-	python setup.py sdist upload
-	python setup.py bdist_wheel upload
+	pipenv run python setup.py sdist upload
+	pipenv run python setup.py bdist_wheel upload
 
 dist: check
-	python setup.py sdist
+	pipenv run python setup.py sdist

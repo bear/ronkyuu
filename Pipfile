@@ -1,0 +1,27 @@
+[[source]]
+name = "pypi"
+url = "https://pypi.org/simple"
+verify_ssl = true
+
+[dev-packages]
+pytest = "*"
+pytest-cov = "*"
+pytest-runner = "*"
+mccabe = "*"
+flake8 = "*"
+coverage = "*"
+coveralls = "*"
+codecov = "*"
+check-manifest = "*"
+httmock = "*"
+wheel = "*"
+pylint = "*"
+
+[packages]
+requests = "*"
+beautifulsoup4 = "*"
+mf2py = "*"
+html5lib = "*"
+
+[requires]
+python_version = "3.7"

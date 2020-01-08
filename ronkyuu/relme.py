@@ -5,16 +5,10 @@
 
 IndieWeb Rel=Me Tools
 """
-
-from .tools import normalizeURL, cleanURL
-
+from urllib.parse import urlparse
 import requests
 from bs4 import BeautifulSoup
-
-try:  # Python v3
-    from urllib.parse import urlparse
-except ImportError:
-    from urlparse import urlparse
+from .tools import normalizeURL, cleanURL
 
 
 _html_parser = 'html5lib'   # 'html.parser', 'lxml', 'lxml-xml'
@@ -77,7 +71,7 @@ def findRelMe(sourceURL):
               'relme':   [],
               'url':     sourceURL
               }
-    if r.status_code == requests.codes.ok:
+    if r.status_code == requests.codes.ok:  #pylint: disable=no-member
         dom = BeautifulSoup(r.text, _html_parser)
         for link in dom.find_all('a', rel='me'):
             rel  = link.get('rel')

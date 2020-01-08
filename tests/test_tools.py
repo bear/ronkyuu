@@ -14,6 +14,6 @@ class TestParseLinkRels(unittest.TestCase):
                    '</test/1/webmention>; rel="webmention"',
                   ]
         for s in headers:
-          d = parse_link_header(s)
+            d = parse_link_header(s)
 
-          assert 'webmention' in d.keys()
+        assert 'webmention' in d.keys()
