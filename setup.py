@@ -30,6 +30,7 @@ if __name__ == '__main__':
         version=extract_metaitem('version'),
         description=extract_metaitem('description'),
         long_description=read('README.md'),
+        long_description_content_type='text/markdown',
         author=extract_metaitem('author'),
         author_email=extract_metaitem('email'),
         maintainer=extract_metaitem('author'),
@@ -45,7 +46,11 @@ if __name__ == '__main__':
             'mf2py',
             'html5lib',
         ],
-        setup_requires=['pytest-runner'],
+        setup_requires=[
+            'setuptools>=41.0.1',
+            'wheel>=0.33.4',
+            'pytest-runner'
+        ],
         tests_require=['pytest'],
         classifiers=[
             'Development Status :: 4 - Beta',

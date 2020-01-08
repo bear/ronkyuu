@@ -14,8 +14,9 @@ coveralls = "*"
 codecov = "*"
 check-manifest = "*"
 httmock = "*"
-wheel = "*"
 pylint = "*"
+wheel = "*"
+twine = "*"
 
 [packages]
 requests = "*"
