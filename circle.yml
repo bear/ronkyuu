@@ -1,24 +1,19 @@
 version: 2
 executorType: docker
 
-containerInfo:
-  - image: python:3.7
-
-stages:
+version: 2
+jobs:
   build:
-    workDir: ~/ronkyuu
+    working_directory: ~/ronkyuu
+    docker:
+      - image: circleci/python:3.7
+        environment:
+          PIPENV_VENV_IN_PROJECT: true
     steps:
-      - type: checkout
-      - type: shell
-        shell: /bin/bash --login
-        name: Install pipenv
-        command: |
-          pip install --user --upgrade pipenv
-      - type: shell
-        shell: /bin/bash --login
-        name: Install Dependencies
-        command: make env
-      - type: shell
-        shell: /bin/bash --login
-        name: Test
-        command: make ci
+      - checkout # check out source code to working directory
+      - run:
+          command: |
+            make env
+      - run:
+          command: |
+            make ci
