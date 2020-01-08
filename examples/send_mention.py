@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 """
-:copyright: (c) 2013-2016 by Mike Taylor
+:copyright: (c) 2013-2020 by Mike Taylor
 :license: MIT, see LICENSE for more details.
 
 IndieWeb Webmention Tools
