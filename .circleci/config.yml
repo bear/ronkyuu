@@ -16,4 +16,10 @@ jobs:
             make env
       - run:
           command: |
-            make ci
+            make info
+      - run:
+          command: |
+            make test
+      - run:
+          command: |
+            make coverage

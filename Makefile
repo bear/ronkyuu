@@ -30,11 +30,9 @@ test: lint
 
 coverage: clean
 	pipenv run coverage run --source=ronkyuu setup.py test
-
-ci: info lint coverage
-	@coverage html
-	@coverage report
-	# CODECOV_TOKEN=`cat .codecov-token` codecov
+	pipenv run coverage report
+	pipenv run coverage html
+	pipenv run codecov
 
 check: clean
 	check-manifest
