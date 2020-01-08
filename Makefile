@@ -35,12 +35,11 @@ coverage: clean
 	pipenv run codecov
 
 check: clean
-	check-manifest
+	pipenv run check-manifest
 	pipenv run python setup.py check
 
-upload: check
-	pipenv run python setup.py sdist upload
-	pipenv run python setup.py bdist_wheel upload
+upload: dist
+	pipenv run python -m twine upload --repository-url https://upload.pypi.org/legacy/ dist/*
 
 dist: check
-	pipenv run python setup.py sdist
+	pipenv run python setup.py sdist bdist_wheel

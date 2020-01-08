@@ -1,7 +1,7 @@
 include LICENSE
 include README.md
-include requirements.txt
-include requirements-test.txt
+include Pipfile
+include Pipfile.lock
 include Makefile
 include pytest.ini
 include *.py
@@ -12,3 +12,4 @@ recursive-include tests *.json
 recursive-include examples *.py
 prune .DS_Store
 prune .git
+prune .circleci
