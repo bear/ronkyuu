@@ -179,7 +179,7 @@ def discoverEndpoint(url, test_urls=True, headers=None, timeout=None, request=No
     except (requests.exceptions.RequestException, requests.exceptions.ConnectionError,
             requests.exceptions.HTTPError, requests.exceptions.URLRequired,
             requests.exceptions.TooManyRedirects, requests.exceptions.Timeout):
-        debugOutput.append('exception during GET request')
+        debugOutput.append('exception during GET request: {} {}'.format(error.__class__.__name__, error))
         returnCode = 500
     debugOutput.append('endpointURL: %s %s' % (returnCode, endpointURL))
     if debug:
@@ -248,7 +248,7 @@ def sendWebmention(sourceURL, targetURL, webmention=None, test_urls=True, vouchD
     except (requests.exceptions.RequestException, requests.exceptions.ConnectionError,
             requests.exceptions.HTTPError, requests.exceptions.URLRequired,
             requests.exceptions.TooManyRedirects, requests.exceptions.Timeout):
-        debugOutput.append('exception during GET request')
+        debugOutput.append('exception during POST request: {} {}'.format(error.__class__.__name__, error))
         result = None
 
     if debug:
