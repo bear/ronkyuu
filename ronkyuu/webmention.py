@@ -173,15 +173,16 @@ def discoverEndpoint(url, test_urls=True, headers=None, timeout=None, request=No
                 debugOutput.append('found in link headers')
             except (KeyError, AttributeError):
                 endpointURL = findEndpoint(targetRequest.text)
-                debugOutput.append('found in body')
+                if endpointURL:
+                    debugOutput.append('found in body')
             if endpointURL is not None:
                 endpointURL = urljoin(url, endpointURL)
     except (requests.exceptions.RequestException, requests.exceptions.ConnectionError,
             requests.exceptions.HTTPError, requests.exceptions.URLRequired,
-            requests.exceptions.TooManyRedirects, requests.exceptions.Timeout):
+            requests.exceptions.TooManyRedirects, requests.exceptions.Timeout) as error:
         debugOutput.append('exception during GET request: {} {}'.format(error.__class__.__name__, error))
         returnCode = 500
-    debugOutput.append('endpointURL: %s %s' % (returnCode, endpointURL))
+    debugOutput.append('returnCode: %s - endpointURL: %s' % (returnCode, endpointURL))
     if debug:
         return (returnCode, endpointURL, debugOutput)
     return (returnCode, endpointURL)
@@ -213,6 +214,7 @@ def sendWebmention(sourceURL, targetURL, webmention=None, test_urls=True, vouchD
 
     debugOutput = []
     originalURL = targetURL
+    result = None
     try:
         targetRequest = requests.get(targetURL)
 
@@ -223,11 +225,16 @@ def sendWebmention(sourceURL, targetURL, webmention=None, test_urls=True, vouchD
                     targetURL = urljoin(targetURL, redirect.headers['Location'])
                     debugOutput.append('targetURL redirected: %s' % targetURL)
         if webmention is None:
-            wStatus, wUrl = discoverEndpoint(targetURL, headers=headers, timeout=timeout, request=targetRequest)
+            wResult = discoverEndpoint(targetURL, headers=headers, timeout=timeout, request=targetRequest, debug=debug)
+            if debug:
+                wStatus, wUrl, wDebug = wResult
+                debugOutput.append('[endpointDiscovery: %s]' % ' - '.join(wDebug))
+            else:
+                wStatus, wUrl = wResult
         else:
             wStatus = 200
             wUrl = webmention
-        debugOutput.append('endpointURL: %s %s' % (wStatus, wUrl))
+        debugOutput.append('endpointURL: %s (status: %s)' % (wUrl, wStatus))
         if wStatus == requests.codes.ok and wUrl is not None:  #pylint: disable=no-member
             if test_urls:
                 v(wUrl)
@@ -235,21 +242,17 @@ def sendWebmention(sourceURL, targetURL, webmention=None, test_urls=True, vouchD
                        'target': originalURL}
             if vouchDomain is not None:
                 payload['vouch'] = vouchDomain
-            try:
-                result = requests.post(wUrl, data=payload, headers=headers, timeout=timeout)
-                debugOutput.append('POST %s -- %s' % (wUrl, result.status_code))
-                if result.status_code == 405 and len(result.history) > 0:
-                    redirect = result.history[-1]
-                    if redirect.status_code == 301 and 'Location' in redirect.headers:
-                        result = requests.post(redirect.headers['Location'], data=payload, headers=headers, timeout=timeout)
-                        debugOutput.append('redirected POST %s -- %s' % (redirect.headers['Location'], result.status_code))
-            except Exception:  # pylint: disable=broad-except
-                result = None
+            result = requests.post(wUrl, data=payload, headers=headers, timeout=timeout)
+            debugOutput.append('POST %s -- %s' % (wUrl, result.status_code))
+            if result.status_code == 405 and len(result.history) > 0:
+                redirect = result.history[-1]
+                if redirect.status_code == 301 and 'Location' in redirect.headers:
+                    result = requests.post(redirect.headers['Location'], data=payload, headers=headers, timeout=timeout)
+                    debugOutput.append('redirected POST %s -- %s' % (redirect.headers['Location'], result.status_code))
     except (requests.exceptions.RequestException, requests.exceptions.ConnectionError,
             requests.exceptions.HTTPError, requests.exceptions.URLRequired,
-            requests.exceptions.TooManyRedirects, requests.exceptions.Timeout):
+            requests.exceptions.TooManyRedirects, requests.exceptions.Timeout) as error:
         debugOutput.append('exception during POST request: {} {}'.format(error.__class__.__name__, error))
-        result = None
 
     if debug:
         return result, debugOutput
