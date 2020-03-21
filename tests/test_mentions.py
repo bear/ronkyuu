@@ -14,7 +14,7 @@ post_url  = "https://bear.im/bearlog/2013/325/indiewebify-and-the-new-site.html"
 post_html = ''.join(open('./tests/data/mentions_post.html').readlines())
 
 path_testdata = './tests/data/webmention_rocks_test_'
-max_testdata  = 21
+max_testdata  = 22
 test_data     = {}
 for n in range(1, max_testdata + 1):
     with open('%s%0d.html' % (path_testdata, n), 'r') as h:
@@ -30,7 +30,8 @@ html_endpoints = { 'webmention.rocks/test/3': '/test/3/webmention',
                    'webmention.rocks/test/5': '/test/5/webmention',
                    'webmention.rocks/test/6': 'https://webmention.rocks/test/6/webmention',
                  }
-odd_endpoints = { 'webmention.rocks/test/15': '/test/15'
+odd_endpoints = { 'webmention.rocks/test/15': 'https://webmention.rocks/test/15',
+                  'webmention.rocks/test/21': 'https://webmention.rocks/test/21/webmention?query=yes',
                 }
 
 @all_requests
@@ -71,20 +72,24 @@ class TestDiscovery(unittest.TestCase):
                 if urlpath in odd_endpoints:
                     endpoint = odd_endpoints.get(urlpath)
                 else:
-                    endpoint = urlparse('%s/webmention' % url).path
+                    endpoint = '%s/webmention' % url
 
-                _, href = discoverEndpoint(url)
+                retCode, href  = discoverEndpoint(url)
 
                 wmUrl = urlparse(href)
+                endpoint = urlparse(endpoint)
 
+                assert retCode      == 200
                 assert wmUrl.netloc == 'webmention.rocks'
-                assert wmUrl.path   == endpoint
+                assert wmUrl.path   == endpoint.path
+                assert wmUrl.query  == endpoint.query
 
 class TestDiscoveryRedirect(unittest.TestCase):
     def runTest(self):
-        _, href = discoverEndpoint('https://webmention.rocks/test/23/page')
+        retCode, href = discoverEndpoint('https://webmention.rocks/test/23/page')
         wmUrl = urlparse(href)
 
+        assert retCode      == 200
         assert wmUrl.netloc == 'webmention.rocks'
         assert wmUrl.path.startswith('/test/23/webmention-endpoint/')
 

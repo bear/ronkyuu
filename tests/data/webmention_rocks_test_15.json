@@ -1,7 +1,9 @@
 {
-  "Date": "Sat, 02 Sep 2017 21:36:28 GMT", 
-  "Content-Length": "6628", 
-  "Content-Type": "text/html; charset=UTF-8", 
-  "Connection": "keep-alive", 
-  "Server": "nginx/1.12.0"
+  "Server": "nginx/1.14.2",
+  "Date": "Sat, 21 Mar 2020 20:28:12 GMT",
+  "Content-Type": "text/html; charset=UTF-8",
+  "Transfer-Encoding": "chunked",
+  "Connection": "keep-alive",
+  "Access-Control-Allow-Origin": "*",
+  "Access-Control-Allow-Methods": "GET, POST"
 }

@@ -15,14 +15,12 @@ def storePageData(pageURL, pageFilename):
     """
     r = requests.get(pageURL)
     with open('%s.html' % pageFilename, 'w') as h:
-        h.write(r.text.encode('utf-8'))
+        h.write(r.text)
     with open('%s.json' % pageFilename, 'w') as h:
         h.write(json.dumps(dict(r.headers), indent=2))
 
 
-for n in range(1, 22):
+for n in range(1, 23):
     url   = 'https://webmention.rocks/test/%d' % n
     fname = '%s_%d' % (path_testdata, n)
     storePageData(url, fname)
-
-storePageData('https://webmention.rocks/test/23/page', '%s_23' % path_testdata)
