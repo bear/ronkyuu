@@ -1,7 +1,6 @@
 version: 2
 executorType: docker
 
-version: 2
 jobs:
   build:
     working_directory: ~/ronkyuu
