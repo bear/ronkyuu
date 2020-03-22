@@ -17,6 +17,7 @@ httmock = "*"
 pylint = "*"
 wheel = "*"
 twine = "*"
+bleach = "*"
 
 [packages]
 requests = "*"
