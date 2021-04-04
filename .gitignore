@@ -52,5 +52,7 @@ env
 
 violations.flake8.txt
 
+.vscode
+
 # Built docs
 doc/_build/**

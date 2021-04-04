@@ -21,6 +21,7 @@ profile_html = ''.join(open('./tests/data/relme_bear.html').readlines())
 twitter_html = ''.join(open('./tests/data/relme_twitter_bear.html').readlines())
 other_html   = ''.join(open('./tests/data/relme_tantek.html').readlines())
 
+
 @all_requests
 def _mock(url, request):  # pylint: disable=unused-argument
     if 'code-bear.com' in url:
@@ -31,6 +32,7 @@ def _mock(url, request):  # pylint: disable=unused-argument
         return twitter_html
     return other_html
 
+
 class TestProfileURLParsing(unittest.TestCase):
     def runTest(self):
         with HTTMock(_mock):
@@ -38,12 +40,14 @@ class TestProfileURLParsing(unittest.TestCase):
             assert len(relme['relme']) > 0
             assert profile_url in relme['relme']
 
+
 class TestTargetURLParsing(unittest.TestCase):
     def runTest(self):
         with HTTMock(_mock):
             relme = findRelMe(twitter_url)
             assert len(relme['relme']) > 0
             assert t_co_url in relme['relme']
+
 
 class TestInvalidRelMeSimple(unittest.TestCase):
     def runTest(self):

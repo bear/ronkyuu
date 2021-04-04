@@ -14,7 +14,6 @@ coveralls = "*"
 codecov = "*"
 check-manifest = "*"
 httmock = "*"
-pylint = "*"
 wheel = "*"
 twine = "*"
 bleach = "*"
@@ -24,6 +23,7 @@ requests = "*"
 beautifulsoup4 = "*"
 mf2py = "*"
 html5lib = "*"
+ronkyuu = {editable = true, path = "."}
 
 [requires]
-python_version = "3.7"
+python_version = "3.9"

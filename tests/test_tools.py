@@ -8,11 +8,13 @@ import unittest
 
 from ronkyuu.tools import parse_link_header
 
+
 class TestParseLinkRels(unittest.TestCase):
     def runTest(self):
-        headers = ['</test/1/webmention>; rel=webmention',
-                   '</test/1/webmention>; rel="webmention"',
-                  ]
+        headers = [
+            '</test/1/webmention>; rel=webmention',
+            '</test/1/webmention>; rel="webmention"',
+        ]
         for s in headers:
             d = parse_link_header(s)
 

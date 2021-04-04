@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-:copyright: (c) 2013-2020 by Mike Taylor and Kartik Prabhu
+:copyright: (c) 2013-2021 by Mike Taylor and Kartik Prabhu
 :license: MIT, see LICENSE for more details.
 
 IndieWeb Webmention Tools
@@ -13,6 +13,7 @@ from .tools import parse_link_header
 
 
 _html_parser = 'html5lib'   # 'html.parser', 'lxml', 'lxml-xml'
+
 
 def setParser(htmlParser='html5lib'):
     """Allow consumers of Ronkyuu to change the default
@@ -66,14 +67,16 @@ def findMentions(sourceURL, targetURL=None, exclude_domains=None, content=None, 
         URLValidator(message='invalid source URL')(sourceURL)
 
     if content:
-        result = {'status':   requests.codes.ok,  # pylint: disable=no-member
-                  'headers':  None,
-                 }
+        result = {
+            'status':   requests.codes.ok,  # pylint: disable=no-member
+            'headers':  None,
+        }
     else:
         r = requests.get(sourceURL, verify=True, headers=headers, timeout=timeout)
-        result = {'status':   r.status_code,
-                  'headers':  r.headers
-                  }
+        result = {
+            'status':   r.status_code,
+            'headers':  r.headers
+        }
         # Check for character encodings and use 'correct' data
         if 'charset' in r.headers.get('content-type', ''):
             content = r.text
@@ -82,7 +85,7 @@ def findMentions(sourceURL, targetURL=None, exclude_domains=None, content=None, 
 
     result.update({'refs': set(), 'post-url': sourceURL})
 
-    if result['status'] == requests.codes.ok:  #pylint: disable=no-member
+    if result['status'] == requests.codes.ok:  # pylint: disable=no-member
         # Allow passing BS doc as content
         if isinstance(content, BeautifulSoup):
             __doc__ = content
@@ -159,14 +162,14 @@ def discoverEndpoint(url, test_urls=True, headers=None, timeout=None, request=No
             targetRequest = requests.get(url, verify=False, headers=headers, timeout=timeout)
         returnCode = targetRequest.status_code
         debugOutput.append('%s %s' % (returnCode, url))
-        if returnCode == requests.codes.ok:  #pylint: disable=no-member
+        if returnCode == requests.codes.ok:  # pylint: disable=no-member
             try:
                 linkHeader  = parse_link_header(targetRequest.headers['link'])
                 endpointURL = linkHeader.get('webmention', '') or \
-                              linkHeader.get('http://webmention.org', '') or \
-                              linkHeader.get('http://webmention.org/', '') or \
-                              linkHeader.get('https://webmention.org', '') or \
-                              linkHeader.get('https://webmention.org/', '')
+                    linkHeader.get('http://webmention.org', '') or \
+                    linkHeader.get('http://webmention.org/', '') or \
+                    linkHeader.get('https://webmention.org', '') or \
+                    linkHeader.get('https://webmention.org/', '')
                 # force searching in the HTML if not found
                 if not endpointURL:
                     raise AttributeError
@@ -186,6 +189,7 @@ def discoverEndpoint(url, test_urls=True, headers=None, timeout=None, request=No
     if debug:
         return (returnCode, endpointURL, debugOutput)
     return (returnCode, endpointURL)
+
 
 def sendWebmention(sourceURL, targetURL, webmention=None, test_urls=True, vouchDomain=None,
                    headers=None, timeout=None, debug=False):
@@ -218,7 +222,7 @@ def sendWebmention(sourceURL, targetURL, webmention=None, test_urls=True, vouchD
     try:
         targetRequest = requests.get(targetURL)
 
-        if targetRequest.status_code == requests.codes.ok:  #pylint: disable=no-member
+        if targetRequest.status_code == requests.codes.ok:  # pylint: disable=no-member
             if len(targetRequest.history) > 0:
                 redirect = targetRequest.history[-1]
                 if (redirect.status_code == 301 or redirect.status_code == 302) and 'Location' in redirect.headers:
@@ -235,7 +239,7 @@ def sendWebmention(sourceURL, targetURL, webmention=None, test_urls=True, vouchD
             wStatus = 200
             wUrl = webmention
         debugOutput.append('endpointURL: %s (status: %s)' % (wUrl, wStatus))
-        if wStatus == requests.codes.ok and wUrl is not None:  #pylint: disable=no-member
+        if wStatus == requests.codes.ok and wUrl is not None:  # pylint: disable=no-member
             if test_urls:
                 v(wUrl)
             payload = {'source': sourceURL,

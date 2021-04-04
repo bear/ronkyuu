@@ -10,6 +10,7 @@ import requests
 path_testdata = './data/webmention_rocks_test'
 test_data     = {}
 
+
 def storePageData(pageURL, pageFilename):
     """Store the returned HTML as a file
     """
