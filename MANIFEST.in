@@ -13,3 +13,6 @@ recursive-include tests *.html
 recursive-include tests *.json
 recursive-include examples *.py
 graft src
+prune .DS_Store
+prune .git
+prune .circleci
