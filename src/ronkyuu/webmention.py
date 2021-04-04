@@ -135,7 +135,7 @@ def findEndpoint(html):
     return None
 
 
-def discoverEndpoint(url, test_urls=True, headers=None, timeout=None, request=None, debug=False):
+def discoverEndpoint(sourceURL, test_urls=True, headers=None, timeout=None, request=None, debug=False):
     """Discover any WebMention endpoint for a given URL.
 
     :param link: URL to discover WebMention endpoint
@@ -150,7 +150,7 @@ def discoverEndpoint(url, test_urls=True, headers=None, timeout=None, request=No
     if headers is None:
         headers = {}
     if test_urls:
-        URLValidator(message='invalid URL')(url)
+        URLValidator(message='invalid URL')(sourceURL)
 
     # status, webmention
     endpointURL = None
@@ -159,9 +159,9 @@ def discoverEndpoint(url, test_urls=True, headers=None, timeout=None, request=No
         if request is not None:
             targetRequest = request
         else:
-            targetRequest = requests.get(url, verify=False, headers=headers, timeout=timeout)
+            targetRequest = requests.get(sourceURL, verify=False, headers=headers, timeout=timeout)
         returnCode = targetRequest.status_code
-        debugOutput.append('%s %s' % (returnCode, url))
+        debugOutput.append('%s %s' % (returnCode, sourceURL))
         if returnCode == requests.codes.ok:  # pylint: disable=no-member
             try:
                 linkHeader  = parse_link_header(targetRequest.headers['link'])
@@ -179,7 +179,7 @@ def discoverEndpoint(url, test_urls=True, headers=None, timeout=None, request=No
                 if endpointURL:
                     debugOutput.append('found in body')
             if endpointURL is not None:
-                endpointURL = urljoin(url, endpointURL)
+                endpointURL = urljoin(sourceURL, endpointURL)
     except (requests.exceptions.RequestException, requests.exceptions.ConnectionError,
             requests.exceptions.HTTPError, requests.exceptions.URLRequired,
             requests.exceptions.TooManyRedirects, requests.exceptions.Timeout) as error:

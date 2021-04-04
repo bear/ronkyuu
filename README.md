@@ -13,7 +13,7 @@ Python package to help with parsing, handling and other manipulations of the Ind
 
 See the examples/ directory for sample command line tools.
 
-Because Ronkyuu uses BeautifulSoup4 for it's amazing HTML wrangling ability, you have the option of enabling faster parsing via the `lxml` package instead of the default `html5lib` package. This is done by having `lxml` installed and...
+Because Ronkyuu uses [BeautifulSoup4](https://pypi.org/project/beautifulsoup4/) for it's amazing HTML wrangling ability, you have the option of enabling faster parsing via the [`lxml`](https://pypi.org/project/lxml/) package instead of the default [`html5lib`](https://pypi.org/project/html5lib/) package.
 
 ```
 import ronkyuu
@@ -28,35 +28,35 @@ Contributors
 
 WebMentions
 ===========
-findMentions()
---------------
-Find all <a /> elements in the html returned for a post.
-If any have an href attribute that is not from the one of the items in domains, append it to our lists.
+findMentions(sourceURL, targetURL, ...)
+---------------------------------------
+Find all `<a />` elements in the html returned for a post.
+If any have an `href` attribute that is not from the one of the items in domains, append it to our lists.
 
-findEndpoint()
---------------
-Search the given html content for all <link /> elements and return any discovered WebMention URL.
-
-discoverEndpoint()
+findEndpoint(html)
 ------------------
-Discover any WebMention endpoint for a given URL.
+Search the given `html` content for all `<link />` elements and return any discovered WebMention URL.
+
+discoverEndpoint(sourceURL, ...)
+--------------------------------
+Discover any WebMention endpoint for a given `url`.
 
 sendWebmention(sourceURL, targetURL, webmention=None)
 -----------------------------------------------------
-Send to the targetURL a WebMention for the sourceURL.
-The WebMention will be discovered if not given in the optional webmention parameter.
+Send to the `targetURL` a WebMention for the `sourceURL`.
+The WebMention will be discovered if it is not given in the optional `webmention` parameter.
 
 RelMe
 =====
-findRelMe()
------------
-Find all <a /> elements in the given html for a post.
-If any have an href attribute that is rel="me" then include it in the result.
+findRelMe(sourceURL)
+--------------------
+Find all `<a />` elements in the given html for a post.
+If any have an href attribute that is `rel="me"` then include it in the result.
 
-confirmRelMe()
---------------
+confirmRelMe(profileURL, resourceURL, profileRelMes, resourceRelMes)
+--------------------------------------------------------------------
 Determine if a given resourceURL is authoritative for the profileURL.
-The list of rel="me" links will be discovered if not provided in the optional profileRelMes parameter or the resourceRelMes paramter.
+The list of `rel="me"` links will be discovered if not provided in the optional profileRelMes parameter or the resourceRelMes paramter.
 
 Validators
 ==========
@@ -66,6 +66,8 @@ TODO: fill in details of how to use
 
 Requires
 ========
-Python v3.7+ but see `Pipfile` for a full list. The `Makefile` takes advantage of `Pipenv` (which will use `pyenv` if installed) to manage the Python dependencies.
+Python v3.9+ -- see `Pipfile` for the full list
+
+The `Makefile` takes advantage of `Pipenv` (which will use `pyenv` if installed) to manage the Python dependencies.
 
 For testing we use [httmock](https://pypi.python.org/pypi/httmock/) to mock the web calls.
