@@ -39,10 +39,10 @@ Search the given `html` content for all `<link />` elements and return any disco
 
 discoverEndpoint(sourceURL, ...)
 --------------------------------
-Discover any WebMention endpoint for a given `url`.
+Discover any WebMention endpoint for a given `sourceURL`.
 
-sendWebmention(sourceURL, targetURL, webmention=None)
------------------------------------------------------
+sendWebmention(sourceURL, targetURL, webmention)
+------------------------------------------------
 Send to the `targetURL` a WebMention for the `sourceURL`.
 The WebMention will be discovered if it is not given in the optional `webmention` parameter.
 
@@ -55,8 +55,8 @@ If any have an href attribute that is `rel="me"` then include it in the result.
 
 confirmRelMe(profileURL, resourceURL, profileRelMes, resourceRelMes)
 --------------------------------------------------------------------
-Determine if a given resourceURL is authoritative for the profileURL.
-The list of `rel="me"` links will be discovered if not provided in the optional profileRelMes parameter or the resourceRelMes paramter.
+Determine if a given `resourceURL` is authoritative for the `profileURL`.
+The list of `rel="me"` links will be discovered if not provided in the optional `profileRelMes` parameter or the `resourceRelMes` parameter.
 
 Validators
 ==========
