@@ -21,18 +21,21 @@ for n in range(1, max_testdata + 1):
         html = h.read()
     with open('%s%0d.json' % (path_testdata, n), 'r') as h:
         headers = json.load(h)
-    test_data['webmention.rocks/test/%d' % n] = { 'headers': headers, 'html': html }
+    test_data['webmention.rocks/test/%d' % n] = {'headers': headers, 'html': html}
 
 # this dict only contains those items that have endpoints
 # specified in the html and not in headers
-html_endpoints = { 'webmention.rocks/test/3': '/test/3/webmention',
-                   'webmention.rocks/test/4': 'https://webmention.rocks/test/4/webmention',
-                   'webmention.rocks/test/5': '/test/5/webmention',
-                   'webmention.rocks/test/6': 'https://webmention.rocks/test/6/webmention',
-                 }
-odd_endpoints = { 'webmention.rocks/test/15': 'https://webmention.rocks/test/15',
-                  'webmention.rocks/test/21': 'https://webmention.rocks/test/21/webmention?query=yes',
-                }
+html_endpoints = {
+    'webmention.rocks/test/3': '/test/3/webmention',
+    'webmention.rocks/test/4': 'https://webmention.rocks/test/4/webmention',
+    'webmention.rocks/test/5': '/test/5/webmention',
+    'webmention.rocks/test/6': 'https://webmention.rocks/test/6/webmention',
+}
+odd_endpoints = {
+    'webmention.rocks/test/15': 'https://webmention.rocks/test/15',
+    'webmention.rocks/test/21': 'https://webmention.rocks/test/21/webmention?query=yes',
+}
+
 
 @all_requests
 def mock_response(url, request):  # pylint: disable=unused-argument
@@ -45,6 +48,7 @@ def mock_response(url, request):  # pylint: disable=unused-argument
         return response(200, post_html)
     return response(500)
 
+
 class TestParsing(unittest.TestCase):
     # test the core mention and replies link finding
     def runTest(self):
@@ -52,6 +56,7 @@ class TestParsing(unittest.TestCase):
             mentions = findMentions(post_url, exclude_domains=['bear.im'])
             assert len(mentions['refs']) > 0
             assert 'http://indiewebify.me/' in mentions['refs']
+
 
 class TestEndpoint(unittest.TestCase):
     # run the html parsing for a discoverWebmentions result
@@ -63,6 +68,7 @@ class TestEndpoint(unittest.TestCase):
 
                 href = findEndpoint(pagedata)
                 assert href == endpoint
+
 
 class TestDiscovery(unittest.TestCase):
     def runTest(self):
@@ -84,6 +90,7 @@ class TestDiscovery(unittest.TestCase):
                 assert wmUrl.path   == endpoint.path
                 assert wmUrl.query  == endpoint.query
 
+
 class TestDiscoveryRedirect(unittest.TestCase):
     def runTest(self):
         retCode, href = discoverEndpoint('https://webmention.rocks/test/23/page')
@@ -92,6 +99,7 @@ class TestDiscoveryRedirect(unittest.TestCase):
         assert retCode      == 200
         assert wmUrl.netloc == 'webmention.rocks'
         assert wmUrl.path.startswith('/test/23/webmention-endpoint/')
+
 
 class TestSendMention(unittest.TestCase):
     def runTest(self):

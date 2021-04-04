@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-:copyright: (c) 2013-2020 by Mike Taylor and Kartik Prabhu
+:copyright: (c) 2013-2021 by Mike Taylor and Kartik Prabhu
 :license: MIT, see LICENSE for more details.
 
 IndieWeb Rel=Me Tools
@@ -71,7 +71,7 @@ def findRelMe(sourceURL):
               'relme':   [],
               'url':     sourceURL
               }
-    if r.status_code == requests.codes.ok:  #pylint: disable=no-member
+    if r.status_code == requests.codes.ok:  # pylint: disable=no-member
         dom = BeautifulSoup(r.text, _html_parser)
         for link in dom.find_all('a', rel='me'):
             rel  = link.get('rel')
