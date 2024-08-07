@@ -5,7 +5,7 @@ jobs:
   build:
     working_directory: ~/ronkyuu
     docker:
-      - image: circleci/python:3.9
+      - image: circleci/python:3.10
         environment:
           PIPENV_VENV_IN_PROJECT: true
     steps:
